@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLT FARM Treehouse — Operations Process Analysis & Optimization Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a1a;
+    --accent: #2d5016;
+    --accent-light: #e8f0e0;
+    --gold: #b8860b;
+    --gold-light: #fdf6e3;
+    --red: #8b1a1a;
+    --red-light: #fdf0f0;
+    --blue: #1a3a5c;
+    --blue-light: #eef3f9;
+    --border: #e0ddd5;
+    --card-bg: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 32px; }
+
+  /* HEADER */
+  .report-header {
+    text-align: center;
+    padding: 48px 0 36px;
+    border-bottom: 3px solid var(--accent);
+    margin-bottom: 40px;
+  }
+  .report-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .report-header .subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: #666;
+  }
+  .report-header .meta {
+    font-size: 13px;
+    color: #999;
+    margin-top: 12px;
+  }
+
+  /* SECTION HEADERS */
+  .section { margin-bottom: 48px; }
+  .section-number {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 24px 0 12px;
+  }
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13.5px;
+    box-shadow: var(--shadow);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  thead th {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) { background: #fafaf8; }
+
+  /* CALLOUT CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--accent);
+  }
+  .card.gold { border-left-color: var(--gold); background: var(--gold-light); }
+  .card.red { border-left-color: var(--red); background: var(--red-light); }
+  .card.blue { border-left-color: var(--blue); background: var(--blue-light); }
+  .card.green { border-left-color: var(--accent); background: var(--accent-light); }
+  .card-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11.5px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .tag-auto { background: #d4edda; color: #155724; }
+  .tag-manual { background: #fff3cd; color: #856404; }
+  .tag-gap { background: #f8d7da; color: #721c24; }
+  .tag-owner { background: #d1ecf1; color: #0c5460; }
+  .tag-phase2 { background: #e2d6f3; color: #4a2478; }
+
+  /* PROCESS MAP */
+  .process-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 120px 100px;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .process-row:nth-child(even) { background: #fafaf8; }
+  .process-header {
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #888;
+    padding: 8px 16px;
+    background: var(--accent);
+    color: white;
+    border-radius: 6px 6px 0 0;
+  }
+  .stage-name { font-weight: 600; font-size: 14px; }
+
+  /* FLOW DIAGRAM */
+  .flow-container {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .flow-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+  }
+  .flow-box {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .flow-arrow {
+    color: #999;
+    font-size: 18px;
+  }
+
+  /* METRIC GRID */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .metric-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .metric-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .metric-label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* QUICK WIN CARDS */
+  .qw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .qw-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--accent);
+  }
+  .qw-card h4 { margin-top: 0; color: var(--accent); }
+  .qw-meta {
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+  }
+
+  /* TOC */
+  .toc {
+    background: white;
+    border-radius: 8px;
+    padding: 24px 32px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow);
+  }
+  .toc h3 { margin-top: 0; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; }
+  .toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* PRINT */
+  @media print {
+    body { font-size: 12px; }
+    .container { padding: 0; }
+    .section { page-break-inside: avoid; }
+    table { font-size: 11px; }
+  }
+
+  ul, ol { margin: 8px 0 16px 24px; }
+  li { margin: 4px 0; }
+  strong { font-weight: 600; }
+  code { background: #f0efe8; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============ HEADER ============ -->
+<div class="report-header">
+  <h1>BOLT FARM TREEHOUSE</h1>
+  <div class="subtitle">Operations Process Analysis & Optimization Report</div>
+  <div class="meta">Prepared March 12, 2026 · Based on 18-document operational audit · Elon Algorithm applied</div>
+</div>
+
+<!-- ============ EXECUTIVE SUMMARY ============ -->
+<div class="card gold">
+  <div class="card-title">EXECUTIVE SUMMARY</div>
+  <p>Bolt Farm has built a genuinely differentiated product — mountaintop romance, transformational wellness, and a Dream Weaver system that guests rave about. The guest-facing experience is 4.8+ star quality. But the operational infrastructure underneath is held together by manual handoffs, incomplete CRM sync, and heroic staff effort that won't survive at 50 units or a second property.</p>
+  <p>This report applies the Elon Algorithm (Question → Eliminate → Simplify → Accelerate → Automate) across all 18 operational documents to identify what to kill, what to systematize, and what to double down on. The findings are organized into six sections with specific owners, expected impact, and implementation priority.</p>
+</div>
+
+<!-- ============ TOC ============ -->
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#s1">Process Map Summary</a> — End-to-end guest journey with touchpoints, owners, automation status, and gaps</li>
+    <li><a href="#s2">Guest Voice Analysis</a> — Top loves & friction points extracted from guest reviews</li>
+    <li><a href="#s3">Noise Audit</a> — Processes to eliminate, simplify, or automate</li>
+    <li><a href="#s4">Signal Amplification</a> — Highest-ROI touchpoints tied to revenue & NPS levers</li>
+    <li><a href="#s5">Quick Wins</a> — 10 changes implementable in ≤ 2 weeks</li>
+    <li><a href="#s6">Scalability Red Flags</a> — Processes that break at 50+ units or a second property</li>
+  </ol>
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 1: PROCESS MAP SUMMARY -->
+<!-- ================================================================ -->
+<div class="section" id="s1">
+<span class="section-number">SECTION 1</span>
+<h2>Process Map Summary</h2>
+
+<p>The guest journey spans 11 stages externally and maps to 7 HubSpot pipelines, a custom PMS, and ~15 handoff points internally. Below is the end-to-end map showing each touchpoint, its owner, automation status, and known gaps.</p>
+
+<h3>1.1 Guest-Facing Journey → Internal Operations Map</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Guest Stage</th>
+  <th>Internal Process</th>
+  <th>Owner</th>
+  <th>Automation</th>
+  <th>Critical Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Discovery</strong></td>
+  <td>Marketing → lead capture → HubSpot contact creation</td>
+  <td>Content Pod</td>
+  <td><span class="tag tag-auto">AUTO</span></td>
+  <td>UTM params don't pass to deal properties — attribution is blind</td>
+</tr>
+<tr>
+  <td><strong>Inquiry</strong></td>
+  <td>Setter qualification → Booked Call stage in Reservation pipeline</td>
+  <td>Setters</td>
+  <td><span class="tag tag-manual">MANUAL</span></td>
+  <td>SDR Meeting threshold: cheat sheet says 90 days, HubSpot says 30 — inconsistent trigger</td>
+</tr>
+<tr>
+  <td><strong>Conversation</strong></td>
+  <td>Closer call → Quote stage → PMS writes quote_amount, dates, expiry</td>
+  <td>Closers</td>
+  <td><span class="tag tag-auto">PMS</span></td>
+  <td>Quote expiry automation deletes expired quotes but entry point (Follow-Up or Booked Call) is ambiguous</td>
+</tr>
+<tr>
+  <td><strong>Commitment</strong></td>
+  <td>Guest pays → Stripe webhook → PMS creates booking → Pending Approval / Closed Won</td>
+  <td>PMS + Admin</td>
+  <td><span class="tag tag-auto">PMS</span></td>
+  <td><code>deal_source</code> "online_booking" is not a valid HubSpot enum. Guest self-serve deals get wrong attribution</td>
+</tr>
+<tr>
+  <td><strong>Anticipation</strong></td>
+  <td>AI Personalization Engine quiz (Typeform + GPT) → Dream Weaver handwritten note + surprise scheduling</td>
+  <td>Dream Weaver</td>
+  <td><span class="tag tag-manual">PARTIAL</span></td>
+  <td>Quiz completion target ≥ 80% — no current data on actual completion rate. No automated flagging if quiz is skipped</td>
+</tr>
+<tr>
+  <td><strong>Arrival & Exhale</strong></td>
+  <td>Welcome Wows protocol (lavender towel, QR check-in, champagne, chair massage, guided room tour)</td>
+  <td>Front Desk + Dream Weaver</td>
+  <td><span class="tag tag-manual">MANUAL</span></td>
+  <td>90-min arrival window is staff-intensive. No Optii task auto-trigger on check-in status change</td>
+</tr>
+<tr>
+  <td><strong>The Renewal</strong></td>
+  <td>Daily rituals (Sound Bath, Spa upsell, Gratitude Cue, Surprise Treat) + Signature Modules (Purpose Path, Cold Plunge, Stargazer)</td>
+  <td>Guest Experience + Spa + Housekeeping</td>
+  <td><span class="tag tag-manual">MIXED</span></td>
+  <td>Surprise delivery target is "before Night 2" — no automated task creation linked to check-in date</td>
+</tr>
+<tr>
+  <td><strong>Return Home</strong></td>
+  <td>Memory Anchor departure (Polaroid + gratitude card) → Apple/Google Pay checkout → Rebooking offer</td>
+  <td>Hosts + Admin</td>
+  <td><span class="tag tag-manual">MANUAL</span></td>
+  <td>Rebooking pipeline creates deal on check-in but has no Pending Approval stage ID confirmed. PMS stage map uses wrong Closed Won ID for rebooking context</td>
+</tr>
+<tr>
+  <td><strong>Afterglow</strong></td>
+  <td>T+24h SMS → T+7d recap reel → T+30d BOLT Private Collection invite → T+180d anniversary offer</td>
+  <td>HubSpot Automation + AI</td>
+  <td><span class="tag tag-auto">AUTO</span></td>
+  <td><code>last_stay_date</code> is NOT synced to HubSpot on checkout — entire Past Guest pipeline's time-based stages (14-day, 90-day, COLD) cannot trigger correctly</td>
+</tr>
+<tr>
+  <td><strong>Rebooking</strong></td>
+  <td>Past Guest pipeline → Rebooking Program pipeline → Nurturing pipeline (if lost)</td>
+  <td>Closers + Setters</td>
+  <td><span class="tag tag-auto">PMS + HS</span></td>
+  <td>Nurturing pipeline is cyclic (creates infinite new deals on each loss). No cap or staleness check</td>
+</tr>
+<tr>
+  <td><strong>Evangelist</strong></td>
+  <td>5-Star Flywheel → Affiliate credit ($100/referral) → Reconnection Circle newsletter</td>
+  <td>Marketing + Admin</td>
+  <td><span class="tag tag-manual">PARTIAL</span></td>
+  <td>Review capture depends on staff asking at checkout. No automated SMS with review link tied to high-NPS pulse score</td>
+</tr>
+</tbody>
+</table>
+
+<h3>1.2 HubSpot Pipeline Architecture</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Pipeline</th>
+  <th>ID</th>
+  <th>Stages</th>
+  <th>PMS Sync</th>
+  <th>Key Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Reservation</strong></td>
+  <td><code>873502775</code></td>
+  <td>11 (all IDs confirmed)</td>
+  <td><span class="tag tag-auto">Full</span></td>
+  <td><code>amount</code> field may not be written in production; <code>confirmation_number</code> null on sampled deals</td>
+</tr>
+<tr>
+  <td><strong>Past Guest</strong></td>
+  <td><code>873502777</code></td>
+  <td>6 (IDs partially confirmed)</td>
+  <td><span class="tag tag-gap">Broken</span></td>
+  <td><code>last_stay_date</code> not synced → time-based stage automations cannot fire</td>
+</tr>
+<tr>
+  <td><strong>Rebooking</strong></td>
+  <td><code>873057543</code></td>
+  <td>6 (2 IDs missing)</td>
+  <td><span class="tag tag-manual">Partial</span></td>
+  <td>PMS maps <code>confirmed</code> → Reservation Closed Won ID, not Rebooking Closed Won (<code>998541953</code>)</td>
+</tr>
+<tr>
+  <td><strong>Nurturing</strong></td>
+  <td><code>873061385</code></td>
+  <td>10 (all IDs confirmed)</td>
+  <td><span class="tag tag-auto">Full</span></td>
+  <td>Cyclic: every CL-Nurturing creates a new deal. No cap on iterations</td>
+</tr>
+<tr>
+  <td><strong>Upsell</strong></td>
+  <td><code>873728437</code></td>
+  <td>7 (6 IDs missing)</td>
+  <td><span class="tag tag-gap">None (Phase 1)</span></td>
+  <td>PMS does not touch Upsell deals. Two deals created per Closed Won with no clear ownership for Nadine's Team deals</td>
+</tr>
+<tr>
+  <td><strong>Recover</strong></td>
+  <td><code>873783453</code></td>
+  <td>6 (5 IDs missing)</td>
+  <td><span class="tag tag-gap">Minimal</span></td>
+  <td>Most manual pipeline. Only 1 of 6 stage IDs confirmed. <code>recover_call_result</code> is 2-value enum but 7 operational sub-procedures exist</td>
+</tr>
+<tr>
+  <td><strong>Unknown Pipelines</strong></td>
+  <td><code>874187855</code>, <code>873783435</code></td>
+  <td>Unknown</td>
+  <td><span class="tag tag-gap">Unknown</span></td>
+  <td>Observed on live deals (Mandy Peacock, Katy Martinelli). Not in spec. Possibly coaching-related</td>
+</tr>
+</tbody>
+</table>
+
+<h3>1.3 Sync Architecture — Current vs. Target</h3>
+
+<div class="card blue">
+  <div class="card-title">CURRENT STATE: Inline Fire-and-Forget</div>
+  <p>Server Action → DB Write → <code>syncBookingToHubspot()</code> (inline, async, non-blocking) → Success logs "synced" / Failure logs "hubspot_sync_failed" with <strong>NO automatic retry</strong>. Recovery is manual only via AI tool.</p>
+</div>
+
+<div class="card green">
+  <div class="card-title">TARGET STATE: Event-Driven with Upstash QStash</div>
+  <p>Server Action → DB Write → publish("booking.status_changed") → QStash queues → POST /api/events/ → Verify HMAC signature → <code>syncBookingToHubspot()</code> → On failure: 3x exponential backoff → Dead Letter Queue → Alert. ~35 events/day, well within free tier (500/day).</p>
+</div>
+
+<div class="card red">
+  <div class="card-title">6 OPEN DECISIONS BLOCKING MIGRATION</div>
+  <p>1. QStash unavailability fallback (inline fallback vs. log-only). 2. Retry delay intervals unspecified. 3. DLQ alert channel undefined (Slack? Email? Dashboard?). 4. Consumer endpoint auth mechanism not detailed. 5. <code>triggeredBy</code> payload shape not ratified. 6. Phase 1 Dual-Write status unknown — is <code>publish()</code> running today?</p>
+</div>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 2: GUEST VOICE ANALYSIS -->
+<!-- ================================================================ -->
+<div class="section" id="s2">
+<span class="section-number">SECTION 2</span>
+<h2>Guest Voice Analysis</h2>
+
+<p>Analysis of guest reviews from TripAdvisor, Airbnb, and Google (uploaded review PDF + review data). Reviews are overwhelmingly positive (4.8+ average). Below are the clearest signals for what to protect and what to fix.</p>
+
+<h3>2.1 Top 5 Guest Loves (Protect & Amplify)</h3>
+
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Love Signal</th>
+  <th>Frequency</th>
+  <th>Revenue Link</th>
+  <th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><strong>Views & Natural Setting</strong> — "breathtaking", "surreal", "like a painting." Mentioned in virtually every review. The mountain panorama is the #1 reason guests book</td>
+  <td>~95% of reviews</td>
+  <td>Core product value — drives all pricing power</td>
+  <td>Protect sightlines during expansion. Every new unit must have a view audit before construction. This is non-negotiable brand equity</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><strong>Staff Warmth & Personal Touch</strong> — Lauren, Rachel, Sarah, Will, Jesse mentioned by name repeatedly. Guests feel "cared for", "like family"</td>
+  <td>~80% of reviews</td>
+  <td>Drives rebooking + referrals (guests credit specific staff for their experience)</td>
+  <td>Formalize staff recognition into compensation. $50 staff tip per 5-star review (per Playbook) should be tracked and celebrated publicly via Motivosity</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><strong>Spa / Wellness Haven</strong> — couples massage is the #1 upsell. Guests describe it as "the highlight." Cold plunge + hot soak circuit gets strong mentions</td>
+  <td>~60% of reviews</td>
+  <td>Spa = highest-margin ancillary ($185/hr, 70% margin on couples massage). Target: ≥ $250/night ancillary rev</td>
+  <td>Push spa booking earlier in journey. The 11am upsell reminder (per Playbook) should fire at booking confirmation, not in-stay. Pre-arrival Romance Bundle ($399, 60% margin) is the easiest revenue lever</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><strong>Disconnection & Reconnection</strong> — "we put our phones away", "reconnected with each other", "exactly what we needed." This IS the product</td>
+  <td>~55% of reviews</td>
+  <td>Brand positioning — enables premium pricing. Guests don't compare to hotel rates because the value is emotional, not transactional</td>
+  <td>Double down on the "unplugged" positioning. Any tech must be invisible (IoT, AI concierge, predictive maintenance). Never add in-room tablets or digital concierge screens</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><strong>Unique Accommodations</strong> — treehouses, domes, mirror cabins. Guests call them "bucket list", "unlike anything", "Instagram-worthy"</td>
+  <td>~50% of reviews</td>
+  <td>Architectural differentiation = social media moat. Every guest is a content creator</td>
+  <td>Social tag rate target ≥ 50% (per Playbook). Create photo-op moments at each unit. The Polaroid at turndown and sunrise bamboo frame are brilliant — standardize across all units</td>
+</tr>
+</tbody>
+</table>
+
+<h3>2.2 Top 5 Friction Points (Fix or Eliminate)</h3>
+
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Friction Signal</th>
+  <th>Severity</th>
+  <th>Root Cause</th>
+  <th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><strong>Small Requests Dropped</strong> — One guest called for aluminum foil; it never came. This dropped the review from 5 stars to 4. Another mentioned a request lag</td>
+  <td><span class="tag tag-gap">HIGH</span></td>
+  <td>No centralized request tracking. Radio = urgent, but non-urgent requests disappear. No ClickUp task auto-creation for guest requests</td>
+  <td>Implement Akia → ClickUp auto-task for every guest request. Target: issue resolution &lt; 15 min median (per Playbook KPI). Every missed request at $800/night is catastrophic to LTV</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><strong>Construction Visibility</strong> — Multiple guests mentioned construction activity. While most said "it didn't bother us", awareness of active building is a risk as you scale to 50 units</td>
+  <td><span class="tag tag-manual">MEDIUM</span></td>
+  <td>Expansion is ongoing. No formal construction-zone buffering protocol</td>
+  <td>Create a Construction Impact Protocol: minimum sound/sight buffer zones, restricted construction hours (not before 10am, not after 4pm), proactive guest notification at booking ("we're growing — your views won't be affected")</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><strong>No On-Site Store/Provisions</strong> — One guest noted the lack of an on-site store. For a mountaintop property, this means guests can't easily get forgotten items</td>
+  <td><span class="tag tag-manual">LOW</span></td>
+  <td>Remote location. Nearest stores are 20+ minutes away</td>
+  <td>Curate a "Forgot Something?" essentials kit ($25-50 COGS, sold or gifted at premium). This is also a merch opportunity: branded toiletries, local snacks, emergency supplies. Margin play, not cost center</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><strong>Meal Timing & Options Clarity</strong> — A few reviews mentioned wanting more clarity on meal packages, dining times, or food options before arrival</td>
+  <td><span class="tag tag-manual">LOW</span></td>
+  <td>Meal package details in pre-arrival comms may be insufficient. Typeform quiz captures food prefs but the follow-through communication is unclear</td>
+  <td>Add meal timing + menu preview to the pre-arrival Akia SMS sequence (currently focused on logistics/celebrations). Guests should know exactly what's available before they arrive at a remote mountaintop</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><strong>Scaling Intimacy Concern</strong> — One guest explicitly hoped Bolt Farm "keeps its intimate, cozy feel as they expand." This is the core tension of your growth strategy</td>
+  <td><span class="tag tag-gap">STRATEGIC</span></td>
+  <td>Expansion from 34 to 50 units risks diluting the "exclusive escape" brand promise</td>
+  <td>Cap guest-visible density. Use terrain, tree buffers, and architectural spacing to ensure no unit can see another. Never exceed 100-guest capacity per property. The "100-guest ceiling" should be a brand covenant, not just an operational constraint</td>
+</tr>
+</tbody>
+</table>
+
+<h3>2.3 Revenue Signals from Reviews</h3>
+
+<div class="metric-grid">
+  <div class="metric-card">
+    <div class="metric-value">4.8+</div>
+    <div class="metric-label">Average Review Score</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-value">~30%</div>
+    <div class="metric-label">Guests Mention Rebooking</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-value">#1</div>
+    <div class="metric-label">Upsell: Couples Massage</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-value">95%</div>
+    <div class="metric-label">Mention Views as Highlight</div>
+  </div>
+</div>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 3: NOISE AUDIT -->
+<!-- ================================================================ -->
+<div class="section" id="s3">
+<span class="section-number">SECTION 3</span>
+<h2>Noise Audit — Eliminate, Simplify, or Automate</h2>
+
+<p>Applying the Elon Algorithm: Question every requirement. Eliminate unnecessary steps. Simplify and optimize. Accelerate cycle times. Automate as much as possible.</p>
+
+<h3>3.1 ELIMINATE — Kill These Processes</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Process</th>
+  <th>Why It Exists</th>
+  <th>Why Kill It</th>
+  <th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Manual deal deletion for expired Upsell & Rebooking deals</strong></td>
+  <td>Admin (Kara) gets a task to delete expired deals when check-in/check-out dates pass</td>
+  <td>This is pure busywork. HubSpot workflow can auto-archive or delete deals where dates have passed. A human should never manually delete a deal. Estimated 5-10 deals/week × 5 min each = ~1 hour/week of admin time on deletion</td>
+  <td>HubSpot Admin</td>
+</tr>
+<tr>
+  <td><strong>Dual-team Upsell deal creation</strong></td>
+  <td>HubSpot creates TWO upsell deals per Closed Won — one for sales team, one for Nadine's team (Akia Upsells) with no owner and no source</td>
+  <td>Question the requirement: if Nadine's team deals have no owner and no source, they can't be attributed or tracked meaningfully. Either assign an owner at creation or merge into a single deal with a tag. Two unowned orphan deals per booking is noise</td>
+  <td>Sales Ops + HubSpot Admin</td>
+</tr>
+<tr>
+  <td><strong><code>stayntouch_reconciled</code> legacy property</strong></td>
+  <td>StayNTouch was the old PMS. Property still used for admin reconciliation</td>
+  <td>Rename to <code>pms_reconciled</code> once, update all workflows, and stop the cognitive overhead of staff seeing a dead brand name in their daily work. This is a 30-minute migration</td>
+  <td>PMS Dev + HubSpot Admin</td>
+</tr>
+<tr>
+  <td><strong>Manual lifecycle stage management</strong></td>
+  <td>Staff manually track lifecycle stages (Mountain Lead → Opportunity → Customer → Evangelist) across pipelines</td>
+  <td>Lifecycle stages should be 100% automated by HubSpot workflows based on deal stage. If a deal hits Closed Won, the contact is Mountain Customer. Period. No manual intervention needed</td>
+  <td>HubSpot Admin</td>
+</tr>
+</tbody>
+</table>
+
+<h3>3.2 SIMPLIFY — Reduce Complexity</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Process</th>
+  <th>Current Complexity</th>
+  <th>Simplified State</th>
+  <th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Recover Pipeline — 7 operational sub-procedures</strong></td>
+  <td><code>recover_call_result</code> is a 2-value enum (Closed Won / Closed Lost) but staff follow 7 different sub-procedures with different property updates for each. This is all tribal knowledge</td>
+  <td>Expand the enum to 7 values OR create a <code>recover_call_result_detail</code> dropdown. Then build a PMS recovery wizard that auto-fills the correct properties based on the selected outcome. Staff picks one option; system handles the rest</td>
+  <td>PMS Dev</td>
+</tr>
+<tr>
+  <td><strong>Stage ID sprawl across pipelines</strong></td>
+  <td>Same stage names (Quote, Pending Approval, Closed Won, etc.) have different IDs in Reservation vs. Nurturing vs. Rebooking. PMS must know which pipeline context it's in. Currently it doesn't — maps globally</td>
+  <td>Implement the <code>booking_deals</code> join table (Phase 2). Each booking maps to its deals with pipeline context. PMS reads the pipeline from the deal, not from a global map. Single source of truth</td>
+  <td>PMS Dev</td>
+</tr>
+<tr>
+  <td><strong>Cancellation property confusion</strong></td>
+  <td>Two similar properties: <code>cancellation_reason</code> (string, possibly legacy) and <code>cancellationreschedule_reason</code> (enumeration, active). Staff might fill the wrong one</td>
+  <td>Deprecate <code>cancellation_reason</code>. Rename <code>cancellationreschedule_reason</code> to something clearer like <code>cancellation_type</code>. One property, one purpose</td>
+  <td>HubSpot Admin</td>
+</tr>
+<tr>
+  <td><strong>Communication channel overload</strong></td>
+  <td>Radios (urgent), ClickUp (tasks), Slack (culture/async), email, SMS — 5+ channels for internal communication</td>
+  <td>Enforce the Communication Playbook strictly: Radio = urgent safety/guest-facing only. ClickUp = ALL tasks with owners + deadlines. Slack = culture + non-urgent async. Kill email for internal communication entirely. If it's not in ClickUp, it doesn't exist</td>
+  <td>Operations Lead</td>
+</tr>
+</tbody>
+</table>
+
+<h3>3.3 AUTOMATE — Remove Human Dependency</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Process</th>
+  <th>Current State</th>
+  <th>Automated State</th>
+  <th>Tool</th>
+  <th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>last_stay_date</code> sync</strong></td>
+  <td>Not synced. Past Guest pipeline automations are blind</td>
+  <td>PMS writes <code>booking.checkOut</code> to deal's <code>last_stay_date</code> on <code>checked_out</code> status. One line of code in <code>syncBookingToHubspot()</code></td>
+  <td>PMS</td>
+  <td>PMS Dev</td>
+</tr>
+<tr>
+  <td><strong>Guest request tracking</strong></td>
+  <td>Requests come via Akia SMS, phone calls, or in-person. No unified tracking</td>
+  <td>Akia → ClickUp task (auto-created with guest name, unit, request). Auto-assign to nearest available team member. Auto-escalate if not resolved in 15 min</td>
+  <td>Akia + ClickUp</td>
+  <td>Operations Lead</td>
+</tr>
+<tr>
+  <td><strong>Review solicitation</strong></td>
+  <td>Staff ask at checkout. Some guests get T+24h SMS. No intelligence in timing</td>
+  <td>Departure NPS pulse (Akia SMS) → If score ≥ 9, immediately send review link (TripAdvisor, Google, Airbnb rotation). If score &lt; 8, route to service recovery workflow. Never ask unhappy guests for public reviews</td>
+  <td>Akia + HubSpot</td>
+  <td>Guest Experience</td>
+</tr>
+<tr>
+  <td><strong>Dream Weaver surprise scheduling</strong></td>
+  <td>Dream Weaver team manually orchestrates surprises from quiz data</td>
+  <td>Typeform quiz → GPT classification → auto-generate ClickUp checklist (handwritten note by Day -2, surprise item by Night 1, ritual setup by Day 1 AM). Dream Weaver focuses on execution, not planning</td>
+  <td>Typeform + GPT + ClickUp</td>
+  <td>Dream Weaver Lead</td>
+</tr>
+<tr>
+  <td><strong>Admin reconciliation</strong></td>
+  <td>Admin manually confirms PMS ↔ HubSpot data match at Pending Approval → Closed Won</td>
+  <td>PMS runs an auto-reconciliation check: compare deal financials to booking financials. If all fields match within tolerance, auto-set <code>pms_reconciled = true</code>. Only flag exceptions for human review</td>
+  <td>PMS</td>
+  <td>PMS Dev</td>
+</tr>
+<tr>
+  <td><strong>HubSpot sync failure recovery</strong></td>
+  <td>Failures logged in <code>events_log</code> as <code>hubspot_sync_failed</code>. Recovery is manual via AI tool</td>
+  <td>Migrate to QStash event-driven architecture. 3x exponential backoff handles transient failures automatically. DLQ → Slack #ops-alerts for permanent failures. Manual intervention only for DLQ items</td>
+  <td>QStash + Slack</td>
+  <td>PMS Dev</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 4: SIGNAL AMPLIFICATION -->
+<!-- ================================================================ -->
+<div class="section" id="s4">
+<span class="section-number">SECTION 4</span>
+<h2>Signal Amplification — Highest-ROI Touchpoints</h2>
+
+<p>These are the moments that disproportionately drive revenue, NPS, and lifetime value. Every dollar of operational investment here returns 5-10x.</p>
+
+<h3>4.1 Revenue Signal Matrix</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Touchpoint</th>
+  <th>Revenue Lever</th>
+  <th>Current Yield</th>
+  <th>Optimized Yield</th>
+  <th>How to Amplify</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Pre-Arrival Romance Bundle</strong></td>
+  <td>Upsell attach rate</td>
+  <td>Unknown (target: ≥ 40%)</td>
+  <td>$399 × 40% × ~300 bookings/month* = <strong>$47,880/mo</strong></td>
+  <td>Dynamic Offer Flow auto-presents 3 curated bundles (Romance $399, Birthday, Wellness) immediately after booking confirmation. 60% gross margin on Romance Bundle. This is the single highest-ROI automation</td>
+</tr>
+<tr>
+  <td><strong>Spa Booking Window</strong></td>
+  <td>Ancillary rev/night</td>
+  <td>11am in-stay reminder</td>
+  <td>$185/hr × 70% margin. Target: ≥ $250/night ancillary</td>
+  <td>Move spa upsell to pre-arrival (Day -7 Akia SMS) instead of 11am day-of. Pre-booked spa slots have higher show rate and enable staffing optimization. Couples Massage is the #1 upsell in reviews</td>
+</tr>
+<tr>
+  <td><strong>On-Site Rebooking Offer</strong></td>
+  <td>Rebooking rate</td>
+  <td>Target: ≥ 30%</td>
+  <td>30% × $800 avg × 300 bookings = <strong>$72,000/mo secured</strong></td>
+  <td>Hosts sell during stay (Rebooking pipeline). Add a departure-morning "Memory Anchor" moment (per Playbook) where the rebooking offer is presented alongside the Polaroid keepsake. Emotional peak = highest conversion. On-site converts at 20% vs. 10% online</td>
+</tr>
+<tr>
+  <td><strong>Post-Stay Affiliate Program</strong></td>
+  <td>Referral CLV</td>
+  <td>$100 credit per referral</td>
+  <td>Referral CLV ≥ $1,200 target</td>
+  <td>T+30d BOLT Private Collection invite. 10% affiliate credit on referred bookings (paid as stay credit). Every evangelist who refers 1 booking has a $1,600+ CLV (their stay + credit + referred revenue)</td>
+</tr>
+<tr>
+  <td><strong>Welcome Kit Premium</strong></td>
+  <td>First impression + social media</td>
+  <td>$95 COGS → perceived $350 value</td>
+  <td>NPS ≥ 95 in departure pulse</td>
+  <td>Sparkling rosé, local chocolates, keepsake journal. This is not a cost — it's a $95 investment that locks in a 5-star review and social post. The social tag rate target (≥ 50%) depends on this moment</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:12px;color:#999;">*Estimated at 34 units × ~70% occupancy × 30 days ÷ avg 2.5 night stay ≈ 285 bookings/month</p>
+
+<h3>4.2 NPS & Loyalty Signal Matrix</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Moment</th>
+  <th>NPS Impact</th>
+  <th>Current Status</th>
+  <th>Amplification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>First 90 Minutes (Arrival)</strong></td>
+  <td>Sets the emotional anchor for entire stay. Research shows first-impression NPS correlates 0.85 with departure NPS</td>
+  <td>Welcome Wows protocol exists but is staff-dependent with no automated triggers</td>
+  <td>PMS check-in status → auto-trigger Optii tasks: lavender towel prep (T-30min), champagne chill (T-15min), room tour script assigned to host. Make the magic a system, not hero effort</td>
+</tr>
+<tr>
+  <td><strong>Dream Weaver Surprise (Night 1-2)</strong></td>
+  <td>Generates the "wow" moments that become the review headline</td>
+  <td>Manual orchestration from quiz data. Target: ≥ 5 unsolicited wow mentions/week</td>
+  <td>Automate the planning (GPT + ClickUp), protect the human execution. The handwritten note must stay handwritten. The surprise timing must stay surprising. Automate the logistics, not the magic</td>
+</tr>
+<tr>
+  <td><strong>Issue Resolution Speed</strong></td>
+  <td>A single dropped request (foil example) turns 5 stars into 4. At $800/night, that's catastrophic</td>
+  <td>No unified request tracking. Median resolution time unknown</td>
+  <td>Target: &lt; 15 min median resolution. Akia → ClickUp auto-task with SLA timer. Auto-escalate at 10 min. This is the #1 NPS protection measure</td>
+</tr>
+<tr>
+  <td><strong>Departure Memory Anchor</strong></td>
+  <td>Peak-end rule: the last memory disproportionately shapes overall satisfaction</td>
+  <td>Polaroid + gratitude card + rebooking offer. Excellent design</td>
+  <td>Add a "last touch" Akia SMS 2 hours post-checkout: "We already miss you. Your sunrise Polaroid story is being prepared." This bridges to the T+7d personalized recap reel</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 5: QUICK WINS -->
+<!-- ================================================================ -->
+<div class="section" id="s5">
+<span class="section-number">SECTION 5</span>
+<h2>Quick Wins — Implementable in ≤ 2 Weeks</h2>
+
+<div class="qw-grid">
+
+<div class="qw-card">
+  <h4>1. Sync <code>last_stay_date</code> on Checkout</h4>
+  <p>Add one property write to <code>syncBookingToHubspot()</code>: write <code>booking.checkOut</code> to <code>last_stay_date</code> when status = <code>checked_out</code>. Unblocks the entire Past Guest pipeline's time-based automations (14-day, 90-day, COLD stages).</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> PMS Dev</span>
+    <span><strong>Effort:</strong> 2 hours</span>
+    <span><strong>Impact:</strong> Critical — fixes a broken pipeline</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>2. Fix Rebooking Stage ID Map</h4>
+  <p>PMS currently maps <code>confirmed</code> → <code>1308814489</code> (Reservation Closed Won) globally. For rebooking deals, the target must be <code>998541953</code> (Rebooking Closed Won). Add pipeline context to <code>HUBSPOT_STAGE_MAP</code> lookup.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> PMS Dev</span>
+    <span><strong>Effort:</strong> 4 hours</span>
+    <span><strong>Impact:</strong> High — deals landing in wrong stage</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>3. Add <code>deal_source</code> Enum Value</h4>
+  <p>Add "Online Booking" to the HubSpot <code>deal_source</code> enumeration. Guest self-serve bookings currently can't be attributed correctly because "online_booking" isn't a valid value.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> HubSpot Admin</span>
+    <span><strong>Effort:</strong> 15 minutes</span>
+    <span><strong>Impact:</strong> High — fixes attribution for all self-serve bookings</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>4. Auto-Delete Expired Upsell/Rebooking Deals</h4>
+  <p>Replace the manual admin task (Kara deletes expired deals) with a HubSpot workflow: if deal is in Upsell or Rebooking pipeline AND check-out date < today AND stage = Expired → auto-archive after 7 days. Save ~1 hour/week of admin time.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> HubSpot Admin</span>
+    <span><strong>Effort:</strong> 1 hour</span>
+    <span><strong>Impact:</strong> Medium — eliminates recurring busywork</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>5. Retrieve All Missing Stage IDs</h4>
+  <p>Run <code>GET /crm/v3/pipelines/deals/{pipelineId}/stages</code> for Upsell (<code>873728437</code>), Recover (<code>873783453</code>), and Rebooking (<code>873057543</code>). Fill in the 13+ missing stage IDs in the spec. This is blocking all future PMS integration work on these pipelines.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> PMS Dev / HubSpot Admin</span>
+    <span><strong>Effort:</strong> 30 minutes</span>
+    <span><strong>Impact:</strong> High — prerequisite for Phase 2</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>6. Smart Review Solicitation via Akia</h4>
+  <p>Replace the manual "staff asks at checkout" with: Departure NPS pulse (Akia SMS at checkout) → score ≥ 9 = auto-send review link (rotate TripAdvisor/Google/Airbnb). Score &lt; 8 = route to service recovery. Never ask an unhappy guest for a public review.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> Guest Experience Lead</span>
+    <span><strong>Effort:</strong> 3-4 hours (Akia workflow)</span>
+    <span><strong>Impact:</strong> High — protects 4.9★ average + increases review volume</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>7. Pre-Arrival Spa Upsell SMS</h4>
+  <p>Add a Day -7 Akia SMS with spa menu + booking link. Currently the spa upsell only fires at 11am during the stay. Pre-booked spa has higher show rate, enables staffing, and captures guests while they're still in "planning mode."</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> Guest Experience + Spa</span>
+    <span><strong>Effort:</strong> 2 hours (Akia template)</span>
+    <span><strong>Impact:</strong> High — move spa booking upstream = more revenue per stay</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>8. Guest Request → ClickUp Auto-Task</h4>
+  <p>Configure Akia → ClickUp integration: every guest text request auto-creates a ClickUp task with guest name, unit number, request text, and 15-min SLA timer. Auto-assign to on-duty team member. Auto-escalate to manager at 10 min.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> Operations Lead</span>
+    <span><strong>Effort:</strong> 4-6 hours</span>
+    <span><strong>Impact:</strong> Critical — prevents the "dropped foil" scenario</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>9. Rename <code>stayntouch_reconciled</code> → <code>pms_reconciled</code></h4>
+  <p>Simple HubSpot property rename + workflow update. Eliminates confusion from the dead StayNTouch brand name appearing in daily staff workflows. Takes 30 minutes but reduces cognitive noise across every reconciliation touchpoint.</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> HubSpot Admin</span>
+    <span><strong>Effort:</strong> 30 minutes</span>
+    <span><strong>Impact:</strong> Low but symbolic — clean house</span>
+  </div>
+</div>
+
+<div class="qw-card">
+  <h4>10. DLQ Alert Channel Decision</h4>
+  <p>Make the open decision: Dead Letter Queue alerts go to #ops-alerts in Slack. This unblocks the QStash migration. Also decide: retry intervals should be 10s / 60s / 300s (aggressive recovery for a low-volume system with ~35 events/day).</p>
+  <div class="qw-meta">
+    <span><strong>Owner:</strong> PMS Dev + Ops Lead</span>
+    <span><strong>Effort:</strong> 1 meeting</span>
+    <span><strong>Impact:</strong> Medium — unblocks sync architecture migration</span>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 6: SCALABILITY RED FLAGS -->
+<!-- ================================================================ -->
+<div class="section" id="s6">
+<span class="section-number">SECTION 6</span>
+<h2>Scalability Red Flags — What Breaks at 50+ Units or Property #2</h2>
+
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Red Flag</th>
+  <th>Why It Breaks</th>
+  <th>Fix Required</th>
+  <th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><strong>Single-Deal-Per-Booking Architecture</strong></td>
+  <td>The PMS currently stores one <code>hubspotDealId</code> per booking. But HubSpot creates 3-5 deals per booking lifecycle (Reservation + Upsell + Past Guest + Rebooking + potentially Recover). At 50 units, you'll have ~250 deals/month that the PMS can't track</td>
+  <td>Build the <code>booking_deals</code> join table (Phase 2). This is the single most important architectural change. Without it, the PMS is blind to 60%+ of HubSpot deals</td>
+  <td><span class="tag tag-gap">CRITICAL</span></td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><strong>Fire-and-Forget Sync with No Retries</strong></td>
+  <td>At 34 units, ~35 sync events/day with occasional failures is manageable via manual recovery. At 50 units + second property, you're looking at 80-100+ events/day across two PMS instances. Manual recovery becomes a full-time job</td>
+  <td>Complete the QStash migration. The architecture is designed and documented. The 6 open decisions need to be made and Phase 1 (Dual-Write) needs to be verified or implemented</td>
+  <td><span class="tag tag-gap">CRITICAL</span></td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><strong>Recover Pipeline is 90% Manual</strong></td>
+  <td>5 of 6 stage IDs are missing. 7 sub-procedures are tribal knowledge. Sales team drives most stages manually. At scale, cancellation volume increases proportionally — you can't scale manual recovery calls</td>
+  <td>Phase 2: PMS recovery wizard. Staff selects one of 7 outcomes → PMS auto-fills correct properties → auto-moves to correct stage. Also: retrieve all 6 stage IDs and document the full flow</td>
+  <td><span class="tag tag-gap">HIGH</span></td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><strong>Dream Weaver System is Person-Dependent</strong></td>
+  <td>The Dream Weaver team uses a $250 discretionary budget per guest to orchestrate surprises. This works with a small, dedicated team that knows every guest. At 100+ guests/day across 2 properties, the "know every guest" model collapses</td>
+  <td>Systematize the Dream Weaver: AI Personalization Engine (quiz) → GPT classification → auto-generated ClickUp checklist per guest. Human execution of surprise moments, but AI-planned logistics. The budget, categories, and timing rules should be in the system, not in someone's head</td>
+  <td><span class="tag tag-gap">HIGH</span></td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><strong>Arrival Protocol Requires 3+ Staff per Check-In</strong></td>
+  <td>Welcome Wows: greeted by name at car, lavender towel, luggage service, QR check-in, champagne, chair massage, guided room tour. This is 60-90 minutes of coordinated staff effort per arrival. At 15+ check-ins/day (50 units), you need a dedicated arrival team of 5-6 people</td>
+  <td>Tiered arrival protocol: Signature Welcome (full protocol) for first-time guests. Express Welcome (QR check-in + welcome kit in room + self-guided tour with audio) for returning guests. Use PMS guest history to auto-assign tier</td>
+  <td><span class="tag tag-manual">MEDIUM</span></td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><strong>No Multi-Property HubSpot Architecture</strong></td>
+  <td>All 7 pipelines are "Mountain-" prefixed. Pipeline IDs are hardcoded. Property names assume a single property. There's no namespace for a second location</td>
+  <td>Design the multi-property schema now: either separate pipeline sets per property (Mountain-Reservation, [NewSite]-Reservation) or add a <code>property_location</code> custom property to every deal. The HubSpot architecture decision must happen before property #2 breaks ground</td>
+  <td><span class="tag tag-gap">HIGH</span></td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><strong>Nurturing Pipeline Creates Infinite Deals</strong></td>
+  <td>Every CL-Nurturing stage creates a NEW deal. If a lead is lost 5 times, you have 5 nurturing deals. At scale with thousands of leads, the pipeline becomes a deal graveyard with no staleness check or cap</td>
+  <td>Add a max-iteration rule: if a contact has ≥ 3 CL-Nurturing deals, auto-move to CL-Not Qualified instead of creating another deal. Also add a staleness check: if a nurturing deal has been in Follow-Up Needed for &gt; 90 days with no activity, auto-archive</td>
+  <td><span class="tag tag-manual">MEDIUM</span></td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><strong>QStash Free Tier Ceiling</strong></td>
+  <td>Free tier = 500 messages/day (retries count). At 50 units you're at ~80 events/day. At 2 properties with Phase 3 consumers (email, housekeeping, Slack, analytics), you could hit 300-400 events × 3 retries = 1,200 messages/day. Over the free tier</td>
+  <td>Budget for QStash Pro ($1/day for 10K messages). This is a rounding error in your P&L but must be planned before you hit the wall. Also: optimize retry strategy to minimize retry volume</td>
+  <td><span class="tag tag-manual">LOW</span></td>
+</tr>
+</tbody>
+</table>
+
+<h3>6.1 Scalability Readiness Scorecard</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Dimension</th>
+  <th>Current (34 units)</th>
+  <th>Ready for 50?</th>
+  <th>Ready for Property #2?</th>
+  <th>Blocker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>CRM Sync</td>
+  <td>Fire-and-forget, single deal</td>
+  <td style="color:var(--red);font-weight:600;">NO</td>
+  <td style="color:var(--red);font-weight:600;">NO</td>
+  <td>booking_deals table + QStash</td>
+</tr>
+<tr>
+  <td>Guest Experience</td>
+  <td>Dream Weaver + manual protocols</td>
+  <td style="color:var(--gold);font-weight:600;">PARTIAL</td>
+  <td style="color:var(--red);font-weight:600;">NO</td>
+  <td>Systematize DW + tiered arrival</td>
+</tr>
+<tr>
+  <td>Revenue Ops</td>
+  <td>Strong fundamentals, missing attribution</td>
+  <td style="color:var(--gold);font-weight:600;">PARTIAL</td>
+  <td style="color:var(--gold);font-weight:600;">PARTIAL</td>
+  <td>Fix deal_source + UTM + last_stay_date</td>
+</tr>
+<tr>
+  <td>Maintenance</td>
+  <td>ClickUp recurring + Optii checklists</td>
+  <td style="color:var(--accent);font-weight:600;">YES</td>
+  <td style="color:var(--gold);font-weight:600;">PARTIAL</td>
+  <td>Predictive IoT needs property-specific setup</td>
+</tr>
+<tr>
+  <td>Staff Ops</td>
+  <td>Pods & Drivers, Communication Playbook</td>
+  <td style="color:var(--accent);font-weight:600;">YES</td>
+  <td style="color:var(--gold);font-weight:600;">PARTIAL</td>
+  <td>SOPs in Guru/Guidde need location tagging</td>
+</tr>
+<tr>
+  <td>Financial Tracking</td>
+  <td>Ramp cards, digital POs, Rippling payroll</td>
+  <td style="color:var(--accent);font-weight:600;">YES</td>
+  <td style="color:var(--accent);font-weight:600;">YES</td>
+  <td>Multi-entity accounting (separate P&L per property)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<!-- ============ CLOSING ============ -->
+<div class="section">
+<div class="card gold">
+  <div class="card-title">THE BOTTOM LINE</div>
+  <p>Bolt Farm's guest experience is world-class. The reviews prove it. The product-market fit is undeniable — couples come to disconnect, reconnect, and leave transformed. What's holding you back isn't the product. It's the plumbing.</p>
+  <p>Three moves unlock everything: (1) <strong>Sync <code>last_stay_date</code></strong> — one line of code that unblocks the entire post-stay revenue engine. (2) <strong>Build <code>booking_deals</code></strong> — the join table that lets your PMS see the full deal universe. (3) <strong>Migrate to QStash</strong> — the event bus that ensures no sync ever silently fails again.</p>
+  <p>Everything else — the Dream Weaver systemization, the revenue upsell automation, the multi-property architecture — builds on those three foundations. Fix the plumbing. The magic is already there.</p>
+</div>
+</div>
+
+<div style="text-align:center;padding:32px 0;color:#999;font-size:12px;border-top:1px solid var(--border);margin-top:48px;">
+  BOLT FARM TREEHOUSE · Operations Process Analysis & Optimization Report<br>
+  Prepared March 12, 2026 · Elon Algorithm Applied · 18 Documents Analyzed<br>
+  <em>"If it doesn't create transformation, reconnection, or awe — delete it."</em>
+</div>
+
+</div>
+</body>
+</html>

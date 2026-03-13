@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BF-Flow Upgrade Suggestions — BOLT FARM 2.0</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --card: #111827;
+    --card-border: #1e293b;
+    --accent: #f59e0b;
+    --accent2: #10b981;
+    --accent3: #6366f1;
+    --accent4: #ef4444;
+    --accent5: #ec4899;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, system-ui, sans-serif; line-height: 1.6; }
+
+  .hero {
+    padding: 80px 40px 60px;
+    text-align: center;
+    background: linear-gradient(135deg, #0a0e17 0%, #1a1040 50%, #0a0e17 100%);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle { font-size: 1.15rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+  /* Score Card */
+  .score-banner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .score-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .score-card .number { font-size: 2.4rem; font-weight: 800; }
+  .score-card .label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+  .score-card.gold .number { color: var(--accent); }
+  .score-card.green .number { color: var(--accent2); }
+  .score-card.purple .number { color: var(--accent3); }
+  .score-card.red .number { color: var(--accent4); }
+
+  /* Section */
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.5rem; font-weight: 700; }
+  .section-header .badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .prose { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+
+  /* Upgrade Cards */
+  .upgrade-grid { display: flex; flex-direction: column; gap: 16px; }
+  .upgrade-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 16px;
+    align-items: start;
+    transition: border-color 0.2s;
+  }
+  .upgrade-card:hover { border-color: var(--accent); }
+  .upgrade-num {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .upgrade-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+  .upgrade-card .desc { font-size: 0.9rem; color: var(--text-muted); }
+  .upgrade-card .impact-tag {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 4px;
+  }
+
+  .high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .medium { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .low { background: rgba(16,185,129,0.15); color: #34d399; }
+
+  .bg-gold { background: rgba(245,158,11,0.12); }
+  .bg-green { background: rgba(16,185,129,0.12); }
+  .bg-purple { background: rgba(99,102,241,0.12); }
+  .bg-red { background: rgba(239,68,68,0.12); }
+  .bg-pink { background: rgba(236,72,153,0.12); }
+
+  .text-gold { color: var(--accent); }
+  .text-green { color: var(--accent2); }
+  .text-purple { color: var(--accent3); }
+  .text-red { color: var(--accent4); }
+  .text-pink { color: var(--accent5); }
+
+  /* What's Working */
+  .win-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .win-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .win-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .win-card p { font-size: 0.85rem; color: var(--text-muted); }
+  .win-card .check { color: var(--accent2); margin-right: 6px; }
+
+  /* Gap Table */
+  .gap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .gap-table th {
+    text-align: left;
+    padding: 12px 16px;
+    background: rgba(30,41,59,0.5);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .gap-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--card-border);
+    vertical-align: top;
+  }
+  .gap-table tr:last-child td { border-bottom: none; }
+  .gap-table .stage-tag {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  /* Priority Matrix */
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .matrix-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .matrix-card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .matrix-card ul { list-style: none; }
+  .matrix-card li {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(30,41,59,0.3);
+  }
+  .matrix-card li:last-child { border-bottom: none; }
+
+  /* Callout */
+  .callout {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(99,102,241,0.08));
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 48px;
+  }
+  .callout h3 { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .callout p { font-size: 0.92rem; color: var(--text-muted); }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.8rem; }
+    .score-banner { grid-template-columns: 1fr 1fr; }
+    .win-grid, .matrix-grid { grid-template-columns: 1fr; }
+    .upgrade-card { grid-template-columns: 40px 1fr; }
+    .upgrade-card .impact-tag { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>BF-Flow <span>Upgrade Suggestions</span></h1>
+  <p class="subtitle">Comprehensive analysis of bf-flow.web.app — what's already excellent, what's missing, and 18 specific upgrades to turn this journey map into BOLT FARM's institutional operating system.</p>
+</div>
+
+<div class="container">
+
+<!-- SCORE BANNER -->
+<div class="score-banner">
+  <div class="score-card gold">
+    <div class="number">11</div>
+    <div class="label">Journey Stages</div>
+  </div>
+  <div class="score-card green">
+    <div class="number">~140</div>
+    <div class="label">Process Steps Mapped</div>
+  </div>
+  <div class="score-card purple">
+    <div class="number">20</div>
+    <div class="label">Actors Defined</div>
+  </div>
+  <div class="score-card red">
+    <div class="number">7</div>
+    <div class="label">Exception Branches</div>
+  </div>
+</div>
+
+<!-- SECTION 1: WHAT'S ALREADY EXCELLENT -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon bg-green" style="color: var(--accent2);">✓</div>
+    <h2>What's Already Excellent</h2>
+    <span class="badge low">Strong Foundation</span>
+  </div>
+  <p class="prose">Before listing what to add, it's worth recognizing that this app is already far beyond what 99% of hospitality operators have. This is a real journey-first architecture, not a department org chart pretending to be a workflow.</p>
+
+  <div class="win-grid">
+    <div class="win-card">
+      <h4><span class="check">✓</span> Journey-First Architecture</h4>
+      <p>11 stages follow the emotional arc of the couple, not internal departments. Discovery → Evangelist is a complete lifecycle loop — not a linear funnel that ends at checkout.</p>
+    </div>
+    <div class="win-card">
+      <h4><span class="check">✓</span> Loop-Back Design</h4>
+      <p>Evangelist feeds back to Discovery (referrals) and Rebooking. Rebooking loops into Conversation and Commitment. The flywheel is architected, not bolted on.</p>
+    </div>
+    <div class="win-card">
+      <h4><span class="check">✓</span> Exception Paths Are Defined</h4>
+      <p>Didn't Book, Sales No-Show, Cancellation/Recovery, Arrival No-Show, and Service Recovery all have their own process branches with specific steps. Most hotels don't even name these scenarios.</p>
+    </div>
+    <div class="win-card">
+      <h4><span class="check">✓</span> Actor Taxonomy Is Clean</h4>
+      <p>20 actors split across Staff (13), System (6), and Guest (1). Each process step names the responsible actor. No ambiguity about who does what.</p>
+    </div>
+    <div class="win-card">
+      <h4><span class="check">✓</span> Gifting & Proposal Sub-Journeys</h4>
+      <p>These are sophisticated branches that most hospitality ops tools couldn't even model. The two-track buyer/recipient split in Gifting is particularly well-thought-out.</p>
+    </div>
+    <div class="win-card">
+      <h4><span class="check">✓</span> System Actors Named Explicitly</h4>
+      <p>PMS, CRM, Akia, Payments, Website are all treated as actors with specific responsibilities — not black boxes. This is the foundation for automation accountability.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: STRUCTURAL GAPS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon bg-red" style="color: var(--accent4);">⚠</div>
+    <h2>Structural Gaps in the Current Model</h2>
+    <span class="badge high">Fix First</span>
+  </div>
+  <p class="prose">These aren't bugs in the app — they're missing dimensions in the journey architecture itself. Each gap represents a place where the current model can't answer questions that your team, your AI, or your second location will need answered.</p>
+
+  <div style="overflow-x: auto;">
+  <table class="gap-table">
+    <thead>
+      <tr>
+        <th>Gap</th>
+        <th>Where It Hurts</th>
+        <th>Why It Matters for Scale</th>
+        <th>Severity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>No time/SLA data on any process step</strong></td>
+        <td>Every stage</td>
+        <td>You can't measure performance, predict bottlenecks, or build AI scheduling without knowing how long things take or when they must be done by.</td>
+        <td><span class="stage-tag high">Critical</span></td>
+      </tr>
+      <tr>
+        <td><strong>No automation vs. manual designation</strong></td>
+        <td>Every stage</td>
+        <td>~140 steps but no indication of which are automated today, which require human action, and which are partially automated. Location #2 can't clone what it can't classify.</td>
+        <td><span class="stage-tag high">Critical</span></td>
+      </tr>
+      <tr>
+        <td><strong>No data/system dependencies</strong></td>
+        <td>Commitment, Anticipation</td>
+        <td>"PMS: Sync Deal Properties to HubSpot" appears 8+ times but there's no field-level spec of what syncs. When it breaks, nobody knows what's missing.</td>
+        <td><span class="stage-tag high">Critical</span></td>
+      </tr>
+      <tr>
+        <td><strong>No emotional target per stage</strong></td>
+        <td>The Renewal</td>
+        <td>The 4-phase emotional arc (Disconnect → Decompress → Reconnect → Reignite) is listed as guest actions but not tied to measurable guest sentiment or staff behaviors that produce those states.</td>
+        <td><span class="stage-tag medium">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>No KPIs or success metrics</strong></td>
+        <td>Every stage</td>
+        <td>What does "success" look like at each stage? Without conversion rates, satisfaction scores, or timing benchmarks, you're mapping process without measuring outcomes.</td>
+        <td><span class="stage-tag medium">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>No guest-facing touchpoints vs. back-office</strong></td>
+        <td>Anticipation, Renewal</td>
+        <td>Steps 1-6 in Anticipation are guest-facing, steps 9-21 are back-office prep, but they're interleaved in a flat list. A new team member can't tell what the guest sees vs. what happens behind the curtain.</td>
+        <td><span class="stage-tag medium">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>"Concierge" actor exists but has zero process steps</strong></td>
+        <td>Anticipation, Renewal</td>
+        <td>Concierge is defined in the Actors panel but doesn't appear in any journey stage. Either it's redundant with Dreamweaver or it's a role with no documented workflow.</td>
+        <td><span class="stage-tag low">Medium</span></td>
+      </tr>
+      <tr>
+        <td><strong>"Host" actor exists but has zero process steps</strong></td>
+        <td>Arrival, Renewal</td>
+        <td>Same issue — defined actor, zero appearances. If this role exists on property, its touchpoints are undocumented. If it doesn't, remove it.</td>
+        <td><span class="stage-tag low">Medium</span></td>
+      </tr>
+      <tr>
+        <td><strong>No failure-mode triggers between stages</strong></td>
+        <td>Commitment → Anticipation</td>
+        <td>What triggers the transition from Commitment to Anticipation? The green banners say "Reservation confirmed and arrival date is in the future" but that's a description, not a system event with a webhook or cron.</td>
+        <td><span class="stage-tag medium">High</span></td>
+      </tr>
+      <tr>
+        <td><strong>Duplicate "Didn't Book" branch</strong></td>
+        <td>Inquiry & Conversation</td>
+        <td>The exact same 8-step Didn't Book branch appears under both Inquiry and Conversation with identical content. Is this intentional (both stages can drop off) or a copy-paste artifact?</td>
+        <td><span class="stage-tag low">Medium</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- SECTION 3: 18 SPECIFIC UPGRADES -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon bg-gold" style="color: var(--accent);">⚡</div>
+    <h2>18 Specific Upgrades</h2>
+    <span class="badge medium">The Build List</span>
+  </div>
+  <p class="prose">Organized from highest-impact structural upgrades to feature-level enhancements. Each one is designed to turn bf-flow from a journey map into an operational command center.</p>
+
+  <div class="upgrade-grid">
+
+    <!-- 1 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-red text-red">01</div>
+      <div>
+        <h3>Add Automation Status to Every Process Step</h3>
+        <p class="desc">Tag each of the ~140 steps as: <strong>Manual</strong> (human does it), <strong>Automated</strong> (system does it), <strong>Semi-Auto</strong> (system prepares, human confirms), or <strong>Broken/Planned</strong> (should be automated but isn't yet). This is the single most important upgrade for scaling to Location #2. You can't clone what you can't classify. Display as a color-coded icon next to each step — green for automated, orange for semi, red for manual, gray for broken.</p>
+      </div>
+      <span class="impact-tag high">Critical</span>
+    </div>
+
+    <!-- 2 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-red text-red">02</div>
+      <div>
+        <h3>Add SLA / Timing Data per Step</h3>
+        <p class="desc">Every process step needs a timing expectation: "Housekeeping: Prepare Villa" → <strong>SLA: Complete by 2:00 PM day of arrival</strong>. "Setter: Chase Lead" → <strong>SLA: Within 5 minutes of inquiry</strong>. This converts the journey map from a diagram into a performance contract. The BOLT Brain AI needs these numbers to trigger escalations. Display as a small timing badge below each step.</p>
+      </div>
+      <span class="impact-tag high">Critical</span>
+    </div>
+
+    <!-- 3 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-red text-red">03</div>
+      <div>
+        <h3>Add Stage Transition Triggers</h3>
+        <p class="desc">The green transition banners between stages (e.g., "Commitment → Anticipation: Reservation confirmed and arrival date is in the future") need to become system-event specifications. Define the exact trigger: which system fires it, what field changes, and what webhook or automation runs. Example: <strong>Trigger: PMS status = "confirmed" AND checkin_date > today → Move HubSpot deal to Anticipation stage → Fire Akia pre-arrival sequence → Create ClickUp prep tasks.</strong> Without these, transitions are described but not enforced.</p>
+      </div>
+      <span class="impact-tag high">Critical</span>
+    </div>
+
+    <!-- 4 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-gold text-gold">04</div>
+      <div>
+        <h3>Add KPIs / Success Metrics per Stage</h3>
+        <p class="desc">Each stage header should show its key performance indicators. Examples: <strong>Discovery:</strong> Cost per lead, attribution accuracy %. <strong>Conversation:</strong> Call-to-quote rate, quote-to-deposit rate, average days in stage. <strong>The Renewal:</strong> NPS score, rebooking conversion %, average folio total. <strong>Evangelist:</strong> Referral rate, UGC pieces generated. These make bf-flow a dashboard, not just a diagram.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 5 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-gold text-gold">05</div>
+      <div>
+        <h3>Split Steps Into Guest-Facing vs. Back-Office Lanes</h3>
+        <p class="desc">Right now, "Guest Couple: Communicate Preferences" sits next to "PMS: Manage Villa Inventory" in the same flat list. Add two visual swim lanes: <strong>Guest Touchpoint</strong> (what the couple sees/feels) and <strong>Backstage Operations</strong> (what happens behind the curtain). The Anticipation stage has 21 steps — a new hire can't tell which ones the guest knows about. This also maps directly to the "Moments of Truth" framework from your playbook.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 6 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-gold text-gold">06</div>
+      <div>
+        <h3>Add Emotional Target per Stage</h3>
+        <p class="desc">Each stage card should include the intended emotional state of the couple. <strong>Discovery:</strong> "Intrigue & aspiration." <strong>Anticipation:</strong> "Building excitement, feeling known." <strong>Arrival & Exhale:</strong> "Awe, relief, exhale." <strong>The Renewal:</strong> "Vulnerable, open, reconnected." This is what makes Bolt Farm a transformation company, not a hotel. The emotional target is the north star that every process step should serve. If a step doesn't contribute to the emotion, question whether it belongs.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 7 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-gold text-gold">07</div>
+      <div>
+        <h3>Add Data Flow / Field Mapping Layer</h3>
+        <p class="desc">"PMS: Sync Deal Properties to HubSpot" appears 8 times across stages. But which fields? Which direction? What happens if it fails? Add an expandable data-flow spec to every system step: <strong>Source:</strong> StayNTouch reservation.status → <strong>Target:</strong> HubSpot deal.dealstage → <strong>Mapping:</strong> "confirmed" = "Closed Won" → <strong>Failure Mode:</strong> Retry 3x, then Slack alert to #ops-alerts. This is the technical layer that makes BOLT Brain possible.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 8 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-purple text-purple">08</div>
+      <div>
+        <h3>Add Live Status / Health Indicators</h3>
+        <p class="desc">Connect bf-flow to your actual systems so each stage shows real-time counts: <strong>Discovery:</strong> 47 active leads this week. <strong>Anticipation:</strong> 12 arrivals in next 7 days. <strong>The Renewal:</strong> 8 couples on property. This converts the app from documentation into an operational dashboard. Even a simple daily snapshot (pulled from HubSpot + PMS APIs) would transform how leadership uses this tool.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 9 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-purple text-purple">09</div>
+      <div>
+        <h3>Clean Up Ghost Actors</h3>
+        <p class="desc"><strong>Concierge</strong> and <strong>Host</strong> are defined in the Actors panel but appear in zero process steps. Either document their responsibilities (and they become visible in the journey) or merge them into existing roles. <strong>HubSpot CRM</strong> is listed separately from <strong>CRM</strong> — are these different systems? If HubSpot IS the CRM, consolidate into one actor. Also: <strong>Stripe</strong> is a separate actor from <strong>Payments</strong> — same question. Every ghost actor is confusion for Location #2's team.</p>
+      </div>
+      <span class="impact-tag low">Medium</span>
+    </div>
+
+    <!-- 10 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-purple text-purple">10</div>
+      <div>
+        <h3>Add Process Step Dependencies (Sequential vs. Parallel)</h3>
+        <p class="desc">In Anticipation, does "Housekeeping: Prepare Villa" have to wait for "Maintenance: Complete Pre-Arrival Work Orders"? Or can they run in parallel? The current flat numbered list implies sequential execution, but most of these steps are parallel workflows. Add dependency markers: <strong>→ Sequential</strong> (step 12 must finish before 13) vs. <strong>‖ Parallel</strong> (steps 9-11 can run simultaneously). This is critical for AI task dispatch optimization.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 11 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-purple text-purple">11</div>
+      <div>
+        <h3>Add Ownership / RACI for Each Step</h3>
+        <p class="desc">Each step names an actor (the Doer), but who's <strong>Accountable</strong> (owns the outcome), who's <strong>Consulted</strong> (input needed), and who's <strong>Informed</strong> (needs to know)? Example: "Front Desk: Conduct Rebooking Conversation" — Doer: Front Desk. Accountable: Immersion & Revenue Lead. Consulted: PMS (for availability). Informed: CRM (for deal creation). Without RACI, you have task lists without accountability chains.</p>
+      </div>
+      <span class="impact-tag medium">High</span>
+    </div>
+
+    <!-- 12 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-pink text-pink">12</div>
+      <div>
+        <h3>Add Villa-Type Variations</h3>
+        <p class="desc">The journey assumes all 34 (→50) units follow the same process. But a Treehouse arrival is different from a Dome arrival is different from a Mirror House arrival. Add a "Villa Type" filter or variation layer so you can see: <strong>Dome-specific prep steps</strong> in Anticipation, <strong>Treehouse-specific safety briefing</strong> at Arrival, <strong>Mirror House-specific photo opportunity</strong> during Renewal. This captures the operational reality that each structure type has unique workflows.</p>
+      </div>
+      <span class="impact-tag low">Medium</span>
+    </div>
+
+    <!-- 13 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-pink text-pink">13</div>
+      <div>
+        <h3>Add "Dream Weaver Budget Tracker" to Anticipation & Renewal</h3>
+        <p class="desc">The $250 discretionary Dream Weaver spend per guest is one of your most powerful differentiators, but it doesn't appear anywhere in bf-flow. Add a process step under Anticipation: "Dreamweaver: Allocate Personalization Budget" and under Renewal: "Dreamweaver: Execute Surprise & Delight Moments." Track the budget allocation, spend, and what was delivered — this data becomes the training set for BOLT Brain's personalization engine at scale.</p>
+      </div>
+      <span class="impact-tag low">Medium</span>
+    </div>
+
+    <!-- 14 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-pink text-pink">14</div>
+      <div>
+        <h3>Add Reconnection Profile Capture to Anticipation</h3>
+        <p class="desc">Your Institutional AI report designed a "Reconnection Profile" — the deep personalization quiz that captures relationship stage, connection style, and transformation readiness. This should be a named process step in Anticipation: "Akia/CRM: Deliver Reconnection Profile Quiz" → "BOLT Brain: Generate Personalization Playbook." Currently, "Guest Couple: Communicate Preferences" is too vague to capture this transformational data point.</p>
+      </div>
+      <span class="impact-tag low">Medium</span>
+    </div>
+
+    <!-- 15 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-green text-green">15</div>
+      <div>
+        <h3>Add Revenue Attribution per Stage</h3>
+        <p class="desc">Each stage generates or influences revenue differently. <strong>Conversation:</strong> Deposit conversion. <strong>Anticipation:</strong> Upsell revenue (spa, meals, add-ons). <strong>The Renewal:</strong> On-site rebooking deposits, folio charges. <strong>Afterglow:</strong> Referral-attributed bookings. Tag each step that directly generates revenue and add a running $ estimate per stage. This makes bf-flow a revenue attribution model, not just a process map.</p>
+      </div>
+      <span class="impact-tag low">Medium</span>
+    </div>
+
+    <!-- 16 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-green text-green">16</div>
+      <div>
+        <h3>Add a "Reconnection Circle" Post-Stay Stage</h3>
+        <p class="desc">Your Institutional AI report proposed a $49/month membership for post-stay relationship wellness. The current Afterglow stage covers testimonials and marketing sequences, but there's no stage for ongoing subscriber engagement. Add a stage between Afterglow and Rebooking (or nest it within Afterglow) for: monthly content delivery, community engagement, exclusive rebook offers, anniversary milestone triggers. This is the $300K-$600K ARR opportunity that lives outside the current journey.</p>
+      </div>
+      <span class="impact-tag low">Future</span>
+    </div>
+
+    <!-- 17 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-green text-green">17</div>
+      <div>
+        <h3>Add Version History / Changelog</h3>
+        <p class="desc">As this journey evolves (and it will — every week), you need to know what changed, when, and why. Add a simple version log: "v3.2 — Added Spa Team to Arrival stage, removed duplicate Didn't Book branch from Inquiry." This is essential for training new staff ("Why did we change this?"), debugging process failures ("When did this step get removed?"), and Location #2 onboarding ("What's the canonical v4.0 journey?").</p>
+      </div>
+      <span class="impact-tag low">Future</span>
+    </div>
+
+    <!-- 18 -->
+    <div class="upgrade-card">
+      <div class="upgrade-num bg-green text-green">18</div>
+      <div>
+        <h3>Add Multi-Location Support</h3>
+        <p class="desc">When Location #2 opens, will it use the same 11-stage journey? Almost certainly — but with location-specific variations in villa types, staff roles, local experiences, and vendor integrations. Add a location selector to bf-flow now (even if there's only one location) so the architecture supports: <strong>Shared core journey</strong> (same for all locations) + <strong>Location overrides</strong> (different spa treatments, different meal vendors, different villa prep procedures). Build the multi-tenant architecture before you need it.</p>
+      </div>
+      <span class="impact-tag low">Future</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 4: PRIORITY MATRIX -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-icon bg-purple" style="color: var(--accent3);">◉</div>
+    <h2>Priority Matrix</h2>
+    <span class="badge" style="background: rgba(99,102,241,0.15); color: #818cf8;">Build Order</span>
+  </div>
+  <p class="prose">Elon Algorithm applied: What creates the most signal with the least effort? Ship in this order.</p>
+
+  <div class="matrix-grid">
+    <div class="matrix-card" style="border-left: 3px solid var(--accent4);">
+      <h4>🔴 Phase 1: Foundation (Weeks 1-2)</h4>
+      <ul>
+        <li><strong>#01</strong> — Automation status tags on all 140 steps</li>
+        <li><strong>#09</strong> — Clean up ghost actors (Concierge, Host, CRM/HubSpot, Stripe/Payments)</li>
+        <li><strong>#06</strong> — Emotional target per stage (one line of text each)</li>
+        <li><strong>#10</strong> — Deduplicate Didn't Book branch (confirm intent or remove dupe)</li>
+      </ul>
+    </div>
+    <div class="matrix-card" style="border-left: 3px solid var(--accent);">
+      <h4>🟡 Phase 2: Intelligence Layer (Weeks 3-5)</h4>
+      <ul>
+        <li><strong>#02</strong> — SLA / timing data per step</li>
+        <li><strong>#03</strong> — Stage transition triggers (system events)</li>
+        <li><strong>#04</strong> — KPIs per stage</li>
+        <li><strong>#05</strong> — Guest-facing vs. backstage swim lanes</li>
+      </ul>
+    </div>
+    <div class="matrix-card" style="border-left: 3px solid var(--accent3);">
+      <h4>🟣 Phase 3: Depth (Weeks 6-8)</h4>
+      <ul>
+        <li><strong>#07</strong> — Data flow / field mapping specs</li>
+        <li><strong>#10</strong> — Sequential vs. parallel dependency markers</li>
+        <li><strong>#11</strong> — RACI ownership per step</li>
+        <li><strong>#13</strong> — Dream Weaver budget tracking</li>
+        <li><strong>#14</strong> — Reconnection Profile capture step</li>
+      </ul>
+    </div>
+    <div class="matrix-card" style="border-left: 3px solid var(--accent2);">
+      <h4>🟢 Phase 4: Scale Prep (Weeks 9-12)</h4>
+      <ul>
+        <li><strong>#08</strong> — Live status / health indicators (API integration)</li>
+        <li><strong>#12</strong> — Villa-type variations</li>
+        <li><strong>#15</strong> — Revenue attribution per stage</li>
+        <li><strong>#16</strong> — Reconnection Circle stage</li>
+        <li><strong>#17</strong> — Version history / changelog</li>
+        <li><strong>#18</strong> — Multi-location support</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSING CALLOUT -->
+<div class="callout">
+  <h3>The Bottom Line</h3>
+  <p>BF-Flow is already in the top 1% of hospitality operations documentation. Most luxury hotels don't even have a written checklist — you've built a living journey architecture with 11 stages, 140 steps, 20 actors, and 7 exception branches. The 18 upgrades above transform it from a process map into an institutional operating system: one that measures performance, enforces SLAs, maps data flows, tracks emotional outcomes, and scales to multiple locations. The foundation is built. Now add the intelligence layer.</p>
+</div>
+
+</div>
+
+</body>
+</html>

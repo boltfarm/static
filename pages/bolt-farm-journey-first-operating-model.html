@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLT FARM — Journey-First Operating Model</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a1a;
+    --accent: #2d5016;
+    --accent-light: #e8f0e0;
+    --gold: #b8860b;
+    --gold-light: #fdf6e3;
+    --red: #8b1a1a;
+    --red-light: #fdf0f0;
+    --blue: #1a3a5c;
+    --blue-light: #eef3f9;
+    --purple: #4a2d6b;
+    --purple-light: #f3eef9;
+    --border: #e0ddd5;
+    --card-bg: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .container { max-width: 980px; margin: 0 auto; padding: 40px 32px; }
+
+  /* HEADER */
+  .report-header {
+    text-align: center;
+    padding: 56px 0 40px;
+    border-bottom: 3px solid var(--accent);
+    margin-bottom: 48px;
+  }
+  .report-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .report-header h1 {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .report-header .subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: #666;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .report-header .meta {
+    font-size: 13px;
+    color: #999;
+    margin-top: 16px;
+  }
+
+  /* EXECUTIVE SUMMARY */
+  .exec-summary {
+    background: linear-gradient(135deg, var(--accent) 0%, #1a3a1a 100%);
+    color: white;
+    padding: 32px;
+    border-radius: 12px;
+    margin-bottom: 48px;
+  }
+  .exec-summary h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #c8dbb0;
+    border: none;
+    padding: 0;
+  }
+  .exec-summary p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.92);
+    margin-bottom: 12px;
+  }
+  .exec-summary .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .exec-summary .principle {
+    background: rgba(255,255,255,0.1);
+    padding: 14px 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+  .exec-summary .principle span {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  /* PARTS */
+  .part { margin-bottom: 56px; page-break-inside: avoid; }
+  .part-label {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .part-label.gold { background: var(--gold); }
+  .part-label.blue { background: var(--blue); }
+  .part-label.red { background: var(--red); }
+  .part-label.purple { background: var(--purple); }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    line-height: 1.3;
+  }
+  .part-intro {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 28px 0 12px;
+  }
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+  p { margin-bottom: 12px; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13.5px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  thead th {
+    background: var(--accent);
+    color: white;
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  thead th.gold-head { background: var(--gold); }
+  thead th.blue-head { background: var(--blue); }
+  thead th.red-head { background: var(--red); }
+  thead th.purple-head { background: var(--purple); }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0ede8;
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #fdfcfa; }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+  }
+  .card.accent { border-left: 4px solid var(--accent); }
+  .card.gold { border-left: 4px solid var(--gold); }
+  .card.blue { border-left: 4px solid var(--blue); }
+  .card.red { border-left: 4px solid var(--red); }
+  .card.purple { border-left: 4px solid var(--purple); }
+
+  .card .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .card .card-subtitle {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  /* MOT CARDS */
+  .mot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .mot-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .mot-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  .mot-card.arrival::before { background: linear-gradient(90deg, #2d5016, #4a8a2a); }
+  .mot-card.dome::before { background: linear-gradient(90deg, #b8860b, #d4a017); }
+  .mot-card.villa::before { background: linear-gradient(90deg, #1a3a5c, #2a5a8c); }
+  .mot-card.wellness::before { background: linear-gradient(90deg, #4a2d6b, #6a4d8b); }
+  .mot-card.spa::before { background: linear-gradient(90deg, #8b4513, #a0522d); }
+  .mot-card.meal::before { background: linear-gradient(90deg, #8b1a1a, #b22222); }
+  .mot-card.happy::before { background: linear-gradient(90deg, #b8860b, #daa520); }
+  .mot-card.departure::before { background: linear-gradient(90deg, #2d5016, #228b22); }
+  .mot-card.prearr::before { background: linear-gradient(90deg, #555, #777); }
+  .mot-card.poststay::before { background: linear-gradient(90deg, #333, #555); }
+
+  .mot-number {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 6px;
+  }
+  .mot-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .mot-emotion {
+    font-size: 13px;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .mot-detail {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+  }
+  .mot-timing {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .mot-kpi {
+    display: inline-block;
+    background: var(--gold-light);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-left: 4px;
+  }
+
+  /* WORKFLOW CARDS */
+  .wf-flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 8px 0 12px;
+    font-size: 13px;
+  }
+  .wf-step {
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .wf-arrow { color: #ccc; font-size: 16px; }
+
+  /* STATUS BADGES */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .badge.green { background: #e6f4ea; color: #1a7a2e; }
+  .badge.yellow { background: #fef7e0; color: #a67c00; }
+  .badge.red { background: #fde8e8; color: #8b1a1a; }
+  .badge.blue { background: #e8f0fe; color: #1a3a5c; }
+  .badge.gray { background: #f0f0f0; color: #666; }
+
+  /* VERDICT BOXES */
+  .verdict {
+    background: var(--gold-light);
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .verdict.green-v {
+    background: var(--accent-light);
+    border-color: var(--accent);
+  }
+  .verdict.red-v {
+    background: var(--red-light);
+    border-color: var(--red);
+  }
+  .verdict .verdict-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* OWNERSHIP MATRIX */
+  .owner-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+  .owner-tag.owns { background: var(--accent-light); color: var(--accent); }
+  .owner-tag.supports { background: var(--blue-light); color: var(--blue); }
+  .owner-tag.escalate { background: var(--red-light); color: var(--red); }
+
+  /* DIVIDERS */
+  .divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 48px 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: #f8f7f4;
+    border-left: 4px solid var(--gold);
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout strong { color: var(--gold); }
+
+  /* FULL WIDTH MOT */
+  .mot-full {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .mot-grid { grid-template-columns: 1fr; }
+    .exec-summary .principle-grid { grid-template-columns: repeat(3, 1fr); }
+    h2 { font-size: 20px; }
+    .report-header h1 { font-size: 24px; }
+  }
+
+  @media print {
+    .container { max-width: 100%; padding: 20px; }
+    .part { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="eyebrow">Strategic Operations Blueprint</div>
+  <h1>Journey-First Operating Model</h1>
+  <div class="subtitle">A guest-journey-centered redesign of how Bolt Farm Treehouse should think, staff, and operate — built from moments of truth outward.</div>
+  <div class="meta">Prepared for Seth Bolt &bull; March 2026 &bull; Builds on Operations Process Analysis v1</div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="exec-summary">
+  <h2>The Core Shift</h2>
+  <p>Most hospitality operations are organized by department: housekeeping, front desk, F&B, spa. Bolt Farm's documents reveal something more ambitious — an experience designed around <strong>8 Moments of Truth</strong> that define whether a $800+/night stay becomes a lifelong memory or a missed opportunity. This report reorganizes the entire operating model around those moments. Departments don't disappear — they become support functions for journeys, not the other way around.</p>
+  <p>The question isn't "Is housekeeping doing their job?" — it's "Does the guest walk into their villa and say 'Wow'?" Everything flows from that.</p>
+  <div class="principle-grid">
+    <div class="principle"><span>1</span>Question</div>
+    <div class="principle"><span>2</span>Eliminate</div>
+    <div class="principle"><span>3</span>Simplify</div>
+    <div class="principle"><span>4</span>Accelerate</div>
+    <div class="principle"><span>5</span>Automate</div>
+  </div>
+</div>
+
+<!-- ========== PART 1 ========== -->
+<div class="part">
+  <div class="part-label">Part 1</div>
+  <h2>Guest Journey Mapping: The 10 Moments of Truth</h2>
+  <p class="part-intro">Define every moment Bolt Farm must deliver flawlessly — then build everything else around them.</p>
+
+  <p>Your existing 8 Moments of Truth framework is strong. But it starts at arrival and ends at departure — missing two high-leverage moments that bookend the on-site experience. The real journey is <strong>10 moments</strong>, and the two invisible ones (pre-arrival and post-stay) are where the most scalable revenue and brand equity live.</p>
+
+  <div class="mot-grid">
+    <!-- MOT 0 -->
+    <div class="mot-card prearr">
+      <div class="mot-number">Moment 0 — Pre-Arrival</div>
+      <div class="mot-name">The Anticipation Build</div>
+      <div class="mot-emotion">"I can already feel myself relaxing."</div>
+      <div class="mot-detail">
+        Booking → Arrival T-0. Shift guest mindset from buyer to believer. AI personalization quiz captures celebration intel, food preferences, and special requests within 24h of booking. Dynamic offer flow presents curated add-on bundles (Romance $399, Birthday, Wellness). Dream Weaver crafts handwritten note and schedules surprise. This moment is where upsell take-rate ≥40% is won or lost.
+      </div>
+      <div class="mot-timing">T-minus 2 weeks → Day 0</div>
+      <div class="mot-kpi">Upsell ≥40%</div>
+    </div>
+
+    <!-- MOT 1 -->
+    <div class="mot-card arrival">
+      <div class="mot-number">Moment 1 — On-Site</div>
+      <div class="mot-name">Arrival at Summit Parking</div>
+      <div class="mot-emotion">"This place is different."</div>
+      <div class="mot-detail">
+        The first 60 seconds. Travel stress must convert to calm anticipation instantly. Staff greets by name within 5–10 seconds of car stopping. Luggage handled immediately. Golf cart prepped with welcome card. Parking lot is visually perfect — no staff vehicles, no equipment, no chaos. Five-sense design activated: clean views, nature sounds, fresh mountain air, smooth cart seats, cold infused water offered.
+      </div>
+      <div class="mot-timing">3–5 minutes</div>
+      <div class="mot-kpi">NPS Pulse ≥95</div>
+    </div>
+
+    <!-- MOT 2 -->
+    <div class="mot-card dome">
+      <div class="mot-number">Moment 2 — On-Site</div>
+      <div class="mot-name">Welcome Dome Experience</div>
+      <div class="mot-emotion">"This place is special."</div>
+      <div class="mot-detail">
+        Feel like a luxury mountain lounge, never a reception desk. Greeting within 5 seconds of entry. Guests seated — never standing at a counter. Welcome beverage offered immediately. Admin check-in under 2 minutes. Bolt Farm Story under 30 seconds. Stay flow explained at high level. Transition to villa ends with anticipation, not logistics. Five-sense design: warm lighting, acoustic music, cedar/pine scent, soft seating, seasonal refreshment.
+      </div>
+      <div class="mot-timing">5–8 minutes</div>
+      <div class="mot-kpi">Social Tag ≥50%</div>
+    </div>
+
+    <!-- MOT 3 -->
+    <div class="mot-card villa">
+      <div class="mot-number">Moment 3 — On-Site</div>
+      <div class="mot-name">Walking Into Their Villa</div>
+      <div class="mot-emotion">"Wow… this is incredible."</div>
+      <div class="mot-detail">
+        The emotional payoff moment. Villa passes "hospitality inspection" (not just housekeeping) 60–90 min before arrival. Door Opening Ritual: open slowly, step aside, say two words, then PAUSE — 10–20 seconds of silence for the reaction. The "Wow Angle" must showcase bed, view, fireplace, architecture. Temperature 68–72°F. Signature scent. Orientation under 2 minutes. Personalization touches for celebrations: handwritten note, flowers, champagne.
+      </div>
+      <div class="mot-timing">5–7 minutes</div>
+      <div class="mot-kpi">Ancillary Rev ≥$250/night</div>
+    </div>
+
+    <!-- MOT 4 -->
+    <div class="mot-card wellness">
+      <div class="mot-number">Moment 4 — On-Site</div>
+      <div class="mot-name">Wellness Haven Discovery</div>
+      <div class="mot-emotion">"This is our sanctuary."</div>
+      <div class="mot-detail">
+        First visit to the Wellness Haven — environment must communicate "sacred space." Signature modules: Purpose Path (guided forest walk + journal prompts), Cold-Plunge/Hot-Soak Circuit (Cherokee-inspired), Stargazer Session (telescope + hot cocoa). Staff presence is calm and minimal. Sensory experience must be intentional. This is where the transformation promise becomes tangible.
+      </div>
+      <div class="mot-timing">Self-paced, first visit Day 1</div>
+      <div class="mot-kpi">Spa Booking ≥60%</div>
+    </div>
+
+    <!-- MOT 5 -->
+    <div class="mot-card spa">
+      <div class="mot-number">Moment 5 — On-Site</div>
+      <div class="mot-name">Spa Massage Experience</div>
+      <div class="mot-emotion">"I've never felt this relaxed."</div>
+      <div class="mot-detail">
+        The highest-margin touchpoint (Couples Massage at 70% margin). Environment, therapist interaction, and treatment experience must all score. This is the most review-mentioned moment. Every detail matters: temperature, music volume, pressure check, post-treatment water and rest area. AI Concierge sends spa slot reminder with upsell link at 11am.
+      </div>
+      <div class="mot-timing">60–90 min treatment window</div>
+      <div class="mot-kpi">Margin 70%</div>
+    </div>
+
+    <!-- MOT 6 -->
+    <div class="mot-card meal">
+      <div class="mot-number">Moment 6 — On-Site</div>
+      <div class="mot-name">Meal Delivery</div>
+      <div class="mot-emotion">"They thought of everything."</div>
+      <div class="mot-detail">
+        Food presentation, delivery interaction, and dining atmosphere are scored as a unit. The meal isn't just sustenance — it's a designed moment. Surprise treat delivery at 8pm (s'mores kit, local truffles) creates a "micro-wow" via Housekeeping. Photo-verified checklist ensures presentation consistency. Sunset Gratitude Cue via patio lantern auto-on adds ambient romance.
+      </div>
+      <div class="mot-timing">Recurring daily</div>
+      <div class="mot-kpi">Rev ≥$250/night ancillary</div>
+    </div>
+
+    <!-- MOT 7 -->
+    <div class="mot-card happy">
+      <div class="mot-number">Moment 7 — On-Site</div>
+      <div class="mot-name">Happy Hour / Communal</div>
+      <div class="mot-emotion">"We belong here."</div>
+      <div class="mot-detail">
+        The only group touchpoint — environment, guest engagement, and the rebooking invitation are scored together. This is where the rebooking seed is planted. Staff energy should feel like hosting friends, not working an event. The rebooking offer (on-site converts at 20% vs 10% online) is introduced naturally. This is also the best moment for the BOLT Private Collection waitlist mention.
+      </div>
+      <div class="mot-timing">60–90 min, late afternoon</div>
+      <div class="mot-kpi">Rebook ≥30%</div>
+    </div>
+
+    <!-- MOT 8 -->
+    <div class="mot-card departure">
+      <div class="mot-number">Moment 8 — On-Site</div>
+      <div class="mot-name">Departure</div>
+      <div class="mot-emotion">"I don't want to leave."</div>
+      <div class="mot-detail">
+        End on peak emotion, not logistics. Seamless Apple/Google Pay checkout — no front desk. "Memory Anchor" gift: sunrise Polaroid in bamboo frame + embossed gratitude card. Farewell interaction is personal, not transactional. Final impression must be as choreographed as arrival. Staff should use guest name, reference something specific from their stay, and make it feel like saying goodbye to friends.
+      </div>
+      <div class="mot-timing">15–20 minutes</div>
+      <div class="mot-kpi">Check-out CSAT, Lost items = 0</div>
+    </div>
+
+    <!-- MOT 9 -->
+    <div class="mot-card poststay">
+      <div class="mot-number">Moment 9 — Post-Stay</div>
+      <div class="mot-name">The Afterglow Sequence</div>
+      <div class="mot-emotion">"That changed us."</div>
+      <div class="mot-detail">
+        T+24h: Thank-you SMS + review link + transformation story video request. T+7d: Personalized recap reel (AI-edited photos + brand b-roll). T+30d: BOLT Private Collection waitlist invite. T+180d: Anniversary reminder + exclusive pre-launch offer. Community Loop: Reconnection Circle newsletter. Affiliate credit $100/referred booking. This is where CLV ≥$1,200 and 4.9★ reviews are built.
+      </div>
+      <div class="mot-timing">T+24h → T+180d</div>
+      <div class="mot-kpi">Review 4.9★+, CLV ≥$1,200</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>The Scoring System:</strong> Your Audit Scorecard already grades Moments 1–8 on a 120-point scale (24 criteria × 5 points). Weekly walkthrough by AGM + Director of On-Site Ops + GX Lead in 30–45 min. Interpretation: 105–120 Exceptional, 90–104 Strong, 75–89 Inconsistent, Below 75 At Risk. <strong>Recommendation:</strong> Extend the scorecard to include Moments 0 and 9 with 6 additional criteria (3 each), making it a 150-point system that captures the full lifecycle.
+  </div>
+
+  <h3>Emotional Architecture: The Arc</h3>
+  <p>These 10 moments aren't random — they form a deliberate emotional arc. Every luxury property has amenities. What separates Bolt Farm is that these moments are <em>designed</em> as a narrative:</p>
+
+  <table>
+    <thead>
+      <tr><th>Phase</th><th>Moments</th><th>Emotional Job</th><th>Peak Emotion</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Anticipation</strong></td><td>0</td><td>Convert buyer → believer</td><td>Excitement + trust</td></tr>
+      <tr><td><strong>Arrival</strong></td><td>1 → 2 → 3</td><td>Stress → awe in under 20 min</td><td>"This is different / special / incredible"</td></tr>
+      <tr><td><strong>Immersion</strong></td><td>4 → 5 → 6</td><td>Sustain reconnection + transformation</td><td>Deep relaxation + presence</td></tr>
+      <tr><td><strong>Bonding</strong></td><td>7</td><td>Community + commitment</td><td>Belonging + desire to return</td></tr>
+      <tr><td><strong>Departure</strong></td><td>8</td><td>Peak-end memory anchoring</td><td>Bittersweet + gratitude</td></tr>
+      <tr><td><strong>Legacy</strong></td><td>9</td><td>Convert satisfaction → advocacy</td><td>Pride + identity ("we're Bolt Farm people")</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 2 ========== -->
+<div class="part">
+  <div class="part-label gold">Part 2</div>
+  <h2>Workflows That Support Those Moments</h2>
+  <p class="part-intro">Instead of observing departments, observe journeys. Every workflow exists to serve a moment — or it shouldn't exist.</p>
+
+  <p>Traditional ops audits ask "What does housekeeping do?" A journey-first audit asks "What has to happen for the villa to produce a 'Wow'?" This reframe collapses silos. The villa "Wow" requires housekeeping, maintenance, Dream Weaver, and the escort staff to execute in sequence — and if any one fails, the moment fails. Here are the critical workflow chains for each moment:</p>
+
+  <!-- Moment 0 Workflow -->
+  <div class="card accent">
+    <div class="card-title">Moment 0 Workflows: Pre-Arrival Anticipation</div>
+    <div class="card-subtitle">Goal: Guest arrives feeling personally expected and already emotionally invested</div>
+
+    <h4>Workflow 0A: Personalization Intelligence Capture</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Booking confirmed</span><span class="wf-arrow">→</span>
+      <span class="wf-step">PMS → HubSpot sync</span><span class="wf-arrow">→</span>
+      <span class="wf-step">AI quiz sent (24h)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Responses parsed</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Guest profile enriched</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Dream Weaver alerted</span>
+    </div>
+    <p>Current gap: The <code>syncBookingToHubspot()</code> function is fire-and-forget with no retry logic. If it fails silently, the entire personalization chain breaks. The AI Personalization Engine (Typeform + GPT) depends on HubSpot data being current.</p>
+
+    <h4>Workflow 0B: Upsell & Add-On Attachment</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Guest profile scored</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Dynamic Offer Flow</span><span class="wf-arrow">→</span>
+      <span class="wf-step">3 bundles presented</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Selection → PMS updated</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Fulfillment tasks created</span>
+    </div>
+    <p>Target: $225 avg add-on per booking. Romance Bundle ($399, COGS $120) at 60% gross margin is the easiest ROI lever in the entire business.</p>
+
+    <h4>Workflow 0C: Arrival Day Briefing</h4>
+    <div class="wf-flow">
+      <span class="wf-step">T-48h: Handwritten note crafted</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T-24h: Arrival sheet printed</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T-2h: Team huddle (name, villa, occasion, package, requests)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T-90min: Villa hospitality inspection</span>
+    </div>
+  </div>
+
+  <!-- Moment 1-3 Workflow -->
+  <div class="card gold">
+    <div class="card-title">Moments 1–3 Workflows: The Arrival Sequence</div>
+    <div class="card-subtitle">Goal: Stress → awe in under 20 minutes, zero friction</div>
+
+    <h4>Workflow 1A: Summit Parking Choreography</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Car spotted descending</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Host at position (smiling before door opens)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Name greeting in 5–10 sec</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Luggage handled</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Water offered</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Cart or dome transition explained</span>
+    </div>
+    <p>Critical dependency: Staff must have arrival sheet data (name, pronunciation, villa, occasion, golf cart eligibility, requests). If the PMS → arrival sheet pipeline fails, the host is improvising — and improvisation at $800/night is unacceptable.</p>
+
+    <h4>Workflow 2A: Welcome Dome Sequence</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Guest enters</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Greeting in 5 sec</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Seated + beverage</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Admin check-in (&lt;2 min)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Bolt Farm Story (&lt;30 sec)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Stay flow overview</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Transition to villa with anticipation</span>
+    </div>
+    <p>Anti-pattern to eliminate: Reading policies, explaining systems, complicated paperwork. Admin should feel invisible. If the guest senses "process," the moment is already lost.</p>
+
+    <h4>Workflow 3A: Villa Wow Delivery</h4>
+    <div class="wf-flow">
+      <span class="wf-step">T-90min: Hospitality inspection</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T-60min: Lighting/temp/scent set</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T-30min: Personalization placed</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Escort builds anticipation en route</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Door Opening Ritual</span><span class="wf-arrow">→</span>
+      <span class="wf-step">10–20 sec silence</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Orientation (&lt;2 min)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">View highlight + exit</span>
+    </div>
+    <p>This workflow requires 4 teams in sequence: Housekeeping (clean), Maintenance (everything works), Dream Weaver (personalization), Host (escort + ritual). No single "department" owns this — the <em>journey</em> owns it.</p>
+  </div>
+
+  <!-- Moments 4-6 Workflows -->
+  <div class="card blue">
+    <div class="card-title">Moments 4–6 Workflows: The Immersion Phase</div>
+    <div class="card-subtitle">Goal: Sustain reconnection, drive ancillary revenue ≥$250/night</div>
+
+    <h4>Workflow 4A: Wellness Haven Readiness</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Daily AM prep (environment check)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Module schedule confirmed</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Akia SMS: wellness options for today</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Guest arrives → staff presence minimal</span>
+    </div>
+
+    <h4>Workflow 5A: Spa Revenue Maximization</h4>
+    <div class="wf-flow">
+      <span class="wf-step">11am: AI Concierge spa reminder + upsell</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Booking confirmed</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Pre-treatment environment set</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Treatment delivered</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Post-treatment rest + water</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Merchandise suggestion (robes $125+)</span>
+    </div>
+    <p>This is the single highest-margin workflow in the operation. Couples Massage at 70% margin is the most profitable 90 minutes on property.</p>
+
+    <h4>Workflow 6A: Daily Micro-Wow Cadence</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Sunrise: Sound-Bath stream auto-play</span><span class="wf-arrow">→</span>
+      <span class="wf-step">11am: Spa reminder</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Sunset: Gratitude Cue (patio lantern)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">8pm: Surprise treat delivery</span>
+    </div>
+    <p>Four automated touchpoints per day, each owned by a different system (IoT scheduler, AI Concierge, Dream Weaver, Housekeeping). The guest experiences seamless magic. Behind the scenes, it's four separate systems that must all fire correctly.</p>
+  </div>
+
+  <!-- Moments 7-8 Workflows -->
+  <div class="card red">
+    <div class="card-title">Moments 7–8 Workflows: Bonding & Departure</div>
+    <div class="card-subtitle">Goal: Lock in rebooking ≥30%, anchor peak-end memory</div>
+
+    <h4>Workflow 7A: Happy Hour → Rebooking</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Environment set (communal space)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Staff-as-host energy</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Natural rebooking conversation</span><span class="wf-arrow">→</span>
+      <span class="wf-step">On-site rebooking offer (20% conversion)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Private Collection mention if appropriate</span>
+    </div>
+
+    <h4>Workflow 8A: Departure Sequence</h4>
+    <div class="wf-flow">
+      <span class="wf-step">Pre-departure: Memory Anchor prepared</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Seamless mobile checkout (no front desk)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Personalized farewell (reference specific stay detail)</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Gift: Polaroid + gratitude card</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Luggage to car</span><span class="wf-arrow">→</span>
+      <span class="wf-step">$50 staff tip prompt for 5★ review</span>
+    </div>
+  </div>
+
+  <!-- Moment 9 Workflow -->
+  <div class="card purple">
+    <div class="card-title">Moment 9 Workflows: Post-Stay Legacy</div>
+    <div class="card-subtitle">Goal: 4.9★+ reviews, referral CLV ≥$1,200, email open ≥50%</div>
+
+    <h4>Workflow 9A: Afterglow Automation</h4>
+    <div class="wf-flow">
+      <span class="wf-step">T+24h: Thank-you SMS + review link</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T+7d: AI recap reel</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T+30d: Private Collection invite</span><span class="wf-arrow">→</span>
+      <span class="wf-step">T+180d: Anniversary offer</span><span class="wf-arrow">→</span>
+      <span class="wf-step">Ongoing: Reconnection Circle newsletter</span>
+    </div>
+    <p>Current gap: The HubSpot nurturing pipeline has an infinite loop — contacts cycle through stages without exit criteria. The <code>last_stay_date</code> field doesn't sync from PMS, so segmentation by recency is impossible. These are fixable, but they're crippling the post-stay sequence.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 3 ========== -->
+<div class="part">
+  <div class="part-label blue">Part 3</div>
+  <h2>The Current Operating Model</h2>
+  <p class="part-intro">Who owns what? Where do decisions get made? Where does accountability break down?</p>
+
+  <p>The current model has strong intent but unclear ownership at the seams between moments. Individual departments execute well within their boundaries — the failure mode is in the hand-offs. Here's the reality:</p>
+
+  <h3>Decision Rights Matrix: Current State</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Moment</th>
+        <th>Who Decides</th>
+        <th>Who Executes</th>
+        <th>Who Escalates To</th>
+        <th>Gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>0: Pre-Arrival</strong></td>
+        <td>AI Systems Pod + Sales</td>
+        <td>HubSpot automations + Dream Weaver</td>
+        <td>Seth (escalation unclear)</td>
+        <td><span class="badge red">No single owner</span></td>
+      </tr>
+      <tr>
+        <td><strong>1: Arrival</strong></td>
+        <td>Director of On-Site Ops</td>
+        <td>Arrival Host</td>
+        <td>AGM</td>
+        <td><span class="badge yellow">Host rotation unclear</span></td>
+      </tr>
+      <tr>
+        <td><strong>2: Welcome Dome</strong></td>
+        <td>Guest Experience Lead</td>
+        <td>GX Team</td>
+        <td>AGM</td>
+        <td><span class="badge green">Well-defined</span></td>
+      </tr>
+      <tr>
+        <td><strong>3: Villa Wow</strong></td>
+        <td>Housekeeping Lead</td>
+        <td>HK + Maintenance + Dream Weaver + Host</td>
+        <td>Director of On-Site Ops</td>
+        <td><span class="badge red">4 teams, 1 outcome, no single throat to choke</span></td>
+      </tr>
+      <tr>
+        <td><strong>4: Wellness Haven</strong></td>
+        <td>Wellness Manager (if exists)</td>
+        <td>Wellness staff</td>
+        <td>AGM</td>
+        <td><span class="badge yellow">Role may not exist yet</span></td>
+      </tr>
+      <tr>
+        <td><strong>5: Spa</strong></td>
+        <td>Spa Manager</td>
+        <td>Therapists</td>
+        <td>AGM</td>
+        <td><span class="badge green">Well-defined</span></td>
+      </tr>
+      <tr>
+        <td><strong>6: Meals</strong></td>
+        <td>F&B Lead</td>
+        <td>Kitchen + Delivery staff</td>
+        <td>Director of On-Site Ops</td>
+        <td><span class="badge yellow">Delivery handoff unclear</span></td>
+      </tr>
+      <tr>
+        <td><strong>7: Happy Hour</strong></td>
+        <td>GX Lead</td>
+        <td>GX Team + F&B</td>
+        <td>AGM</td>
+        <td><span class="badge yellow">Rebooking ownership unclear</span></td>
+      </tr>
+      <tr>
+        <td><strong>8: Departure</strong></td>
+        <td>GX Lead</td>
+        <td>GX Team + HK (lost items)</td>
+        <td>AGM</td>
+        <td><span class="badge yellow">Memory Anchor prep ownership</span></td>
+      </tr>
+      <tr>
+        <td><strong>9: Post-Stay</strong></td>
+        <td>AI Systems Pod</td>
+        <td>HubSpot automations</td>
+        <td>Seth</td>
+        <td><span class="badge red">Broken pipeline, no human oversight</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The Three Structural Problems</h3>
+
+  <div class="card red">
+    <div class="card-title">Problem 1: The Villa Wow Has No Single Owner</div>
+    <p>Moment 3 (Villa Arrival) requires four teams to execute in sequence: Housekeeping cleans, Maintenance confirms everything works, Dream Weaver places personalization, and the Host performs the door ritual. But no single person owns the outcome. If the villa is clean but the fireplace doesn't work, whose fault is it? If the personalization is missing, who failed? Right now the answer is "it depends" — and at $800/night, ambiguity is the enemy.</p>
+    <div class="verdict red-v">
+      <div class="verdict-title">Recommendation</div>
+      <p>Create a <strong>"Villa Ready" sign-off</strong> — a single person (the Host assigned to that arrival) is accountable for confirming the villa passes hospitality inspection before the guest arrives. They don't do all the work, but they own the final check. If something is wrong, they escalate and delay the transition rather than delivering a broken moment.</p>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="card-title">Problem 2: Pre-Arrival and Post-Stay Have No Human Champion</div>
+    <p>Moments 0 and 9 are run by automations (HubSpot, Akia, AI quiz) with no dedicated human monitoring whether they're actually working. The nurturing pipeline has an infinite loop. The <code>last_stay_date</code> field doesn't sync. The <code>deal_source</code> enum is missing "online_booking." These aren't minor bugs — they're systemic failures in the two moments that drive upsell revenue and lifetime value. Yet nobody's KPI is "pre-arrival upsell rate" or "post-stay review conversion."</p>
+    <div class="verdict red-v">
+      <div class="verdict-title">Recommendation</div>
+      <p>Assign a <strong>Journey Automation Owner</strong> (could be part-time, could be the AI Systems Pod lead) whose KPIs are: upsell take-rate ≥40%, quiz completion ≥80%, review rate ≥70%, and post-stay email open ≥50%. This person doesn't write code — they monitor dashboards and flag when automations break.</p>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="card-title">Problem 3: The Rebooking Moment Has Split Accountability</div>
+    <p>Happy Hour (Moment 7) is owned by GX for the event, but rebooking is a revenue function. Who is measured on the 30% rebook target? GX Lead? Sales? The AI system? When nobody owns a number, nobody optimizes for it. On-site rebooking converts at 2× the rate of online, which means every Happy Hour without a clear rebooking workflow leaves money on the table.</p>
+    <div class="verdict">
+      <div class="verdict-title">Recommendation</div>
+      <p>Make rebooking a GX Lead KPI (not Sales). The person closest to the guest relationship should own the conversion. Give them a simple tool — a tablet with pre-filled dates and a "lock in your return" flow that takes under 60 seconds.</p>
+    </div>
+  </div>
+
+  <h3>What's Working Well</h3>
+  <div class="card accent">
+    <div class="card-title">Strengths to Protect</div>
+    <p><strong>The Audit Scorecard is excellent.</strong> A 120-point weekly walkthrough by leadership (AGM + Director of On-Site Ops + GX Lead) in 30–45 minutes is a highly efficient governance mechanism. Most luxury properties don't have this level of discipline. Keep it and expand it.</p>
+    <p><strong>The Communication Playbook is clear.</strong> Radios for urgent, ClickUp for tasks, Slack for culture. This three-lane system prevents channel confusion and should be preserved as you scale.</p>
+    <p><strong>Dream Weaver discretionary spend ($250/guest) is a competitive moat.</strong> Few competitors empower frontline staff this way. The ROI is in unsolicited social mentions and review language — protect this budget even in tight quarters.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 4 ========== -->
+<div class="part">
+  <div class="part-label red">Part 4</div>
+  <h2>The Ideal Model: "If Bolt Farm Opened Tomorrow"</h2>
+  <p class="part-intro">Strip it to zero. Rebuild from the guest journey outward. No legacy assumptions.</p>
+
+  <p>If you opened Bolt Farm tomorrow with 34 units and everything you know now, here's how you'd structure it — organized by journey, not by department.</p>
+
+  <h3>The Org Chart You'd Build</h3>
+
+  <div class="card accent">
+    <div class="card-title">Three Journey Owners (Not Department Heads)</div>
+    <p>Instead of a Housekeeping Manager, Spa Manager, F&B Manager, and Front Desk Manager, you'd have:</p>
+
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Owns Moments</th><th>KPIs</th><th>Teams Under</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Arrival & Departure Captain</strong></td>
+          <td>1, 2, 3, 8</td>
+          <td>NPS ≥95, Audit Score ≥105, Lost Items = 0</td>
+          <td>Hosts, HK inspection sign-off, Dream Weaver coordination</td>
+        </tr>
+        <tr>
+          <td><strong>Immersion & Revenue Lead</strong></td>
+          <td>4, 5, 6, 7</td>
+          <td>Ancillary Rev ≥$250/night, Spa Booking ≥60%, Rebook ≥30%</td>
+          <td>Spa therapists, F&B delivery, Wellness staff, Happy Hour hosting</td>
+        </tr>
+        <tr>
+          <td><strong>Journey Automation Owner</strong></td>
+          <td>0, 9</td>
+          <td>Upsell ≥40%, Quiz ≥80%, Review 4.9★+, CLV ≥$1,200</td>
+          <td>AI Systems Pod, HubSpot pipelines, post-stay sequences</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>These three report to the <strong>AGM / General Manager</strong>, who holds the master scorecard. Seth retains strategic decisions (pricing, brand, expansion) but is removed from daily operational escalations.</p>
+  </div>
+
+  <h3>The Daily Operating Rhythm</h3>
+  <table>
+    <thead>
+      <tr><th>Time</th><th>Event</th><th>Who</th><th>Duration</th><th>Output</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>7:00 AM</td><td>Property Readiness Walk</td><td>Arrival Captain</td><td>20 min</td><td>Environment pass/fail for all guest-facing areas</td></tr>
+      <tr><td>7:30 AM</td><td>Arrival Briefing</td><td>All hosts</td><td>10 min</td><td>Today's arrivals: names, villas, occasions, packages, alerts</td></tr>
+      <tr><td>8:00 AM</td><td>Micro-Wow Cadence starts</td><td>IoT + Dream Weaver</td><td>Auto</td><td>Sunrise sound-bath stream activates</td></tr>
+      <tr><td>10:00 AM</td><td>Villa Inspections (departing guests)</td><td>HK + Arrival Captain</td><td>60–90 min</td><td>Hospitality-grade readiness for next guest</td></tr>
+      <tr><td>11:00 AM</td><td>Spa Nudge</td><td>AI Concierge (auto)</td><td>Auto</td><td>Spa reminder + upsell link sent via Akia</td></tr>
+      <tr><td>2:00 PM</td><td>Arrival Window Opens</td><td>Arrival Captain + Hosts</td><td>4 hrs</td><td>Moments 1-2-3 executed per protocol</td></tr>
+      <tr><td>4:30 PM</td><td>Happy Hour Prep</td><td>Immersion Lead + F&B</td><td>30 min</td><td>Communal space set, rebooking tablets ready</td></tr>
+      <tr><td>5:00 PM</td><td>Happy Hour</td><td>GX Team (led by Immersion Lead)</td><td>90 min</td><td>Guest engagement + natural rebooking conversation</td></tr>
+      <tr><td>8:00 PM</td><td>Surprise Treat Delivery</td><td>HK</td><td>30 min</td><td>S'mores kits / truffles placed at each occupied villa</td></tr>
+      <tr><td>9:00 PM</td><td>End-of-Day Dashboard Check</td><td>Journey Automation Owner</td><td>10 min</td><td>All automated touchpoints confirmed fired, any failures flagged</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Weekly Cadence</h3>
+  <table>
+    <thead>
+      <tr><th>Day</th><th>Event</th><th>Who</th><th>Duration</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Monday</td><td>Audit Scorecard Walkthrough (150-point expanded)</td><td>AGM + Arrival Captain + Immersion Lead + GX Lead</td><td>30–45 min</td></tr>
+      <tr><td>Wednesday</td><td>Micro-Retro: What broke this week?</td><td>All three Journey Owners</td><td>30 min</td></tr>
+      <tr><td>Friday</td><td>Revenue Pulse: Upsell rate, spa bookings, rebooking, ancillary</td><td>Immersion Lead + Journey Automation Owner</td><td>20 min</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Staffing Model at 34 Units</h3>
+  <div class="card gold">
+    <div class="card-title">Labor-Light, Journey-Aligned</div>
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Count</th><th>Journey Alignment</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>AGM / GM</td><td>1</td><td>All moments — holds master scorecard</td></tr>
+        <tr><td>Arrival & Departure Captain</td><td>1</td><td>Moments 1, 2, 3, 8</td></tr>
+        <tr><td>Immersion & Revenue Lead</td><td>1</td><td>Moments 4, 5, 6, 7</td></tr>
+        <tr><td>Journey Automation Owner</td><td>1 (part-time or shared)</td><td>Moments 0, 9</td></tr>
+        <tr><td>Arrival Hosts</td><td>2–3 (shift rotation)</td><td>Moments 1, 2, 3</td></tr>
+        <tr><td>Dream Weaver</td><td>1</td><td>Moments 0, 3, 6 (personalization)</td></tr>
+        <tr><td>Spa Therapists</td><td>3–4</td><td>Moment 5</td></tr>
+        <tr><td>Housekeeping</td><td>4–6</td><td>Moments 3, 6, 8 (villa, treats, departure)</td></tr>
+        <tr><td>Maintenance</td><td>1–2</td><td>All moments (silent support)</td></tr>
+        <tr><td>F&B</td><td>2–3</td><td>Moments 6, 7</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Total: ~18–24 staff for 34 units.</strong> This is lean. It works because: (a) automation handles Moments 0 and 9 almost entirely, (b) the daily rhythm is choreographed so staff aren't context-switching, and (c) Journey Owners eliminate the need for middle-management layers. As you scale to 50 units, you add 1 more host, 2 more HK, 1 more therapist — not new managers.</p>
+  </div>
+
+  <h3>The Scaling Principle</h3>
+  <div class="callout">
+    <strong>The Elon Algorithm applied to scaling:</strong> When you go from 34 to 50 units, you don't add proportionally more managers. You add frontline executors (hosts, HK, therapists) and keep the three Journey Owners. The systems, automations, and scorecards scale without headcount. This is how you maintain labor cost below 30% of revenue at $800+ ADR.
+  </div>
+
+  <h3>What Changes When You Open Location #2</h3>
+  <p>This journey-first model is designed to be <strong>cloned, not rebuilt</strong>. When Bolt Farm opens a second property:</p>
+  <p>The 10 Moments of Truth are the franchise playbook — they travel to any location. The Audit Scorecard is the quality guarantee — identical scoring at every property. The three Journey Owner roles replicate exactly. The tech stack (HubSpot + PMS + ClickUp + Akia) is property-agnostic. What changes is the local flair: the specific scent, the view from the villa, the regional food, the nature offerings. The system stays. The soul adapts.</p>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 5 ========== -->
+<div class="part">
+  <div class="part-label purple">Part 5</div>
+  <h2>Tool Evaluation: What Supports This, What Doesn't</h2>
+  <p class="part-intro">Can existing tools support the journey-first model? Where are the gaps? Are those gaps worth filling?</p>
+
+  <p>Now — and only now — do we look at tools. Because the question isn't "What should we buy?" It's "Can our tools support the moments that matter?"</p>
+
+  <h3>Current Stack vs. Journey Requirements</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>Moments Served</th>
+        <th>Current Health</th>
+        <th>Journey-First Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Custom PMS</strong></td>
+        <td>0, 1, 3, 8</td>
+        <td><span class="badge yellow">Functional but brittle</span></td>
+        <td>The source of truth for guest data. The sync to HubSpot is fire-and-forget — this is the #1 technical risk. Needs QStash event-driven retry. But it works for 34 units today.</td>
+      </tr>
+      <tr>
+        <td><strong>HubSpot CRM</strong></td>
+        <td>0, 7, 9</td>
+        <td><span class="badge red">Broken pipelines</span></td>
+        <td>7 pipelines with 13+ missing stage IDs, nurturing infinite loop, <code>last_stay_date</code> not syncing, <code>deal_source</code> enum missing "online_booking." HubSpot is the right tool — but the configuration needs a focused 2-week cleanup sprint.</td>
+      </tr>
+      <tr>
+        <td><strong>ClickUp</strong></td>
+        <td>All (task management)</td>
+        <td><span class="badge green">Strong</span></td>
+        <td>SSOT for tasks. Works well. No changes needed for the journey-first model. Consider adding a "Moments of Truth" space with 10 lists (one per moment) for journey-specific tasks.</td>
+      </tr>
+      <tr>
+        <td><strong>Akia (Guest SMS)</strong></td>
+        <td>0, 4, 5, 6</td>
+        <td><span class="badge green">Strong</span></td>
+        <td>Handles guest communication well. The AI Concierge functions (spa nudge, daily info) align perfectly with the immersion phase. Keep and potentially expand to handle departure messaging.</td>
+      </tr>
+      <tr>
+        <td><strong>Optii (Housekeeping)</strong></td>
+        <td>3, 6, 8</td>
+        <td><span class="badge yellow">Underutilized</span></td>
+        <td>Currently used for basic room assignment. The photo-verified checklist capability exists but isn't fully deployed. This tool can support the "hospitality inspection" workflow (Moment 3) if configured properly — the gap isn't the tool, it's the setup.</td>
+      </tr>
+      <tr>
+        <td><strong>Stripe</strong></td>
+        <td>0, 8</td>
+        <td><span class="badge green">Strong</span></td>
+        <td>Payment processing works. The seamless mobile checkout for departure (Moment 8) is already supported. No changes needed.</td>
+      </tr>
+      <tr>
+        <td><strong>Slack</strong></td>
+        <td>Internal only</td>
+        <td><span class="badge green">Strong</span></td>
+        <td>Culture and async communication. Dream Weaver flags route to DW Slack. Smart Issue Scan alerts land here. Working as designed.</td>
+      </tr>
+      <tr>
+        <td><strong>Guru / Guidde (SOPs)</strong></td>
+        <td>All (training)</td>
+        <td><span class="badge yellow">Fragmented</span></td>
+        <td>SOPs exist but aren't organized by journey. Recommendation: Restructure SOPs around the 10 Moments of Truth rather than by department. "How to execute Moment 3" is more useful than "Housekeeping procedures."</td>
+      </tr>
+      <tr>
+        <td><strong>Ramp / Rippling / Motivosity</strong></td>
+        <td>Internal ops</td>
+        <td><span class="badge green">Fine</span></td>
+        <td>Back-office tools. No journey impact. Keep as-is.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The Gap Analysis</h3>
+
+  <div class="card red">
+    <div class="card-title">Gap 1: Arrival Intelligence Dashboard</div>
+    <div class="card-subtitle">Affects: Moments 1, 2, 3 — the entire arrival sequence</div>
+    <p><strong>The problem:</strong> The arrival host needs to know guest name (and pronunciation), villa, occasion, package, golf cart eligibility, special requests, and celebration intel — all at a glance when the car pulls up. Currently this requires a printed sheet that may or may not be current if last-minute changes happened.</p>
+    <p><strong>The ideal:</strong> A tablet at the parking lot showing a live "Arriving Today" dashboard that pulls from PMS in real-time, enriched by HubSpot CRM data and quiz responses.</p>
+    <p><strong>Existing tool solution:</strong> This can be built as a simple read-only web page pulling from your PMS API. No new tool purchase needed — it's a single-page dashboard.</p>
+    <div class="verdict green-v">
+      <div class="verdict-title">Verdict: Build it. Small effort, massive impact.</div>
+      <p>Estimated effort: 1–2 days of dev time. A single HTML page with live PMS data. This eliminates the printed-sheet-that's-out-of-date problem and ensures every arrival host has perfect information every time.</p>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="card-title">Gap 2: HubSpot Pipeline Repair</div>
+    <div class="card-subtitle">Affects: Moments 0 and 9 — the entire automated lifecycle</div>
+    <p><strong>The problem:</strong> 13+ missing stage IDs across 7 pipelines, nurturing infinite loop, broken field syncs. The pre-arrival upsell sequence and post-stay review sequence are both running on broken rails.</p>
+    <p><strong>The ideal:</strong> Clean pipelines with correct stage IDs, proper exit criteria, <code>last_stay_date</code> syncing, <code>deal_source</code> enum including "online_booking," and the rebooking stage ID mismatch fixed.</p>
+    <p><strong>Existing tool solution:</strong> HubSpot is the right CRM. The problem is configuration, not capability.</p>
+    <div class="verdict">
+      <div class="verdict-title">Verdict: Fix it. Dedicated 2-week sprint. No new tool needed.</div>
+      <p>Assign one person (Journey Automation Owner or contractor) to audit every pipeline, fix stage IDs, add exit criteria to nurturing, repair field syncs, and verify the post-stay sequence fires correctly. This unlocks the full ROI of Moments 0 and 9.</p>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="card-title">Gap 3: PMS → HubSpot Sync Reliability</div>
+    <div class="card-subtitle">Affects: Moments 0, 1, 9 — the data backbone</div>
+    <p><strong>The problem:</strong> <code>syncBookingToHubspot()</code> is fire-and-forget. If the API call fails, there's no retry, no alert, and no fallback. Guest data silently goes stale.</p>
+    <p><strong>The ideal:</strong> Event-driven sync via QStash (or similar queue) with retry logic, dead-letter queue for failures, and a Slack alert when a sync fails so a human can intervene.</p>
+    <div class="verdict green-v">
+      <div class="verdict-title">Verdict: Build it. This is the single highest-ROI technical investment.</div>
+      <p>Moving from fire-and-forget to event-driven with retry is a ~1 week engineering effort. It de-risks the entire data pipeline that feeds Moments 0, 1, and 9. Without this, every other automation is built on sand.</p>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="card-title">Gap 4: Villa Readiness Sign-Off Tool</div>
+    <div class="card-subtitle">Affects: Moment 3 — the "Wow" moment</div>
+    <p><strong>The problem:</strong> The hospitality inspection (not just housekeeping) requires someone to confirm lighting, temperature, scent, personalization, and the "Wow Angle" are all set 60–90 minutes before arrival. Currently there's no digital confirmation that this happened.</p>
+    <p><strong>The ideal:</strong> A simple checklist (10 items) completed on a phone by the Host assigned to that arrival. Completion triggers a "Villa Ready" status visible on the Arrival Dashboard.</p>
+    <p><strong>Existing tool solution:</strong> Optii already has checklist capabilities. Alternatively, a ClickUp task template per villa per arrival with a 10-item checklist would work today with zero new tools.</p>
+    <div class="verdict green-v">
+      <div class="verdict-title">Verdict: Configure existing tools. Zero cost, big accountability gain.</div>
+      <p>Create a ClickUp task template "Villa Hospitality Inspection" with 10 checkboxes matching the MOT #3 protocol. Auto-create one per arrival. Assign to the Host. Done. This adds accountability without adding software.</p>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <div class="card-title">Gap 5: Rebooking Flow at Happy Hour</div>
+    <div class="card-subtitle">Affects: Moment 7 — the 30% rebook target</div>
+    <p><strong>The problem:</strong> On-site rebooking converts at 2× the rate of online (20% vs 10%), but there's no streamlined tool for capturing a rebooking commitment at Happy Hour. Staff have to say "we'll follow up" which drops conversion dramatically.</p>
+    <p><strong>The ideal:</strong> A tablet or phone flow where a guest can see available dates, select one, and lock in a return with a deposit — in under 60 seconds, while they're emotionally primed.</p>
+    <p><strong>Existing tool solution:</strong> Your PMS likely has an availability API. A simple booking widget on a tablet would work. Alternatively, a Typeform → PMS integration that captures date preference and triggers a follow-up within 24 hours.</p>
+    <div class="verdict">
+      <div class="verdict-title">Verdict: Build a simple booking widget. Medium effort, high revenue impact.</div>
+      <p>At 100 guests/month and a 10% lift in rebooking (from 20% to 30%), that's 10 additional rebookings/month × $2,400 avg booking = $24,000/month in secured future revenue. The widget pays for itself in week one.</p>
+    </div>
+  </div>
+
+  <h3>What NOT to Build</h3>
+  <div class="card accent">
+    <div class="card-title">Tools That Are Tempting but Not Worth It (Yet)</div>
+    <p><strong>A custom guest app.</strong> At 34 units with $800+ ADR, your guests want less screen time, not more. Akia SMS handles communication perfectly. A native app adds maintenance burden, app store complexity, and download friction — for a 2–3 night stay. Wait until 100+ units across multiple properties.</p>
+    <p><strong>IoT room automation platform.</strong> Smart locks, automated lighting scenes, and connected thermostats are compelling. But they add massive maintenance complexity on a mountaintop. The current manual approach (staff sets temperature, lights on before arrival) works at 34 units. Revisit at 50+ units when the labor savings justify the tech debt.</p>
+    <p><strong>A custom CRM to replace HubSpot.</strong> HubSpot's problems are configuration problems, not platform problems. A 2-week cleanup sprint is infinitely cheaper than building or migrating to a custom solution. HubSpot scales well beyond 50 units and has the automation capabilities you need for Moments 0 and 9.</p>
+  </div>
+
+  <h3>Priority Stack: What to Do When</h3>
+  <table>
+    <thead>
+      <tr>
+        <th class="red-head">Priority</th>
+        <th class="red-head">Action</th>
+        <th class="red-head">Effort</th>
+        <th class="red-head">Impact</th>
+        <th class="red-head">Timeline</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>Fix PMS → HubSpot sync (add retry + alerts)</td>
+        <td>1 week dev</td>
+        <td>De-risks entire data pipeline</td>
+        <td>Immediately</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>HubSpot pipeline cleanup sprint</td>
+        <td>2 weeks, 1 person</td>
+        <td>Unlocks Moments 0 + 9 revenue</td>
+        <td>Weeks 1–2</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>Villa Readiness checklist in ClickUp</td>
+        <td>2 hours config</td>
+        <td>Accountability for Moment 3</td>
+        <td>This week</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Arrival Intelligence Dashboard (tablet)</td>
+        <td>1–2 days dev</td>
+        <td>Perfect info for every arrival</td>
+        <td>Weeks 2–3</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>Rebooking widget for Happy Hour</td>
+        <td>3–5 days dev</td>
+        <td>$24K+/month revenue lift</td>
+        <td>Weeks 3–4</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td>Restructure SOPs by Moment (Guru/Guidde)</td>
+        <td>1 week editorial</td>
+        <td>Training aligned to journey</td>
+        <td>Month 2</td>
+      </tr>
+      <tr>
+        <td><strong>7</strong></td>
+        <td>Expand Audit Scorecard to 150 points (add MOTs 0+9)</td>
+        <td>1 day design</td>
+        <td>Full lifecycle governance</td>
+        <td>Month 2</td>
+      </tr>
+      <tr>
+        <td><strong>8</strong></td>
+        <td>Optii photo-verified checklist deployment</td>
+        <td>1 week config + training</td>
+        <td>Visual proof of villa readiness</td>
+        <td>Month 2–3</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- CLOSING -->
+<div class="part">
+  <div class="part-label">Closing</div>
+  <h2>The One-Line Summary</h2>
+
+  <div class="exec-summary" style="margin-top: 16px;">
+    <p style="font-size: 18px; font-weight: 600; text-align: center; color: white; margin: 0;">
+      Stop organizing by department. Organize by moment.<br>
+      Every person, process, and tool exists to serve one question:<br>
+      <em style="color: #c8dbb0; font-size: 20px;">"Did the guest feel what they were supposed to feel?"</em>
+    </p>
+  </div>
+
+  <p style="margin-top: 24px;">The 10 Moments of Truth aren't just an audit framework — they're the operating system. When the arrival host knows the guest's name because the PMS synced correctly, when the villa smells like cedar because the inspection checklist was completed, when the post-stay review request lands at exactly T+24h because the automation pipeline is clean — that's when $800/night feels like a bargain.</p>
+
+  <p>The technology you need is mostly already in place. The structural shift is organizational: three Journey Owners instead of department heads, a 150-point scorecard instead of 120, and the discipline to ask "which moment does this serve?" before adding any new process, tool, or hire.</p>
+
+  <p style="color: #999; font-size: 13px; margin-top: 32px; text-align: center; border-top: 1px solid var(--border); padding-top: 16px;">
+    BOLT FARM Treehouse &bull; Journey-First Operating Model &bull; Prepared March 2026<br>
+    Builds on: Operations Process Analysis v1, 8 Moments of Truth Protocol, Guest Experience Audit Scorecard, Guest Experience Playbook v1.3
+  </p>
+</div>
+
+</div>
+</body>
+</html>

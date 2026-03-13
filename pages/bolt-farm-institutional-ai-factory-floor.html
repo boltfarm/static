@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLT FARM 2.0 — Institutional AI Factory Floor Redesign</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg: #0d0d0d;
+    --bg2: #161616;
+    --bg3: #1e1e1e;
+    --text: #e8e6e1;
+    --text2: #a8a5a0;
+    --accent: #7cb342;
+    --accent-dim: rgba(124,179,66,0.15);
+    --gold: #d4a017;
+    --gold-dim: rgba(212,160,23,0.15);
+    --red: #e53935;
+    --red-dim: rgba(229,57,53,0.12);
+    --blue: #42a5f5;
+    --blue-dim: rgba(66,165,245,0.12);
+    --purple: #ab47bc;
+    --purple-dim: rgba(171,71,188,0.12);
+    --border: #2a2a2a;
+    --border-light: #333;
+    --card: #1a1a1a;
+    --shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+
+  .container { max-width: 980px; margin: 0 auto; padding: 48px 32px; }
+
+  /* HEADER */
+  .hero {
+    text-align: center;
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-radius: 2px;
+  }
+  .hero .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #e8e6e1, #a8a5a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .hero .tagline {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .hero .sub {
+    font-size: 14px;
+    color: var(--text2);
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .hero .meta {
+    font-size: 12px;
+    color: #555;
+    margin-top: 20px;
+  }
+
+  /* MANIFESTO */
+  .manifesto {
+    background: linear-gradient(135deg, #1a2e10, #0d1a08);
+    border: 1px solid rgba(124,179,66,0.25);
+    border-radius: 16px;
+    padding: 36px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .manifesto::after {
+    content: '';
+    position: absolute;
+    top: -50%; right: -30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(124,179,66,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .manifesto h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    padding: 0;
+  }
+  .manifesto p {
+    font-size: 15px;
+    color: rgba(232,230,225,0.88);
+    margin-bottom: 14px;
+    line-height: 1.8;
+  }
+  .manifesto .highlight {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid rgba(124,179,66,0.2);
+    border-bottom: 1px solid rgba(124,179,66,0.2);
+    margin: 20px 0;
+  }
+
+  /* SECTIONS */
+  .section { margin-bottom: 56px; }
+  .section-label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+  .section-label.green { background: var(--accent-dim); color: var(--accent); }
+  .section-label.gold { background: var(--gold-dim); color: var(--gold); }
+  .section-label.blue { background: var(--blue-dim); color: var(--blue); }
+  .section-label.red { background: var(--red-dim); color: var(--red); }
+  .section-label.purple { background: var(--purple-dim); color: var(--purple); }
+
+  h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.25;
+  }
+  .section-intro {
+    font-size: 15px;
+    color: var(--text2);
+    margin-bottom: 28px;
+    font-style: italic;
+    border-left: 3px solid var(--border-light);
+    padding-left: 16px;
+  }
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 32px 0 12px;
+  }
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+  p { margin-bottom: 14px; }
+  strong { color: var(--text); }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+  }
+  .card.glow-green { border-left: 3px solid var(--accent); }
+  .card.glow-gold { border-left: 3px solid var(--gold); }
+  .card.glow-blue { border-left: 3px solid var(--blue); }
+  .card.glow-red { border-left: 3px solid var(--red); }
+  .card.glow-purple { border-left: 3px solid var(--purple); }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .card-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  /* PILLAR GRID */
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .pillar {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+  .pillar .pillar-num {
+    position: absolute;
+    top: 12px; right: 16px;
+    font-size: 32px;
+    font-weight: 900;
+    color: rgba(124,179,66,0.12);
+    line-height: 1;
+  }
+  .pillar .pillar-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pillar .pillar-before {
+    font-size: 12px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .pillar .pillar-after {
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .pillar p { font-size: 13px; color: var(--text2); margin: 0; line-height: 1.6; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13.5px;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  thead th {
+    background: var(--bg3);
+    color: var(--accent);
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text2);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--bg3); }
+
+  /* FLOW */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0 16px;
+  }
+  .flow-step {
+    background: var(--accent-dim);
+    color: var(--accent);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .flow-step.gold { background: var(--gold-dim); color: var(--gold); }
+  .flow-step.blue { background: var(--blue-dim); color: var(--blue); }
+  .flow-step.red { background: var(--red-dim); color: var(--red); }
+  .flow-step.purple { background: var(--purple-dim); color: var(--purple); }
+  .flow-arrow { color: #444; font-size: 14px; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .badge.ai { background: var(--accent-dim); color: var(--accent); }
+  .badge.human { background: var(--gold-dim); color: var(--gold); }
+  .badge.hybrid { background: var(--blue-dim); color: var(--blue); }
+  .badge.kill { background: var(--red-dim); color: var(--red); }
+
+  /* VERDICT */
+  .verdict-box {
+    background: linear-gradient(135deg, rgba(212,160,23,0.08), rgba(124,179,66,0.08));
+    border: 1px solid rgba(212,160,23,0.25);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .verdict-box .vb-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--bg3);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: var(--text2);
+  }
+  .callout strong { color: var(--gold); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+    margin: 56px 0;
+  }
+
+  /* COMPARISON */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .compare-box {
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .compare-box.before {
+    background: var(--red-dim);
+    border: 1px solid rgba(229,57,53,0.2);
+  }
+  .compare-box.after {
+    background: var(--accent-dim);
+    border: 1px solid rgba(124,179,66,0.2);
+  }
+  .compare-box .compare-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .compare-box.before .compare-label { color: var(--red); }
+  .compare-box.after .compare-label { color: var(--accent); }
+  .compare-box p { font-size: 13px; margin-bottom: 6px; color: var(--text2); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .pillar-grid, .compare-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 26px; }
+    h2 { font-size: 22px; }
+  }
+
+  @media print {
+    body { background: white; color: #1a1a1a; }
+    .card { border: 1px solid #ddd; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">BOLT FARM 2.0 &mdash; The Factory Floor Redesign</div>
+  <h1>Institutional AI for<br>Luxury Hospitality</h1>
+  <div class="tagline">"AI runs the logistics. Humans run the love."</div>
+  <div class="sub">You swapped the motor in 2025. This is the ground-up rebuild of the assembly line — the 1920 moment for Bolt Farm Treehouse.</div>
+  <div class="meta">Prepared for Seth Bolt &bull; March 2026 &bull; Builds on Journey-First Operating Model v1</div>
+</div>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <h2>The Textile Mill Problem</h2>
+  <p>Bolt Farm today has AI tools scattered across the operation: ChatGPT for content, HubSpot automations for email, Akia for guest SMS, AI-assisted SOPs. Each team member is individually more productive. Yet the operation still feels chaotic — things slip through cracks, communication is noisy, accountability is soft, and the team spends more time on logistics than on the human moments that justify $800/night.</p>
+  <p>This is exactly the 1900 textile mill. You've electrified individual machines but haven't redesigned the floor. The staff is rowing faster, but not in the same direction. Every employee has their own AI habits, their own outputs, their own information silo. There's no institutional brain connecting the work.</p>
+  <p>What follows is the redesign. Not "add more AI tools." Instead: one omniscient operational intelligence layer that coordinates every person, every task, every moment — and does so <em>unprompted</em>, before anyone thinks to ask.</p>
+  <div class="highlight">"AI runs the logistics. Humans run the love."</div>
+</div>
+
+<!-- SEVEN PILLARS APPLIED TO BOLT FARM -->
+<div class="section">
+  <div class="section-label green">Foundation</div>
+  <h2>The Seven Pillars Applied to Bolt Farm</h2>
+  <p class="section-intro">The article identifies 7 dimensions where institutional AI diverges from individual AI. Here's what each means for a 34-unit luxury mountaintop retreat scaling to multi-site.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar">
+      <div class="pillar-num">1</div>
+      <div class="pillar-title">Coordination</div>
+      <div class="pillar-before">Today: Each employee checks Slack, ClickUp, Akia, radio &mdash; 4 channels, own rhythm</div>
+      <div class="pillar-after">Tomorrow: One AI brain sequences every task across every role in real time</div>
+      <p>The villa "Wow" requires 4 teams in sequence. Today they coordinate via radio and hope. Institutional AI dispatches the chain automatically: HK finishes → Maintenance confirms → Dream Weaver places personalization → Host gets "Villa Ready" push notification. No radio needed. No one forgotten.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">2</div>
+      <div class="pillar-title">Signal</div>
+      <div class="pillar-before">Today: 200+ ClickUp tasks, Slack noise, email threads &mdash; staff context-switch constantly</div>
+      <div class="pillar-after">Tomorrow: Each employee sees exactly one thing: their next action, right now</div>
+      <p>The arrival host doesn't need to check a dashboard. The AI tells them: "The Johnsons arrive in 12 minutes. Villa: Canopy Oak. Anniversary. Golf cart. Champagne pre-placed. Go to parking position." Pure signal. Zero noise.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">3</div>
+      <div class="pillar-title">Bias / Objectivity</div>
+      <div class="pillar-before">Today: Audit scorecard is subjective weekly walkthrough &mdash; leadership sees what they expect</div>
+      <div class="pillar-after">Tomorrow: AI auditor scores every moment, every day, with photographic evidence</div>
+      <p>The institutional AI doesn't agree with your assessment that "arrival was good today." It shows you: greeting was 22 seconds late on 2 of 6 arrivals, one villa was 3°F above target, and one guest had no welcome beverage. Objectivity at scale.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">4</div>
+      <div class="pillar-title">Edge</div>
+      <div class="pillar-before">Today: Generic ChatGPT/Claude for drafting &mdash; no domain-specific intelligence</div>
+      <div class="pillar-after">Tomorrow: Purpose-built agents that know Bolt Farm's 10 MOTs, scent profiles, timing standards</div>
+      <p>A generic AI doesn't know that the door-opening ritual requires a 10–20 second pause, or that the villa must smell like cedar not lavender, or that "Checking in?" is forbidden vocabulary. Bolt Farm's institutional AI knows all of this because it's trained on your playbooks, your scorecard, and your brand bible.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">5</div>
+      <div class="pillar-title">Outcomes</div>
+      <div class="pillar-before">Today: AI saves time (faster email, faster SOPs)</div>
+      <div class="pillar-after">Tomorrow: AI scales revenue (higher upsell, rebook, CLV)</div>
+      <p>Individual AI helps staff write a follow-up email faster. Institutional AI identifies which guest is most likely to rebook, triggers the optimal offer at the optimal moment (Happy Hour, day 2, after spa), and measures the conversion. Time-saving is a byproduct. Revenue is the goal.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">6</div>
+      <div class="pillar-title">Enablement</div>
+      <div class="pillar-before">Today: New hires study SOP binders for a week, shadow for another week</div>
+      <div class="pillar-after">Tomorrow: AI co-pilots new hires from day 1 &mdash; tells them exactly what to do, when</div>
+      <p>A new arrival host doesn't need to memorize 20 pages of MOT #1 protocol. Their earpiece or phone tells them: "Guest is exiting vehicle. Walk forward. Smile. Say: Welcome to Bolt Farm, you must be Sarah." The SOP is embedded in the real-time instruction. Training time collapses from 2 weeks to 2 days.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">7</div>
+      <div class="pillar-title">Unprompted</div>
+      <div class="pillar-before">Today: Problems are discovered when guests complain or staff remembers to check</div>
+      <div class="pillar-after">Tomorrow: AI flags problems before they become guest experiences</div>
+      <p>Nobody asked the AI to check the hot tub temperature in Canopy Oak. But the IoT sensor shows 96°F (target: 102°F), and the AI dispatches maintenance 90 minutes before the guest's likely evening soak — based on their pattern from last night. The guest never knows a problem existed.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 1: HOTEL OPERATIONS ========== -->
+<div class="section">
+  <div class="section-label gold">Part 1</div>
+  <h2>Redesigning the Factory Floor: Hotel Operations</h2>
+  <p class="section-intro">The property, the staff, onboarding, maintenance, housekeeping, communication, scheduling, accountability — every operational function, rewired through one institutional brain.</p>
+
+  <h3>The Central Nervous System: "BOLT Brain"</h3>
+  <p>Everything that follows depends on one architectural decision: <strong>a single AI orchestration layer</strong> that sits on top of your existing tools (PMS, HubSpot, ClickUp, Akia, Optii, Slack) and functions as the institutional brain. It doesn't replace those tools — it reads from all of them, reasons across them, and pushes pure-signal instructions to the right person at the right time.</p>
+
+  <div class="card glow-green">
+    <div class="card-title">What BOLT Brain Does</div>
+    <div class="card-sub">One omniscient layer. Every employee gets pure signal for their next move.</div>
+
+    <table>
+      <thead>
+        <tr><th>Function</th><th>Today (Manual/Fragmented)</th><th>BOLT Brain (Institutional AI)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Task Dispatch</strong></td>
+          <td>ClickUp tasks assigned manually, checked intermittently</td>
+          <td>AI sequences tasks across roles in real time. "HK done → Maintenance go → DW go → Host go." Each person gets a push notification when it's their turn — not before.</td>
+        </tr>
+        <tr>
+          <td><strong>Arrival Prep</strong></td>
+          <td>Printed sheet, may be stale if last-minute changes</td>
+          <td>Live arrival intelligence pushed to host's device 15 min before ETA. Includes name pronunciation, occasion, package, allergies, cart assignment, and any alerts from the pre-arrival quiz.</td>
+        </tr>
+        <tr>
+          <td><strong>Villa Readiness</strong></td>
+          <td>HK cleans, hopes maintenance and DW follow through</td>
+          <td>AI tracks the full chain: HK check-in → Photo verification (Optii) → Maintenance sign-off → DW personalization placed → Temperature/lighting confirmed via IoT → "Villa Ready" status triggers host notification. Any break in the chain = immediate escalation.</td>
+        </tr>
+        <tr>
+          <td><strong>Issue Detection</strong></td>
+          <td>Guest reports problem → staff scrambles to fix</td>
+          <td><span class="badge ai">Unprompted</span> AI monitors IoT sensors (temp, hot tub, lighting), weather data (adjust fire pit prep), PMS changes (late arrival → re-sequence villa prep), and guest sentiment (Akia message tone analysis). Problems flagged and dispatched before the guest knows.</td>
+        </tr>
+        <tr>
+          <td><strong>Communication</strong></td>
+          <td>Radio for urgent, Slack for culture, ClickUp for tasks — staff checks 3+ channels</td>
+          <td>Staff checks one thing: their BOLT Brain feed. It aggregates everything relevant to <em>them</em> right now. Radio remains for true emergencies only. Slack remains for culture. But operational signal flows through one channel.</td>
+        </tr>
+        <tr>
+          <td><strong>Daily Rhythm</strong></td>
+          <td>Morning huddle, printed briefing, hope for the best</td>
+          <td>AI generates each employee's personalized "day card" at shift start: today's arrivals they'll interact with, today's departures, today's special alerts, today's tasks in sequence. Updated in real time if anything changes.</td>
+        </tr>
+        <tr>
+          <td><strong>Accountability</strong></td>
+          <td>Weekly walkthrough scorecard, after-the-fact</td>
+          <td>Every task has a timestamp, a completion record, and a photo where applicable. The AI generates a daily "Moment Score" — how well each MOT was executed based on timing data, completion data, and guest feedback. Weekly walkthrough validates but doesn't discover.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Staff Operating Model: The "Single Pane of Glass"</h3>
+
+  <div class="compare-grid">
+    <div class="compare-box before">
+      <div class="compare-label">Today: The Chaos</div>
+      <p>Host arrives at shift. Checks ClickUp for tasks. Checks Slack for messages. Checks printed arrival sheet. Radios HK to ask if Canopy Oak is ready. Radios maintenance about the hot tub. Walks to parking lot. Realizes arrival sheet was wrong — guest has a different villa. Scrambles.</p>
+      <p>Every employee is a human router, manually stitching together information from 4+ sources. Cognitive load is enormous. Things slip through cracks not because people are incompetent, but because the system makes it impossible not to drop things.</p>
+    </div>
+    <div class="compare-box after">
+      <div class="compare-label">Tomorrow: Pure Signal</div>
+      <p>Host arrives at shift. Opens BOLT Brain on their phone. Sees: "3 arrivals today. First: The Johnsons, 2:15 PM, Canopy Oak, Anniversary, Premium Package, golf cart. Villa status: Ready ✓. Next action: Be at parking position by 2:05 PM."</p>
+      <p>At 2:00 PM, their phone buzzes: "Johnsons are 15 minutes out (GPS estimate via Akia check-in). Canopy Oak confirmed ready. Champagne placed. Cart #7 cleaned and charged. Move to position."</p>
+      <p>The host's entire job becomes: be present, be warm, deliver the moment. The AI handled everything else.</p>
+    </div>
+  </div>
+
+  <h3>Onboarding: From 2 Weeks to 2 Days</h3>
+
+  <div class="card glow-blue">
+    <div class="card-title">AI-Powered Onboarding</div>
+    <div class="card-sub">The SOP is embedded in the real-time instruction. New hires don't study the playbook — they live it.</div>
+
+    <p>Today, onboarding a new host means: read the 20-page MOT protocols, shadow a senior host for a week, practice scripts, take a quiz, then go live — and still fumble for the first month because reading a protocol and executing it under pressure are completely different skills.</p>
+
+    <p><strong>The institutional AI approach:</strong></p>
+    <p><strong>Day 1 — Guided Execution:</strong> New hire wears an earpiece or follows phone prompts. The AI walks them through every step in real time: "Guest car spotted. Walk toward parking position. Remember: smile before they open the door. Their name is Sarah. Say: 'Welcome to Bolt Farm, you must be Sarah.'" After each arrival, the AI provides instant feedback: "Greeting was at 8 seconds — within standard. You forgot to offer water. Next time, offer it after luggage is handled."</p>
+    <p><strong>Day 2 — Supervised Solo:</strong> AI still provides prompts but only for steps the hire missed on Day 1. Senior host monitors remotely via BOLT Brain and intervenes only if needed.</p>
+    <p><strong>Day 3+ — Independent with Safety Net:</strong> AI operates in background mode — only speaks up if timing standards are missed, a step is skipped, or an alert requires attention. The hire is now competent at the mechanical execution. Their growth edge is now emotional presence, personality, and the human art of hosting — exactly what you want them focused on.</p>
+
+    <div class="verdict-box">
+      <div class="vb-title">Scaling Impact</div>
+      <p>When you open Location #2, you don't need to fly your best host from Whitwell to train the new team for a month. You clone the institutional AI. The new team gets Day 1 guided execution at the same quality as your best performer. The playbook doesn't degrade in transmission because it's not transmitted through humans — it's embedded in the system.</p>
+    </div>
+  </div>
+
+  <h3>Maintenance & Property: Predictive, Not Reactive</h3>
+
+  <div class="card glow-gold">
+    <div class="card-title">Unprompted Property Intelligence</div>
+    <p><strong>Today:</strong> Hot tub breaks → guest complains → staff scrambles → 45-minute fix during what should have been a romantic evening.</p>
+    <p><strong>Tomorrow:</strong> IoT sensors report hot tub heater drawing 15% more power than baseline (early failure indicator). BOLT Brain dispatches maintenance to inspect at 10 AM — 8 hours before the guest's likely evening use. Part is replaced. Guest never knows.</p>
+    <p>Extend this to every system on property: HVAC cycling patterns predict compressor failure. Water usage anomalies flag leaks. Lighting circuits drawing irregular loads get preemptive inspection. Weather forecast shows 28°F tonight — AI auto-dispatches fire pit prep and pipe insulation checks for all occupied villas.</p>
+    <p>This isn't futuristic IoT fantasy. It's basic sensor data + pattern recognition + automated work orders. The sensors cost $20-50 each. The AI layer costs nothing incremental if you're already running BOLT Brain. The ROI is: zero guest-facing maintenance failures per month.</p>
+  </div>
+
+  <h3>Scheduling & Labor: AI-Optimized Deployment</h3>
+
+  <div class="card glow-green">
+    <div class="card-title">Dynamic Staffing by Moment Density</div>
+    <p>Today you staff by shift. Tomorrow you staff by <em>moment density</em>.</p>
+    <p>The AI knows: Tuesday has 6 arrivals (heavy Moments 1-3 load) but only 2 departures. It schedules 3 hosts for the 2-6 PM arrival window and only 1 for morning departure flow. Wednesday has 8 departures and 2 arrivals — inverse the ratio.</p>
+    <p>For spa: The AI sees that Tuesday guests are 80% Anniversary couples (high spa propensity). It proactively schedules an extra therapist and pre-sends spa upsell messages at booking+24h for these guests. Thursday guests are more adventure-oriented (from quiz data) — scale back spa, ensure Wellness Haven modules are fully prepped.</p>
+    <p>This is demand-responsive labor deployment. You don't need more staff — you need the right staff in the right place at the right time, and only an institutional AI can coordinate this across 34 (and eventually 50+) units with dozens of variables per guest.</p>
+  </div>
+
+  <h3>The Accountability Layer: Every Task Has a Timestamp</h3>
+
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Today</th><th>With BOLT Brain</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Greeting timing (MOT #1)</td><td>Estimated during weekly walkthrough</td><td>Exact seconds, every arrival, auto-logged</td></tr>
+      <tr><td>Villa readiness chain</td><td>"I think it was done on time"</td><td>HK: 1:12 PM ✓ → Maint: 1:28 PM ✓ → DW: 1:45 PM ✓ → Host notified: 1:46 PM</td></tr>
+      <tr><td>Hot tub temperature</td><td>Checked if someone remembers</td><td>Continuous IoT monitoring, alert if ±2°F from target</td></tr>
+      <tr><td>Post-stay review request</td><td>"We send it… I think"</td><td>Sent at T+24h 00:00 for 100% of departures, delivery confirmed, response rate tracked</td></tr>
+      <tr><td>Upsell attachment rate</td><td>Unknown — data in multiple systems</td><td>40.2% this week (target: 40%). Romance Bundle: 62% take-rate. Wellness Bundle: 18% — investigate.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>The key insight:</strong> Accountability doesn't mean surveillance. It means the system catches dropped balls before they become guest experiences. When the Dream Weaver forgets to place the anniversary champagne, the AI flags it 30 minutes before arrival — not after the guest asks where it is. The staff member isn't punished; the moment is saved.
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 2: TRANSFORMATIONAL EXPERIENCE ========== -->
+<div class="section">
+  <div class="section-label gold">Part 2</div>
+  <h2>Redesigning the Factory Floor: The Transformational Couples Experience</h2>
+  <p class="section-intro">How institutional AI makes the product itself — the couples renewal — so extraordinary that it provides massive intrinsic value: saving marriages, reconnecting humans in the age of disconnection.</p>
+
+  <p>Part 1 freed the humans from logistics. Part 2 is what they do with that freedom. This is where Bolt Farm stops being a hotel and becomes a <strong>transformation engine</strong>.</p>
+
+  <h3>The Shift: From "Nice Hotel" to "Life-Changing Experience"</h3>
+
+  <div class="compare-grid">
+    <div class="compare-box before">
+      <div class="compare-label">What $800/Night Hotels Sell</div>
+      <p>Beautiful room. Good food. Nice spa. Friendly staff. Pretty views. Instagram moments.</p>
+      <p>Every luxury hotel sells this. Aman, Four Seasons, 1 Hotel — they all deliver this competently. You can't out-amenity them.</p>
+    </div>
+    <div class="compare-box after">
+      <div class="compare-label">What Bolt Farm 2.0 Sells</div>
+      <p>You arrived as two people who love each other but had forgotten how to show it. You leave as two people who remember why they chose each other — and have tools to keep choosing each other.</p>
+      <p>No hotel does this. No resort does this. Bolt Farm doesn't sell rooms. It sells <strong>the conversation you finally had on the deck at sunset.</strong></p>
+    </div>
+  </div>
+
+  <p>Here's where institutional AI becomes genuinely revolutionary: it makes this transformation <em>consistent, scalable, and personalized</em> without requiring a therapist on staff or a rigid "couples retreat" program that feels clinical. The AI orchestrates conditions for transformation while the humans deliver the warmth.</p>
+
+  <h3>The Transformation Architecture</h3>
+
+  <div class="card glow-purple">
+    <div class="card-title">Layer 1: Deep Personalization Intelligence</div>
+    <div class="card-sub">Know the couple better than they know themselves — before they arrive.</div>
+
+    <p>Today's pre-arrival quiz captures occasion, food preferences, and special requests. That's hotel-grade intelligence. Transformation-grade intelligence goes deeper:</p>
+
+    <h4>The "Reconnection Profile"</h4>
+    <p>An elegantly designed pre-arrival experience (not a "survey" — a <em>ritual</em>) that surfaces:</p>
+    <p><strong>Relationship Stage Signals:</strong> Are they celebrating a milestone (positive energy, amplify joy)? Are they reconnecting after a hard season (gentle energy, create safety)? Are they discovering each other again after years of autopilot (playfulness, curiosity)? The AI infers this from quiz responses, booking patterns (first-time vs. repeat), occasion notes, and even the language they use in communications.</p>
+    <p><strong>Connection Style:</strong> Are they talkers (design moments for conversation)? Are they activity-oriented (design shared challenges)? Are they parallel-rechargers (design beautiful shared silence)? The AI tailors the experience arc to their style.</p>
+    <p><strong>Transformation Readiness:</strong> Some couples arrive ready for depth. Others need two days of decompression before they can even be present with each other. The AI adjusts pacing accordingly — more spa and solitude on Day 1 for the wound-tight couple, earlier access to shared experiences for the ready-to-engage couple.</p>
+
+    <div class="verdict-box">
+      <div class="vb-title">How this works operationally</div>
+      <p>The pre-arrival "Reconnection Profile" feeds into BOLT Brain. Every staff interaction, every automated touchpoint, every Dream Weaver surprise is inflected by this intelligence. The host who escorts them to the villa doesn't just know "anniversary" — they know this is a couple that reconnects through humor, who've been through a tough year, and who will respond to playfulness more than formality. The host can be genuinely human — the AI just gave them the context to be the <em>right kind</em> of human.</p>
+    </div>
+  </div>
+
+  <div class="card glow-gold">
+    <div class="card-title">Layer 2: The Choreographed Emotional Arc</div>
+    <div class="card-sub">Every couple experiences a designed narrative — unique to them, but always moving toward reconnection.</div>
+
+    <h4>The 4-Act Structure</h4>
+    <table>
+      <thead>
+        <tr><th>Act</th><th>Timing</th><th>Emotional Job</th><th>AI Orchestration</th><th>Human Delivery</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Act 1: Arrival</strong></td>
+          <td>Day 0, first 3 hours</td>
+          <td>Release &amp; exhale — permission to stop performing</td>
+          <td>AI ensures zero friction, perfect villa, personalized welcome. Paces the arrival to prevent overwhelm. Sends no messages for first 2 hours — let them breathe.</td>
+          <td>Host delivers calm warmth. Dream Weaver's handwritten note acknowledges their specific reason for being here. Villa feels like it was designed for them.</td>
+        </tr>
+        <tr>
+          <td><strong>Act 2: Softening</strong></td>
+          <td>Day 1</td>
+          <td>Dissolve the armor — create safety for vulnerability</td>
+          <td>AI schedules spa (the great equalizer — both partners are physically relaxed), sends gentle Akia prompts ("The sunset from your deck tonight will be at 7:12 PM. We left a blanket and wine for you."). Adjusts cadence based on couple profile — more structure for the anxious couple, more space for the already-relaxed one.</td>
+          <td>Staff interactions are warm but minimal. The forest walk is available but unpushed. The couples journal appears on the coffee table. No pressure. No agenda. Just: here's a beautiful space to be with each other.</td>
+        </tr>
+        <tr>
+          <td><strong>Act 3: Connection</strong></td>
+          <td>Day 2</td>
+          <td>Create the conditions for the real conversation</td>
+          <td>AI orchestrates the "catalyst moment" — timed for when the couple is most relaxed (based on their movement patterns, spa timing, and communication tone in Akia). This could be: Couples Gratitude Cue at sunset, a surprise setup (dinner on their private deck with a curated playlist), or an experience module (Stargazer Session with conversation prompts).</td>
+          <td>Dream Weaver delivers the surprise. Staff disappears. The couple has 3 uninterrupted hours in a setting so beautiful and intentional that conversation flows naturally. This is the night they finally talk about the thing they've been avoiding. Or the night they laugh together for the first time in months. Or the night they just sit in silence, holding hands, watching stars — and that's enough.</td>
+        </tr>
+        <tr>
+          <td><strong>Act 4: Anchoring</strong></td>
+          <td>Last morning</td>
+          <td>Embed the memory so it lasts beyond checkout</td>
+          <td>AI triggers the Memory Anchor sequence: Polaroid, gratitude card, departure gift. Post-stay sequence begins at T+24h. AI generates a personalized recap that references their specific experience (not generic). Anniversary reminder set for T+365d.</td>
+          <td>Farewell is personal. Staff references something specific: "I hope the stargazing session was everything you wanted." The couple feels seen. They leave knowing this wasn't a hotel — it was a turning point.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card glow-green">
+    <div class="card-title">Layer 3: Micro-Moments of Surprise & Delight</div>
+    <div class="card-sub">AI-orchestrated, human-delivered surprises that feel spontaneous but are strategically placed.</div>
+
+    <p>The genius of institutional AI for surprise and delight: it can track what's already been delivered and ensure the <em>pattern</em> never becomes predictable. Every couple gets a different constellation of micro-moments based on their profile, their pace, and what's already happened in their stay.</p>
+
+    <table>
+      <thead>
+        <tr><th>Micro-Moment</th><th>AI Orchestration</th><th>Human Delivery</th><th>Transformation Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>The Unsolicited Note</strong></td>
+          <td>AI drafts a note template based on couple profile + what Dream Weaver has observed. Suggests placement time.</td>
+          <td>Dream Weaver handwrites it. Places it where they'll find it "accidentally" — inside the journal, on the bathroom mirror, tucked in a robe pocket.</td>
+          <td>Creates the feeling of being truly known. Breaks the pattern of transactional hospitality.</td>
+        </tr>
+        <tr>
+          <td><strong>The Soundtrack Moment</strong></td>
+          <td>AI queues a curated playlist based on the couple's decade (wedding year → era-appropriate music). Triggers via villa smart speaker at sunset, Day 2.</td>
+          <td>None needed. The music just starts playing as they step onto the deck. They look at each other and say "That's our song."</td>
+          <td>Emotional time travel. Reconnects them to the version of themselves that fell in love.</td>
+        </tr>
+        <tr>
+          <td><strong>The "We Noticed" Surprise</strong></td>
+          <td>AI analyzes Dream Weaver observations + Akia messages + staff notes. Identifies something the couple mentioned in passing. Triggers fulfillment.</td>
+          <td>Dream Weaver executes. Guest mentioned they love Earl Grey → a premium loose-leaf tin appears in their room. Guest mentioned their dog → a framed photo of the mountain view with a note "For [dog name] — wish you were here."</td>
+          <td>Proves that luxury isn't about amenities — it's about being listened to.</td>
+        </tr>
+        <tr>
+          <td><strong>The Stargazer Invitation</strong></td>
+          <td>AI checks weather (clear skies required), moon phase (dark = better stars), couple availability (not during dinner), and couple profile (connection-ready). If all conditions met, triggers invitation via Akia 2 hours before optimal viewing.</td>
+          <td>Staff sets up telescope, hot cocoa, blankets, and a card with 3 conversation prompts designed for their relationship stage.</td>
+          <td>Shared wonder → shared vulnerability → reconnection. The conversation prompts are the stealth weapon — designed by the AI to match their profile, they feel like they were written for this exact couple.</td>
+        </tr>
+        <tr>
+          <td><strong>The Departure Truth</strong></td>
+          <td>AI compiles a brief "relationship reflections" page based on the couple's quiz answers, staff observations, and any journal responses they opted to share. Prints it in a sealed envelope.</td>
+          <td>Handed at departure with: "No need to open this now. Read it when you're home, together."</td>
+          <td>The transformation continues beyond checkout. The envelope becomes a sacred object — something they return to when everyday life crowds in again.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card glow-blue">
+    <div class="card-title">Layer 4: Post-Stay Transformation Continuity</div>
+    <div class="card-sub">The experience doesn't end at departure. The AI ensures the reconnection sticks.</div>
+
+    <p>This is where Bolt Farm transcends hospitality and enters the territory of genuine transformation. Most hotels send a "thanks for staying" email. Bolt Farm sends a <strong>reconnection cadence</strong>:</p>
+
+    <p><strong>T+24h:</strong> Thank-you SMS + review link. But the review prompt is different: "What moment at Bolt Farm brought you and [partner name] closest together?" This yields testimonials that sell transformation, not amenities.</p>
+
+    <p><strong>T+7d:</strong> AI-generated recap reel — not just photos, but a narrative: "You arrived on a Tuesday evening. By Thursday, you'd watched the sunset from your deck three times. Your therapist said you both laughed during the couples massage — that's rarer than you'd think." This isn't generic. It's their story.</p>
+
+    <p><strong>T+30d:</strong> A "Reconnection Check-In" — a gentle Akia message: "It's been a month since Bolt Farm. Have you had a date night this week? Here's an idea: recreate your deck sunset. All you need is a blanket and 20 minutes of no phones." This positions Bolt Farm as an ongoing relationship resource, not a one-time destination.</p>
+
+    <p><strong>T+90d:</strong> Personalized return offer tied to a "Reconnection Weekend" that builds on their first visit. The AI knows their profile and suggests a different season, a different module, a deeper experience. This isn't a discount — it's a next chapter.</p>
+
+    <p><strong>T+365d:</strong> Anniversary of their visit. "One year ago today, you watched the stars from Canopy Oak." Rebooking prompt with priority availability.</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ========== PART 3: UNBOUNDED INSIGHTS ========== -->
+<div class="section">
+  <div class="section-label purple">Part 3</div>
+  <h2>What Your Questions Missed: The Bigger Picture</h2>
+  <p class="section-intro">Insights beyond the prompt. Things that matter enormously that didn't fit neatly into "operations" or "experience."</p>
+
+  <h3>Insight 1: You're Not Building a Hotel Chain. You're Building a Relationship OS.</h3>
+
+  <div class="card glow-purple">
+    <p>The institutional AI you build for Bolt Farm isn't just an operations tool. It's a <strong>relationship intelligence platform</strong> — a system that understands how couples reconnect, what conditions create transformation, and how to sustain it over time.</p>
+    <p>That platform has value far beyond your 34 units in Whitwell. Consider: What if the post-stay "Reconnection Cadence" — the check-ins, the date-night prompts, the anniversary reminders — became a standalone product? A subscription relationship wellness service powered by the same AI, informed by the same transformation data, but accessible to people who can't visit Bolt Farm every month.</p>
+    <p><strong>"Bolt Farm Reconnection Circle"</strong> — a membership that includes quarterly virtual connection experiences, personalized relationship nudges, and priority access to on-site retreats. $49/month. 1,000 members = $588K annual recurring revenue with near-zero marginal cost because the AI is already built.</p>
+    <p>This turns Bolt Farm from a hospitality company into a <strong>relationship transformation brand</strong> with both physical (retreats) and digital (membership) revenue streams. The retreats are the premium product. The membership is the flywheel that keeps couples engaged between visits and guarantees rebooking demand.</p>
+  </div>
+
+  <h3>Insight 2: The Data Moat Is the Real Competitive Advantage</h3>
+
+  <div class="card glow-gold">
+    <p>Every couple that stays at Bolt Farm generates transformation data: what conditions led to reconnection, which modules produced the deepest experiences, which surprise-and-delight patterns generated the strongest emotional responses, which post-stay cadences drove rebooking.</p>
+    <p>Over 1,000 couples (achievable within 18 months at current occupancy), this becomes a <strong>proprietary dataset on couples reconnection</strong> that no competitor can replicate. Four Seasons has data on room preferences. Aman has data on luxury consumption patterns. Bolt Farm will have data on <em>what makes couples fall in love again</em>.</p>
+    <p>This data makes the AI smarter with every guest: better at predicting which couple needs the Stargazer Session vs. the Purpose Path, better at timing the catalyst moment, better at crafting post-stay cadences that convert. It's the institutional AI's edge — purpose-built, domain-specific, and improving with every stay.</p>
+    <p>When you open Location #2, this data travels with the AI. The new property benefits from 1,000+ couple profiles on day one. The experience is already optimized. This is the moat that makes Bolt Farm uncloneable.</p>
+  </div>
+
+  <h3>Insight 3: "AI Runs the Logistics; Humans Run the Love" Is Your Brand Positioning, Not Just an Operating Principle</h3>
+
+  <div class="card glow-green">
+    <p>Most luxury hotels are terrified of AI because their brand is "human touch." They see AI and hospitality as opposites. This fear is your opening.</p>
+    <p>Bolt Farm should be the first hospitality brand that <strong>publicly, proudly explains its AI philosophy</strong> as a differentiator. Not "we use AI" (cringe). But: "Every operational detail at Bolt Farm is managed by an intelligent system so that our people never think about logistics. When your host greets you by name, they're not reading a clipboard — they're genuinely present with you because everything else is handled."</p>
+    <p>This positions Bolt Farm as the antithesis of AI-replacing-humans. It's AI-liberating-humans. In an era where people feel increasingly dehumanized by technology, Bolt Farm becomes the place where technology exists solely to make the human connection deeper.</p>
+    <p>That's not a hotel feature. That's a cultural statement. And cultural statements build brands that scale to 10 locations without dilution.</p>
+  </div>
+
+  <h3>Insight 4: The "No-Men" Agents — Institutional Objectivity for Guest Experience Quality</h3>
+
+  <div class="card glow-red">
+    <p>The article's most provocative insight — that the most important AI agents will be "disciplined no-men" — is profoundly relevant for Bolt Farm. Here's why:</p>
+    <p>As you scale, the biggest risk isn't that your standards aren't written down (they're beautifully documented in the 8 MOTs). It's that <strong>standards drift in execution</strong> and nobody pushes back because the culture is warm and collegial. The arrival greeting gets lazy — 15 seconds instead of 5. The villa inspection skips the scent check because it's "usually fine." The admin check-in creeps from 2 minutes to 5 because the host is chatty.</p>
+    <p>No human on your team wants to be the person who tells a friendly, well-meaning host "that greeting was 10 seconds too slow." But the AI can — objectively, without ego, every single time. The <strong>AI Quality Auditor</strong> becomes the cultural enforcer that no human has the stomach to be consistently.</p>
+    <p>Weekly: BOLT Brain generates a "Standards Drift Report" — not to punish, but to reveal. "Average greeting time this week: 11.3 seconds (target: 5-10). This is a 2.1 second increase from last month. Trend: drifting." The team can't argue with timestamps. The conversation shifts from "I think we're doing great" to "the data says we're drifting, and here's exactly where."</p>
+  </div>
+
+  <h3>Insight 5: The Multi-Site Unlock — Clone the Brain, Not the People</h3>
+
+  <div class="card glow-blue">
+    <p>The article's conclusion about the 1890s mills resonates perfectly with your multi-site ambition. When Bolt Farm opens Location #2, the conventional approach would be: hire a great GM, send your best staff to train for 3 months, hope the culture transfers.</p>
+    <p>The institutional AI approach: <strong>clone BOLT Brain</strong>. The new location's staff get the same real-time guidance, the same standards enforcement, the same personalization intelligence, the same transformation architecture — from Day 1. They don't need to "learn the Bolt Farm way" through osmosis. The way is embedded in the system.</p>
+    <p>What you <em>do</em> send: 1-2 senior staff for 2 weeks to set the cultural tone — the warmth, the humor, the personality. Because that's the human part. The AI can't deliver warmth. But it can guarantee that every operational condition for warmth is perfectly set.</p>
+    <p>This is how you scale from 1 to 5 to 10 locations without quality degradation. The AI is the quality floor. The humans are the quality ceiling. And the ceiling keeps rising because the humans are never thinking about logistics.</p>
+  </div>
+
+  <h3>Insight 6: Bolt Farm as "The Anti-AI Retreat, Powered by AI"</h3>
+
+  <div class="card glow-purple">
+    <p>There's a profound irony available to you that nobody else in hospitality is positioned to claim. Your guests are HNW business owners, professionals, and executives who live inside screens, inside Slack, inside AI tools 14 hours a day. They come to Bolt Farm to <strong>disconnect</strong>.</p>
+    <p>The deepest version of "AI runs the logistics, humans run the love" is this: the guest <strong>never sees or interacts with any AI</strong>. No chatbot. No app. No "Hey Siri" smart speaker in the villa. The entire AI layer is invisible to the guest. They experience only: perfectly prepared spaces, hosts who know their name, surprises that feel telepathic, and an environment so seamlessly curated that they forget technology exists.</p>
+    <p>Behind the curtain, it's the most AI-dense hospitality operation on the planet. In front of the curtain, it's the most profoundly human place they've ever been.</p>
+    <p>That's not just an operating model. That's <strong>the most powerful positioning statement in luxury hospitality</strong>: "The place where technology disappears so you can finally be present."</p>
+  </div>
+
+  <h3>Insight 7: The Revenue Unlocks Nobody Asks About</h3>
+
+  <div class="card glow-gold">
+    <div class="card-title">What Institutional AI Makes Possible That Individual AI Can't</div>
+
+    <table>
+      <thead>
+        <tr><th>Revenue Stream</th><th>How BOLT Brain Enables It</th><th>Estimated Annual Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Dynamic Pricing by Couple Profile</strong></td>
+          <td>AI identifies that Anniversary couples have 2.3× the willingness-to-pay for add-ons compared to Birthday couples. Romance Bundle pricing adjusts dynamically. Premium Villa assignments are optimized by revenue potential, not first-come-first-served.</td>
+          <td>+$150K (8-12% ADR lift on optimized assignments)</td>
+        </tr>
+        <tr>
+          <td><strong>Predictive Rebooking</strong></td>
+          <td>AI identifies the 20% of guests most likely to rebook (based on engagement patterns, NPS pulse, spa uptake, and Akia sentiment). Targets the Happy Hour rebooking conversation specifically at these guests. Wastes no effort on the "one-and-done" bucket-listers.</td>
+          <td>+$200K (rebook rate from 20% → 32% on targetable segment)</td>
+        </tr>
+        <tr>
+          <td><strong>Referral Network Intelligence</strong></td>
+          <td>AI identifies guests whose post-stay social sharing generates the highest booking conversions. These guests get VIP Reconnection Circle membership and affiliate incentives calibrated to their influence. Not a generic "tell your friends" email — a targeted ambassador program.</td>
+          <td>+$180K (referral CLV optimization)</td>
+        </tr>
+        <tr>
+          <td><strong>Ancillary Revenue Optimization</strong></td>
+          <td>AI learns which add-ons convert for which couple profiles and adjusts the Dynamic Offer Flow in real time. Stops offering Wellness Bundles to couples who never buy them. Starts offering "Surprise Me" bundles ($499 — the AI picks everything) to high-trust couples.</td>
+          <td>+$120K (upsell take-rate from 40% → 52%)</td>
+        </tr>
+        <tr>
+          <td><strong>Reconnection Circle Membership</strong></td>
+          <td>AI manages the entire post-stay lifecycle — content, check-ins, reconnection prompts, rebooking nudges — at near-zero marginal cost per member.</td>
+          <td>+$300K-$600K (500-1000 members × $49/mo)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="verdict-box">
+      <div class="vb-title">Conservative Total Revenue Impact: $650K–$1.25M annually</div>
+      <p>This is incremental to your existing $8-10M topline. Most of it comes from optimizing what you already do (pricing, upsell, rebooking) rather than adding new products. The Reconnection Circle is the exception — and it's the one that scales independently of physical units.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ========== CLOSING ========== -->
+<div class="section">
+  <div class="section-label green">The Blueprint</div>
+  <h2>Building BOLT Brain: The Implementation Path</h2>
+
+  <table>
+    <thead>
+      <tr><th>Phase</th><th>Timeline</th><th>What Gets Built</th><th>Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Phase 0: Foundation</strong></td>
+        <td>Weeks 1-4</td>
+        <td>Fix PMS→HubSpot sync (event-driven, with retry). Clean HubSpot pipelines. Deploy Villa Readiness checklist in ClickUp. Build Arrival Intelligence Dashboard. This is the data plumbing that everything else depends on.</td>
+        <td>Reliable data flow. Zero silent failures. Moment 3 accountability.</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 1: Signal Layer</strong></td>
+        <td>Weeks 4-8</td>
+        <td>Build the BOLT Brain orchestration layer. Integrate PMS + HubSpot + ClickUp + Akia + Optii into a single read-layer. Build the "Day Card" — each employee's personalized task feed. Build the automated task-chain sequencing (HK done → Maint go → DW go → Host notified).</td>
+        <td>Staff goes from 4 channels to 1. Pure signal. Automated coordination.</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 2: Intelligence Layer</strong></td>
+        <td>Weeks 8-14</td>
+        <td>Deploy the Reconnection Profile quiz. Build the couple-profile-to-experience-arc mapping. Implement Dynamic Offer Flow powered by profile data. Build the Happy Hour rebooking widget. Deploy the daily Moment Score (automated audit).</td>
+        <td>Every guest experience is personalized. Revenue optimization begins. Daily accountability replaces weekly.</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 3: Unprompted Layer</strong></td>
+        <td>Weeks 14-20</td>
+        <td>IoT sensor deployment (hot tub, HVAC, lighting). Predictive maintenance algorithms. Weather-responsive prep automation. Sentiment analysis on guest communications. Standards Drift detection. Unprompted surprise-and-delight triggers.</td>
+        <td>BOLT Brain acts without being asked. Problems prevented, not solved. Guest experience feels telepathic.</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 4: Scale Prep</strong></td>
+        <td>Weeks 20-26</td>
+        <td>Codify BOLT Brain as a deployable package. Document the "Bolt Farm Operating System" — the combination of 10 MOTs + BOLT Brain + Journey Owner org structure. Build the Reconnection Circle membership platform. Prepare Location #2 playbook.</td>
+        <td>Bolt Farm is no longer a single-site hotel. It's a replicable transformation brand with a digital revenue stream.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- FINAL -->
+<div class="section" style="text-align: center; padding: 40px 0;">
+  <p style="font-size: 13px; color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;">The Summary</p>
+  <p style="font-size: 24px; font-weight: 300; color: var(--text); line-height: 1.5; max-width: 720px; margin: 0 auto 24px;">
+    The 1900 textile mill put an electric motor on a steam-powered loom.<br><br>
+    Bolt Farm today has AI tools bolted onto a human-powered operation.<br><br>
+    <span style="color: var(--gold); font-weight: 700;">BOLT FARM 2.0 is the ground-up redesign.</span><br><br>
+    One institutional brain. Ten moments of truth. Three journey owners.<br>
+    Every employee gets pure signal. Every guest gets transformation.<br>
+    AI runs the logistics. Humans run the love.<br><br>
+    <span style="color: var(--accent);">That's how you scale from 1 mountaintop to 10.</span>
+  </p>
+
+  <p style="color: #444; font-size: 12px; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 16px;">
+    BOLT FARM Treehouse &bull; Institutional AI Factory Floor Redesign &bull; March 2026<br>
+    Builds on: Journey-First Operating Model, 8 Moments of Truth, Guest Experience Playbook v1.3, Operations Process Analysis v1
+  </p>
+</div>
+
+</div>
+</body>
+</html>
