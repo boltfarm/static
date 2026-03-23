@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLT FARM Leadership Onboarding Stack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -1px;
+        }
+
+        header .subtitle {
+            font-size: 1.3rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Progress Tracker */
+        .progress-section {
+            background: white;
+            padding: 30px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .progress-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37 0%, #b8941f 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 60px;
+            z-index: 99;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+
+        nav a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+        }
+
+        nav a:hover {
+            color: #d4af37;
+            border-bottom-color: #d4af37;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 50px;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #d4af37;
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #1a1a1a;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #444;
+            font-size: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        /* Accordion/Collapsible Sections */
+        .accordion-item {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: #f9f9f9;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1a1a1a;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: #f0f0f0;
+        }
+
+        .accordion-header.active {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .accordion-toggle {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .accordion-header.active .accordion-toggle {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 25px 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .accordion-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Checklist Styles */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border-left: 4px solid #d4af37;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .checklist li:hover {
+            background: #f0f0f0;
+        }
+
+        .checklist li.completed {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .checklist li.completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #d4af37;
+        }
+
+        .task-text {
+            flex: 1;
+            color: #444;
+            font-size: 1rem;
+        }
+
+        /* Standards Grid */
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .standard-card {
+            background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+            padding: 25px;
+            border-radius: 6px;
+            border-left: 4px solid #d4af37;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .standard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .standard-number {
+            display: inline-block;
+            background: #d4af37;
+            color: #1a1a1a;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .standard-card h4 {
+            margin: 12px 0 10px 0;
+            color: #1a1a1a;
+        }
+
+        .standard-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* Decision Framework */
+        .filter-box {
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .filter-description {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .weight-badge {
+            display: inline-block;
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* Algorithm Steps */
+        .algorithm-steps {
+            counter-reset: step-counter;
+            list-style: none;
+        }
+
+        .algorithm-steps li {
+            counter-increment: step-counter;
+            padding: 20px;
+            margin: 15px 0;
+            background: white;
+            border-left: 4px solid #d4af37;
+            border-radius: 4px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .algorithm-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 12px;
+            top: 18px;
+            background: #d4af37;
+            color: #1a1a1a;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        th {
+            background: #1a1a1a;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tr:hover {
+            background: #f0f0f0;
+        }
+
+        /* Call-out Boxes */
+        .callout {
+            background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+            border-left: 4px solid #d4af37;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 25px 0;
+        }
+
+        .callout.important {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left-color: #e53935;
+        }
+
+        .callout.success {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left-color: #4caf50;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .callout p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Timeline/Phases */
+        .phase-container {
+            margin: 30px 0;
+        }
+
+        .phase {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .phase::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 30px;
+            width: 30px;
+            height: 30px;
+            background: #d4af37;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px #e0e0e0;
+        }
+
+        .phase h4 {
+            margin-top: 0;
+            color: #d4af37;
+        }
+
+        /* Button Styles */
+        button {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #d4af37;
+            color: #1a1a1a;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            color: #ccc;
+            margin: 5px 0;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: #1a1a1a;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            gap: 30px;
+        }
+
+        .toc li {
+            margin-bottom: 12px;
+        }
+
+        .toc a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 50px 25px;
+            }
+
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            section {
+                padding: 30px 20px;
+            }
+
+            .nav-container {
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            .standards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toc ul {
+                columns: 1;
+            }
+
+            .progress-section {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            header {
+                background: #1a1a1a;
+                color: white;
+                page-break-after: always;
+            }
+
+            nav, .progress-section {
+                display: none;
+            }
+
+            section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+                margin-bottom: 30px;
+            }
+
+            button {
+                display: none;
+            }
+
+            a {
+                color: #1a1a1a;
+            }
+        }
+
+        /* Utility Classes */
+        .gold-text {
+            color: #d4af37;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+            border-radius: 6px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>BOLT FARM</h1>
+        <div class="subtitle">Leadership Onboarding Stack</div>
+        <p>A complete onboarding system for new leaders at Bolt Farm Treehouse — where we pioneer transformational luxury retreats in Whitwell, Tennessee.</p>
+    </header>
+
+    <!-- Progress Tracker -->
+    <div class="progress-section">
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Onboarding Completion Progress</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#vision">Vision & Brand</a>
+            <a href="#standards">Team Standards</a>
+            <a href="#weekly">Weekly Rhythm</a>
+            <a href="#decision">Decision Frameworks</a>
+            <a href="#escalation">Escalation Rules</a>
+            <a href="#checklist">Onboarding Checklist</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Table of Contents -->
+        <section class="toc">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="#vision">Vision, Brand & Philosophy</a></li>
+                <li><a href="#standards">10 High-Performance Team Standards</a></li>
+                <li><a href="#weekly">Weekly Rhythm & Operations</a></li>
+                <li><a href="#decision">Decision-Making Frameworks</a></li>
+                <li><a href="#escalation">Escalation & Authority Rules</a></li>
+                <li><a href="#ai-first">AI-First Company Operations</a></li>
+                <li><a href="#checklist">Interactive Onboarding Checklist</a></li>
+            </ul>
+        </section>
+
+        <!-- Section 1: Vision & Brand -->
+        <section id="vision">
+            <h2>Vision, Brand & Philosophy</h2>
+            <p class="intro-text">This is not a concept. This is a movement. This is not a trend. This is a transformation.</p>
+
+            <h3>Our Mission</h3>
+            <p>"We are not just building luxury retreats. We are pioneering a new era of transformational travel—where people reconnect with nature, their spirit, and the people they love."</p>
+
+            <h3>The BOLT FARM Calling</h3>
+            <p>BOLT FARM is not a job; it's a calling. We are setting a new standard for luxury and well-being. Every team member is a pioneer in this movement.</p>
+
+            <h3>The Vision</h3>
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Units at Scale</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">Guest Capacity</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$800+</div>
+                    <div class="stat-label">Nightly Rate</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">34</div>
+                    <div class="stat-label">Active Units Now</div>
+                </div>
+            </div>
+
+            <div class="callout">
+                <div class="callout-title">Build a luxury outdoor wellness empire</div>
+                <p>Starting in Whitwell, Tennessee, we're creating a labor-light, simple-to-operate, scalable model that delivers bucket-list-worthy experiences with consistent quality and local charm.</p>
+            </div>
+
+            <h3>Who We Serve</h3>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>HNW (High Net Worth) professionals seeking transformation</li>
+                <li>Honeymooners celebrating new love</li>
+                <li>Empty nesters rediscovering connection</li>
+                <li>Nature lovers seeking authentic escape</li>
+            </ul>
+
+            <h3>Our Standard</h3>
+            <p><strong>Adults-only, pet-free resort</strong> offering transformational experiences through:</p>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Consistent luxury quality across all accommodations</li>
+                <li>Deep local authenticity and charm</li>
+                <li>Wellness-first design and operations</li>
+                <li>Personalized service at scale</li>
+                <li>Unforgettable moments in nature</li>
+            </ul>
+        </section>
+
+        <!-- Section 2: Team Standards -->
+        <section id="standards">
+            <h2>10 High-Performance Team Standards</h2>
+            <p class="intro-text">These standards define how we operate, collaborate, and deliver excellence at BOLT FARM. Every leader models and enforces these daily.</p>
+
+            <div class="standards-grid">
+                <div class="standard-card">
+                    <div class="standard-number">1</div>
+                    <h4>Adapt & Win</h4>
+                    <p>Roles, KPIs, and hours evolve with business needs. Be ready to do whatever it takes to move the mission forward.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">2</div>
+                    <h4>Be Coachable</h4>
+                    <p>Stay growth-minded, open to feedback, and committed to getting better daily. Ego has no place here.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">3</div>
+                    <h4>Communicate Clearly</h4>
+                    <p>Direct, honest, and kind communication is the standard. No passive-aggression, no gossip, no confusion.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">4</div>
+                    <h4>Own It</h4>
+                    <p>If you hit a wall or miss a deadline, alert your supervisor before the deadline hits you. Ownership precedes solutions.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">5</div>
+                    <h4>Continuous Improvement</h4>
+                    <p>Always seek ways to improve systems, efficiency, and your role's impact. 1% better daily compounds into excellence.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">6</div>
+                    <h4>Leverage Tech</h4>
+                    <p>Use AI and automation to increase speed, efficiency, and accuracy. We are AI-first. Work smart, then work hard.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">7</div>
+                    <h4>Confidentiality</h4>
+                    <p>BOLT FARM information stays inside BOLT FARM. Period. Our strategy, financials, and guest data are sacred.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">8</div>
+                    <h4>Extreme Ownership</h4>
+                    <p>Mistakes happen—own them, fix them, and build systems to prevent them. Blame culture doesn't exist here.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">9</div>
+                    <h4>No Negativity</h4>
+                    <p>Gossip, drama, and negativity? Not here. Energy fuels excellence. We operate from abundance and possibility.</p>
+                </div>
+
+                <div class="standard-card">
+                    <div class="standard-number">10</div>
+                    <h4>Zero Tolerance</h4>
+                    <p>Theft, dishonesty, aggression, defamation, or confidentiality breach = instant termination. No exceptions.</p>
+                </div>
+            </div>
+
+            <div class="callout important" style="margin-top: 40px;">
+                <div class="callout-title">These aren't guidelines. They're non-negotiable.</div>
+                <p>As a leader, you enforce these standards every single day through your actions and decisions. Model them relentlessly.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Weekly Rhythm -->
+        <section id="weekly">
+            <h2>Weekly Rhythm & Operational Excellence</h2>
+            <p class="intro-text">BOLT FARM operates on a disciplined weekly rhythm that ensures clarity, accountability, and continuous improvement.</p>
+
+            <h3>CEO/Leadership Weekly Cycle</h3>
+
+            <div class="phase-container">
+                <div class="phase">
+                    <h4>Monday: Priority Setting</h4>
+                    <p><strong>Objective:</strong> Align the entire organization around top 3 company priorities and cascade to departments.</p>
+                    <ul style="margin-left: 20px; margin-top: 10px; color: #666;">
+                        <li>CEO identifies and communicates Top 3 company-wide priorities</li>
+                        <li>Each department leader sets their own Top 3 priorities aligned to company goals</li>
+                        <li>Priorities published and visible to entire team</li>
+                        <li>All subsequent work flows from these priorities</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <h4>Tuesday–Thursday: Execution & Coaching</h4>
+                    <p><strong>Objective:</strong> Execute against priorities and provide coaching to leaders.</p>
+                    <ul style="margin-left: 20px; margin-top: 10px; color: #666;">
+                        <li>Teams execute 2-week sprints on department priorities</li>
+                        <li>Department leaders manage their teams with accountability</li>
+                        <li>Mid-week 1:1s with each leader (30–45 min coaching sessions, not problem-solving)</li>
+                        <li>Focus: Are you on track? What support do you need? How are you developing your team?</li>
+                    </ul>
+                </div>
+
+                <div class="phase">
+                    <h4>Friday: Scorecard Review</h4>
+                    <p><strong>Objective:</strong> Review metrics and discuss adjustments for next week.</p>
+                    <ul style="margin-left: 20px; margin-top: 10px; color: #666;">
+                        <li>Numbers only—no drama, no excuses</li>
+                        <li>KPIs reviewed against targets</li>
+                        <li>Wins celebrated, gaps acknowledged</li>
+                        <li>Quick adjustments planned for next week</li>
+                        <li>No more than 30 minutes per department</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Department Sprint System</h3>
+
+            <div class="callout">
+                <div class="callout-title">2-Week Sprints</div>
+                <p>Every department operates on 2-week sprints with clearly defined Top 3 priorities, KPIs, and deliverables. Department leaders own the direction and enforce accountability within their teams.</p>
+            </div>
+
+            <p><strong>What Each Leader Owns:</strong></p>
+            <ul style="margin-left: 20px; color: #666;">
+                <li><strong>Top 3 Priorities:</strong> Clear, measurable goals for the sprint</li>
+                <li><strong>KPIs:</strong> Metrics that measure success (daily/weekly)</li>
+                <li><strong>Deliverables:</strong> Specific outputs that prove progress</li>
+                <li><strong>Accountability:</strong> Team members know exactly what they own and by when</li>
+            </ul>
+
+            <h3>Key Meetings & Rhythms</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Meeting</th>
+                        <th>Frequency</th>
+                        <th>Duration</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday Priority Setting</td>
+                        <td>Weekly</td>
+                        <td>30 min</td>
+                        <td>CEO communicates Top 3 priorities</td>
+                    </tr>
+                    <tr>
+                        <td>Mid-Week 1:1s</td>
+                        <td>Weekly</td>
+                        <td>30–45 min</td>
+                        <td>Coaching + progress check-in</td>
+                    </tr>
+                    <tr>
+                        <td>Friday Scorecard Review</td>
+                        <td>Weekly</td>
+                        <td>30 min per dept</td>
+                        <td>Review metrics and plan adjustments</td>
+                    </tr>
+                    <tr>
+                        <td>Department Sprint Planning</td>
+                        <td>Every 2 weeks</td>
+                        <td>1 hour</td>
+                        <td>Leader defines priorities, KPIs, deliverables</td>
+                    </tr>
+                    <tr>
+                        <td>All-Hands (Monthly)</td>
+                        <td>Monthly</td>
+                        <td>1 hour</td>
+                        <td>Company updates, culture, celebrations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>How Leaders Set Their Weekly Rhythm</h3>
+
+            <p><strong>As a new leader, your rhythm mirrors the CEO's approach:</strong></p>
+            <ol style="margin-left: 20px; color: #666;">
+                <li><strong>Monday:</strong> You set your Top 3 department priorities aligned to company goals. Communicate to your team.</li>
+                <li><strong>Tuesday–Thursday:</strong> You coach your team members through execution. You don't solve problems—you ask questions and develop judgment.</li>
+                <li><strong>Friday:</strong> You review your scorecard (KPIs, deliverables). You identify gaps and plan adjustments.</li>
+                <li><strong>Weekly:</strong> You have a 1:1 with Seth (your CEO) for coaching. You come prepared with: progress update, 1–2 challenges you're navigating, and your recommended action.</li>
+            </ol>
+        </section>
+
+        <!-- Section 4: Decision-Making Frameworks -->
+        <section id="decision">
+            <h2>Decision-Making Frameworks</h2>
+            <p class="intro-text">Every decision at BOLT FARM is made using these frameworks. They ensure speed, clarity, and alignment with our brand and mission.</p>
+
+            <h3>Elon's 5-Step Algorithm: The Foundation</h3>
+            <p>This algorithm is used for ALL decisions at BOLT FARM—from operations to strategy. It's a filter for excellence.</p>
+
+            <ol class="algorithm-steps">
+                <li>
+                    <strong>Question Every Requirement</strong>
+                    <p>Is this truly needed? Challenge the premise. Don't accept "that's how we've always done it."</p>
+                </li>
+                <li>
+                    <strong>Delete Any Part or Process You Can</strong>
+                    <p>Remove redundancy, complexity, and waste. Simplicity is a feature, not a compromise.</p>
+                </li>
+                <li>
+                    <strong>Simplify and Optimize</strong>
+                    <p>Make what remains more efficient, elegant, and elegant. Can it be done better with fewer resources?</p>
+                </li>
+                <li>
+                    <strong>Accelerate Cycle Time</strong>
+                    <p>Can this move faster? Speed compounds advantage. Faster feedback loops lead to better decisions.</p>
+                </li>
+                <li>
+                    <strong>Automate as Much as Possible</strong>
+                    <p>Use AI and systems over human effort. People are for judgment and connection, not repetition.</p>
+                </li>
+            </ol>
+
+            <div class="callout success">
+                <div class="callout-title">Apply This to Everything</div>
+                <p>Deciding on a new guest check-in process? Use Elon's algorithm. Designing a new team workflow? Use Elon's algorithm. This discipline makes us faster and better than competitors.</p>
+            </div>
+
+            <h3>The 6 Decision Filters</h3>
+            <p>Before making any decision, ask yourself: Does this pass the 6 filters?</p>
+
+            <div class="filter-box">
+                <div class="filter-title">1. Guest Experience</div>
+                <div class="filter-description">Does this enhance the guest experience? Every decision must improve how guests feel, what they remember, and whether they return.</div>
+                <div class="weight-badge">30% Weight</div>
+            </div>
+
+            <div class="filter-box">
+                <div class="filter-title">2. Brand Alignment</div>
+                <div class="filter-description">Does it align with BOLT FARM's luxury and wellness values? Does it strengthen or dilute our brand promise?</div>
+                <div class="weight-badge">25% Weight</div>
+            </div>
+
+            <div class="filter-box">
+                <div class="filter-title">3. Scalability</div>
+                <div class="filter-description">Can this be replicated across 50+ locations? If we can't scale it, we're building a liability, not an asset.</div>
+                <div class="weight-badge">20% Weight</div>
+            </div>
+
+            <div class="filter-box">
+                <div class="filter-title">4. Profitability</div>
+                <div class="filter-description">Will this increase revenue or reduce costs? No decision is made purely on emotion or brand—unit economics matter.</div>
+                <div class="weight-badge">15% Weight</div>
+            </div>
+
+            <div class="filter-box">
+                <div class="filter-title">5. Simplicity</div>
+                <div class="filter-description">Can this be executed without unnecessary complexity? Complex operations fail. Simple operations scale.</div>
+                <div class="weight-badge">10% Weight</div>
+            </div>
+
+            <div class="filter-box">
+                <div class="filter-title">6. Sustainability</div>
+                <div class="filter-description">Does this support eco-friendly practices? We serve nature lovers—our operations must reflect that values alignment.</div>
+                <div class="weight-badge">Holistic</div>
+            </div>
+
+            <h3>How to Use the Filters</h3>
+
+            <p><strong>Score each filter as Yes (1) or No (0).</strong> If you get "Yes" to 4+ filters (especially the high-weight ones), proceed. If you get "No" to 3+, refine or rework the idea.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Filter Score</th>
+                        <th>Decision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5–6 Yes</td>
+                        <td><strong style="color: #4caf50;">Proceed immediately</strong></td>
+                    </tr>
+                    <tr>
+                        <td>3–4 Yes</td>
+                        <td><strong style="color: #ff9800;">Refine and resubmit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>1–2 Yes</td>
+                        <td><strong style="color: #e53935;">Rework or reject</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Example: Applying the Filters</h3>
+
+            <div class="callout">
+                <div class="callout-title">Scenario: Should we add a spa service at BOLT FARM?</div>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>✓ <strong>Guest Experience:</strong> Yes (wellness is our brand)</li>
+                    <li>✓ <strong>Brand Alignment:</strong> Yes (luxury + wellness)</li>
+                    <li>? <strong>Scalability:</strong> Maybe (harder to scale than accommodations)</li>
+                    <li>✓ <strong>Profitability:</strong> Yes (high-margin service)</li>
+                    <li>✓ <strong>Simplicity:</strong> No (requires training, licensing, staffing)</li>
+                    <li>✓ <strong>Sustainability:</strong> Yes (if we use eco-friendly products)</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Result:</strong> 4–5 Yes out of 6 → Refine the spa model to improve scalability and simplicity, then proceed with a pilot.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Escalation Framework -->
+        <section id="escalation">
+            <h2>Escalation Rules & Authority Framework</h2>
+            <p class="intro-text">Leaders make decisions. Only escalate when necessary. Use the 70% rule to develop judgment and empower your team.</p>
+
+            <h3>The 70% Rule: Own It</h3>
+
+            <div class="callout important">
+                <div class="callout-title">If someone can do it at 70% of your quality, they own it.</div>
+                <p>Don't escalate. Don't micromanage. Let them learn, fail safely, and build judgment. This is how leaders develop.</p>
+            </div>
+
+            <h3>When to Escalate (Only 5 Scenarios)</h3>
+
+            <p>Escalate ONLY when one of these applies:</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>1. Brand Integrity at Risk</span>
+                    <span class="accordion-toggle">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>The decision affects BOLT FARM's brand promise, values, or reputation in a material way.</p>
+                    <p><strong>Example:</strong> A team member wants to offer 50% discounts to friends. This breaks our pricing integrity and dilutes our luxury position. Escalate.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>2. Unbudgeted Spend >$5K</span>
+                    <span class="accordion-toggle">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Any expense that exceeds $5,000 and wasn't planned requires approval from the next level of leadership.</p>
+                    <p><strong>Example:</strong> You want to hire a contractor for $8K to fix a building issue. Escalate for approval and budget adjustment.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>3. Guest Safety or Legal Issue</span>
+                    <span class="accordion-toggle">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Any decision involving guest safety, liability, legal compliance, or contracts must be escalated immediately.</p>
+                    <p><strong>Example:</strong> A guest reports a safety concern. Don't make a unilateral decision—escalate to leadership and legal immediately.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>4. Cross-Department Coordination Required</span>
+                    <span class="accordion-toggle">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>A decision affects another department and requires alignment or trade-offs to resolve.</p>
+                    <p><strong>Example:</strong> You want to change check-in time, which affects guest communications, housekeeping, and the concierge. Too many dependencies—escalate.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>5. New Precedent Being Set</span>
+                    <span class="accordion-toggle">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>This decision creates a new policy or precedent that other teams will follow.</p>
+                    <p><strong>Example:</strong> You want to allow team members to work remotely 3 days a week. This is a new precedent that affects culture and operations—escalate for alignment.</p>
+                </div>
+            </div>
+
+            <h3>How to Escalate: The Framework</h3>
+
+            <p>When you escalate, you don't bring a problem—you bring clarity. Present three things:</p>
+
+            <div class="phase-container">
+                <div class="phase">
+                    <h4>1. The Problem (Clear & Concise)</h4>
+                    <p>State what's happening, why it matters, and what the consequence is if unaddressed. Be specific. Avoid drama.</p>
+                </div>
+
+                <div class="phase">
+                    <h4>2. 2–3 Options You've Considered</h4>
+                    <p>Show you've thought critically. Present options with pros/cons. Demonstrate you're not just passing the buck.</p>
+                </div>
+
+                <div class="phase">
+                    <h4>3. Your Recommended Action & Why</h4>
+                    <p>Take a stand. Use the 6 decision filters to explain why your recommendation is the best path forward.</p>
+                </div>
+            </div>
+
+            <h3>Example: Escalation Done Right</h3>
+
+            <div class="callout success">
+                <div class="callout-title">Good Escalation</div>
+                <p><strong>Problem:</strong> "Our housekeeping team is unable to turn rooms in the 2-hour window we promised guests because we're understaffed. If we miss this window, it directly impacts guest experience and our Net Promoter Score."</p>
+                <p><strong>Options:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Hire 2 more housekeepers (cost: ~$3K/month, solves problem immediately)</li>
+                    <li>Implement a room-cleaning automation tool to reduce manual work (upfront cost: $5K, reduces labor by 20% long-term)</li>
+                    <li>Adjust our booking window to 2.5 hours (slightly impacts guest experience, reduces labor pressure)</li>
+                </ul>
+                <p><strong>Recommendation:</strong> "I recommend Option 2. It scales with our growth, improves efficiency per Elon's algorithm, and after 18 months, saves us money vs. hiring more staff. It also fits our 'AI-first' operating model. Can we green-light this?"</p>
+            </div>
+
+            <div class="callout important">
+                <div class="callout-title">Bad Escalation</div>
+                <p>"Our housekeeping is struggling. We need to do something. Should we hire more people?" ← This is lazy escalation. You're not thinking. Don't do this.</p>
+            </div>
+
+            <h3>Authority Matrix: Who Decides What?</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Decision Type</th>
+                        <th>Budget</th>
+                        <th>Authority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Operational decisions within dept</td>
+                        <td>0–$5K</td>
+                        <td>Department Leader</td>
+                    </tr>
+                    <tr>
+                        <td>Cross-department initiatives</td>
+                        <td>Any</td>
+                        <td>Director/VP level</td>
+                    </tr>
+                    <tr>
+                        <td>New processes, automation, tech</td>
+                        <td>0–$5K</td>
+                        <td>Department Leader</td>
+                    </tr>
+                    <tr>
+                        <td>Significant spend (>$5K)</td>
+                        <td>$5K+</td>
+                        <td>VP/CEO approval</td>
+                    </tr>
+                    <tr>
+                        <td>New precedents, policy changes</td>
+                        <td>Any</td>
+                        <td>CEO approval</td>
+                    </tr>
+                    <tr>
+                        <td>Safety, legal, compliance issues</td>
+                        <td>Any</td>
+                        <td>CEO approval + counsel</td>
+                    </tr>
+                    <tr>
+                        <td>Hiring/terminations</td>
+                        <td>N/A</td>
+                        <td>Department Leader + HR</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 6: AI-First -->
+        <section id="ai-first">
+            <h2>AI-First Company Operations</h2>
+            <p class="intro-text">BOLT FARM is an AI-first company. AI is a core driver of operations, strategy, and innovation—not a luxury or an afterthought.</p>
+
+            <h3>Our AI Philosophy</h3>
+
+            <div class="callout">
+                <div class="callout-title">AI handles logistics. Humans create magic.</div>
+                <p>AI manages reservations, scheduling, communications, and processes. This frees your team to focus on emotional connections, guest experiences, and the unmeasurable magic that builds loyalty.</p>
+            </div>
+
+            <h3>How We Use AI at BOLT FARM</h3>
+
+            <ul style="margin-left: 20px; color: #666;">
+                <li><strong>Reservations & Scheduling:</strong> AI predicts demand, optimizes pricing, and manages bookings</li>
+                <li><strong>Guest Communications:</strong> AI handles initial responses, FAQs, and follow-ups. Humans do the final touch</li>
+                <li><strong>Logistics:</strong> AI coordinates housekeeping schedules, maintenance, and supply chains</li>
+                <li><strong>Data Analysis:</strong> AI identifies trends, predicts issues, and surfaces opportunities</li>
+                <li><strong>Team Operations:</strong> AI assists with content creation, reporting, and process optimization</li>
+                <li><strong>Decision Support:</strong> AI presents data and scenarios. Leaders make the judgment calls</li>
+            </ul>
+
+            <h3>Tools We Use</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Purpose</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Claude (AI Assistant)</strong></td>
+                        <td>Analysis, writing, brainstorming, process improvement</td>
+                        <td>Daily—for any thinking-heavy task</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BOLT GPT</strong></td>
+                        <td>Custom system trained on our operations and brand</td>
+                        <td>Responding to guests, internal comms, brand voice</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Slack Workflows</strong></td>
+                        <td>Automating internal processes and notifications</td>
+                        <td>Managing tasks, alerts, approvals</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reservation System AI</strong></td>
+                        <td>Demand forecasting, dynamic pricing, optimization</td>
+                        <td>Continuously running on guest data</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Your AI Proficiency Requirement</h3>
+
+            <p>As a new leader, you must demonstrate proficiency with Claude and BOLT GPT by your second week. This means:</p>
+
+            <ul style="margin-left: 20px; color: #666;">
+                <li>You can write effective prompts to get what you need</li>
+                <li>You understand AI limitations and know when NOT to use it</li>
+                <li>You've used AI to solve a real problem in your department</li>
+                <li>You can teach your team how to use these tools</li>
+            </ul>
+
+            <div class="callout success">
+                <div class="callout-title">Speed + Excellence</div>
+                <p>Leaders who master AI move faster, make better decisions, and develop their teams better. AI proficiency is now a core leadership competency at BOLT FARM.</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Interactive Checklist -->
+        <section id="checklist">
+            <h2>Interactive Leadership Onboarding Checklist</h2>
+            <p class="intro-text">Work through this checklist over your first 6 weeks as a leader at BOLT FARM. Check items off as you complete them. Your progress will update at the top of this page.</p>
+
+            <h3>Week 1: Foundation</h3>
+            <div class="phase">
+                <h4>Core Onboarding Tasks</h4>
+                <ul class="checklist" data-week="1">
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Read & sign the BOLT FARM Vision Document</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Review the 10 High-Performance Team Standards</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Complete Elon's 5-Step Algorithm training</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Review the BOLT Decision Guide & 6 Decision Filters</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Understand escalation rules & the 70% ownership rule</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Shadow current operations for 2 full days</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Meet every department lead (1:1 intro meetings)</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Get access to all AI tools (Claude, BOLT GPT, Slack)</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Review your department's current SOPs</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Set up your weekly 1:1 with Seth (every Wednesday)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <h3>Week 2: Integration</h3>
+            <div class="phase">
+                <h4>Deepening Understanding & Ownership</h4>
+                <ul class="checklist" data-week="2">
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Define your Top 3 KPIs with your supervisor</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Map your department's key processes (inputs → outputs)</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Identify your first 3 "quick wins" (simple improvements)</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Complete AI-first training with Claude/GPT proficiency</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Submit your first Sprint Plan (2-week priorities)</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Audit your department against Elon's Algorithm</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Present "State of Department" summary to leadership</span>
+                    </li>
+                </ul>
+            </div>
+
+            <h3>Week 3–4: Ownership</h3>
+            <div class="phase">
+                <h4>Demonstrating Leadership & Accountability</h4>
+                <ul class="checklist" data-week="3-4">
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Run your first department sprint independently</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Deliver your first weekly scorecard (Friday)</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Handle your first escalation using the decision framework</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Coach a team member through a decision using 6 filters</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Propose one system improvement or automation</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Complete your 30-day self-assessment</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Receive 30-day review from Seth</span>
+                    </li>
+                </ul>
+            </div>
+
+            <h3>Week 5–6: Acceleration</h3>
+            <div class="phase">
+                <h4>Full Leadership Ownership & Impact</h4>
+                <ul class="checklist" data-week="5-6">
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Own Monday priority-setting rhythm independently</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Demonstrate the 70% rule—delegate effectively</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Build one new SOP for your department</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Train a team member on Elon's Algorithm</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Present your 60-day department roadmap to Seth</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span class="task-text">Receive 60-day review and calibration</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="callout success" style="margin-top: 40px;">
+                <div class="callout-title">You're on track to ownership</div>
+                <p>By week 6, you should be running your department with confidence, making decisions using our frameworks, and developing your team using our standards. This is when you're truly a BOLT FARM leader.</p>
+            </div>
+        </section>
+
+        <!-- Work Like Seth Bolt Section -->
+        <section>
+            <h2>Work Like Seth Bolt: System Prompt</h2>
+            <p class="intro-text">This is how Seth Bolt thinks, communicates, and makes decisions. Adopt this mindset as a BOLT FARM leader.</p>
+
+            <h3>Think Like a Founder-Architect</h3>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Start from first principles. Question everything. Don't accept inherited thinking.</li>
+                <li>Ask: "What's the boldest, most elegant solution?" Not just "what works?"</li>
+                <li>Build for 10x scale, not incremental improvement. Think in orders of magnitude.</li>
+                <li>See systems, not just problems. How does this fit into the larger architecture?</li>
+            </ul>
+
+            <h3>Score Everything with Seth's 5 Filters</h3>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Always apply Guest Experience (30%), Brand Alignment (25%), Scalability (20%), Profitability (15%), Simplicity (10%)</li>
+                <li>Use these filters for every decision—big and small</li>
+                <li>Develop the habit of rapid filtering. Soon it's intuitive.</li>
+            </ul>
+
+            <h3>Write Like a Luxury Brand Leader</h3>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Clear, succinct, elevated language. Avoid jargon and complexity.</li>
+                <li>5th-grade clarity + CEO-level thinking. If a smart 10-year-old couldn't understand it, rewrite it.</li>
+                <li>Short sentences. Active voice. Avoid adjectives—let nouns and verbs do the work.</li>
+                <li>Respect the reader's time. Every word earns its place.</li>
+            </ul>
+
+            <h3>Pursue 10x Ideas Only</h3>
+            <ul style="margin-left: 20px; color: #666;">
+                <li>Speed + excellence beats perfection. Ship 80% solutions that move the ball forward.</li>
+                <li>Optimize for learning velocity. Fast feedback loops reveal the best path.</li>
+                <li>Don't optimize for the 1%—optimize for the core mission and scale.</li>
+                <li>Bet on exponential ideas, not incremental tweaks.</li>
+            </ul>
+
+            <div class="callout important">
+                <div class="callout-title">You're Not Just a Manager</div>
+                <p>You're a founding-era operator building a movement. Think and act accordingly. This is what it means to be a leader at BOLT FARM.</p>
+            </div>
+        </section>
+
+        <!-- Final Thoughts -->
+        <section>
+            <h2>Welcome to the Movement</h2>
+            <p class="intro-text">You're not joining a company. You're joining a movement to pioneer transformational travel and set a new standard for luxury and well-being.</p>
+
+            <h3>Your First 6 Weeks Matter</h3>
+            <p>Use this checklist. Master our frameworks. Model the 10 standards. Ask tough questions. And remember: if you're not clear on something, ask.</p>
+
+            <h3>The Bar Is High</h3>
+            <p>We expect excellence, not perfection. Ownership, not excuses. Clarity, not confusion. If you embrace this standard, you'll thrive at BOLT FARM.</p>
+
+            <h3>Let's Build Something Legendary</h3>
+            <p>Questions? Challenges? Insights? Bring them to your 1:1 with Seth every Wednesday. This document is a starting point—your leadership is the difference.</p>
+
+            <p style="margin-top: 40px; font-style: italic; color: #999;">Last updated: March 22, 2026</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>BOLT FARM TREEHOUSE</strong></p>
+        <p>Leadership Onboarding Stack | How We Do Everything</p>
+        <p>Whitwell, Tennessee</p>
+        <p style="margin-top: 20px; color: #999; font-size: 0.85rem;">CONFIDENTIAL — For BOLT FARM Leaders Only</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const isActive = header.classList.contains('active');
+
+            // Close all other accordion items in the same section
+            const section = header.closest('section');
+            const allHeaders = section.querySelectorAll('.accordion-header');
+            allHeaders.forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+            });
+
+            // Toggle current item
+            if (!isActive) {
+                header.classList.add('active');
+                header.nextElementSibling.classList.add('active');
+            }
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            const checkedCheckboxes = document.querySelectorAll('.checklist input[type="checkbox"]:checked');
+
+            const percentage = Math.round((checkedCheckboxes.length / allCheckboxes.length) * 100);
+
+            // Update progress bar
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressPercent').textContent = percentage + '%';
+
+            // Update checklist item styling
+            allCheckboxes.forEach(checkbox => {
+                const listItem = checkbox.closest('li');
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                }
+            });
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Initialize progress on page load
+        window.addEventListener('load', () => {
+            updateProgress();
+        });
+
+        // Restore checklist state from sessionStorage on page load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.checklist input[type="checkbox"]').forEach((checkbox, index) => {
+                const savedState = sessionStorage.getItem(`checkbox-${index}`);
+                if (savedState === 'true') {
+                    checkbox.checked = true;
+                }
+                checkbox.addEventListener('change', () => {
+                    sessionStorage.setItem(`checkbox-${index}`, checkbox.checked);
+                    updateProgress();
+                });
+            });
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
